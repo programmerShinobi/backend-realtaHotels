@@ -1,0 +1,34 @@
+import { BookingOrders } from "./BookingOrders";
+import { FacilityPriceHistory } from "./FacilityPriceHistory";
+import { HotelReviews } from "./HotelReviews";
+import { OrderMenus } from "./OrderMenus";
+import { PaymentTransaction } from "./PaymentTransaction";
+import { UserAccounts } from "./UserAccounts";
+import { UserBonusPoints } from "./UserBonusPoints";
+import { UserMembers } from "./UserMembers";
+import { UserPassword } from "./UserPassword";
+import { UserProfiles } from "./UserProfiles";
+import { UserRoles } from "./UserRoles";
+import { WorkOrders } from "./WorkOrders";
+export declare class Users {
+    userId: number;
+    userFullName: string | null;
+    userType: string | null;
+    userCompanyName: string | null;
+    userEmail: string | null;
+    userPhoneNumber: string | null;
+    userIsverified: number | null;
+    userModifiedDate: Date | null;
+    bookingOrders: BookingOrders[];
+    facilityPriceHistories: FacilityPriceHistory[];
+    hotelReviews: HotelReviews[];
+    orderMenus: OrderMenus[];
+    paymentTransactions: PaymentTransaction[];
+    userAccounts: UserAccounts[];
+    userBonusPoints: UserBonusPoints[];
+    userMembers: UserMembers;
+    userPassword: UserPassword;
+    userProfiles: UserProfiles[];
+    userRoles: UserRoles;
+    workOrders: WorkOrders[];
+}

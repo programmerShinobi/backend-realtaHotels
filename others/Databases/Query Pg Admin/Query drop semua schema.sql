@@ -1,0 +1,1 @@
+drop schema booking, hotel, humanresource, master, payment, purchasing, resto, users cascade
