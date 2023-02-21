@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { Entities } from "./Entities";
 
 @Index("payment_gateaway_paga_code_key", ["pagaCode"], { unique: true })
@@ -13,7 +6,7 @@ import { Entities } from "./Entities";
 @Index("payment_gateaway_paga_name_key", ["pagaName"], { unique: true })
 @Entity("payment_gateaway", { schema: "payment" })
 export class PaymentGateaway {
-  @PrimaryGeneratedColumn({ type: "integer", name: "paga_entity_id" })
+  @Column("integer", { primary: true, name: "paga_entity_id" })
   pagaEntityId: number;
 
   @Column("character varying", {

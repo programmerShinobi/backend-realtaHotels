@@ -54,14 +54,11 @@ export declare class UsersService {
             savedUserPassword: any;
         };
     }>;
-    updateAllJoinToUsers(id: number, dataUsers: Users, dataUserRoles: UserRoles, dataUserPassword: UserPassword, dataUserBonusPoints: UserBonusPoints, dataUserMembers: UserMembers, dataUserProfiles: UserProfiles): Promise<{
+    updateAllJoinToUsers(id: number, dataUsers: Users, dataUserRoles: UserRoles, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {
             updatedUser: any;
             updatedUserRoles: any;
-            updatedUserPassword: any;
-            updatedUserBonusPoints: any;
-            updatedUserMembers: any;
             updatedUserProfiles: any;
         };
     }>;

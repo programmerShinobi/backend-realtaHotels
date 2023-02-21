@@ -16,7 +16,7 @@ const Users_1 = require("./Users");
 let UserAccounts = class UserAccounts {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "usac_entity_id" }),
+    (0, typeorm_1.Column)("integer", { primary: true, name: "usac_entity_id" }),
     __metadata("design:type", Number)
 ], UserAccounts.prototype, "usacEntityId", void 0);
 __decorate([

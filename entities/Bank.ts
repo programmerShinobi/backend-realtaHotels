@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { Entities } from "./Entities";
 
 @Index("bank_bank_code_key", ["bankCode"], { unique: true })
@@ -13,7 +6,7 @@ import { Entities } from "./Entities";
 @Index("bank_bank_name_key", ["bankName"], { unique: true })
 @Entity("bank", { schema: "payment" })
 export class Bank {
-  @PrimaryGeneratedColumn({ type: "integer", name: "bank_entity_id" })
+  @Column("integer", { primary: true, name: "bank_entity_id" })
   bankEntityId: number;
 
   @Column("character varying", {

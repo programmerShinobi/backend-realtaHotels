@@ -43,7 +43,7 @@ __decorate([
     __metadata("design:type", Employee_1.Employee)
 ], EmployeePayHistory.prototype, "ephiEmp", void 0);
 EmployeePayHistory = __decorate([
-    (0, typeorm_1.Index)("pk_ephi_rate_change_date", ["ephiRateChangeDate"], { unique: true }),
+    (0, typeorm_1.Index)("employee_pay_history_pkey", ["ephiRateChangeDate"], { unique: true }),
     (0, typeorm_1.Entity)("employee_pay_history", { schema: "humanresource" })
 ], EmployeePayHistory);
 exports.EmployeePayHistory = EmployeePayHistory;

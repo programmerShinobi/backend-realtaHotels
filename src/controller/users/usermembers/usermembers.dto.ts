@@ -20,13 +20,34 @@ export class bodyUserMembersDto {
     @IsNotEmpty()
     @IsNumber()
     usmePoints: number;
-    usmeUserId: number;
+    usmeUser: number;
+    
+    @IsNotEmpty()
+    @IsEnum(Type)
+    usmeType: string;
+    
+    @IsEmpty()
+    usmeId: number;
+    usmePromoteDate: Date;
 
+}
+
+export class bodyUpdateUserMembersDto {
+    @IsNotEmpty()
+    @IsEnum(Name)
+    usmeMembName: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    usmePoints: number;
+    usmeId: number;
+    
     @IsNotEmpty()
     @IsEnum(Type)
     usmeType: string;
 
     @IsEmpty()
+    userUser: number;
     usmePromoteDate: Date;
 
 }

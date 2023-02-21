@@ -8,5 +8,6 @@ export declare class PurchaseOrderDetail {
     podeRejectedQty: string | null;
     podeStockedQty: string | null;
     podeModifiedDate: Date | null;
+    podeStockId: number | null;
     podePohe: PurchaseOrderHeader;
 }

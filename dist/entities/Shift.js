@@ -49,7 +49,7 @@ __decorate([
 ], Shift.prototype, "employeeDepartmentHistories", void 0);
 Shift = __decorate([
     (0, typeorm_1.Index)("shift_shift_end_time_key", ["shiftEndTime"], { unique: true }),
-    (0, typeorm_1.Index)("pk_shift_id", ["shiftId"], { unique: true }),
+    (0, typeorm_1.Index)("shift_pkey", ["shiftId"], { unique: true }),
     (0, typeorm_1.Index)("shift_shift_name_key", ["shiftName"], { unique: true }),
     (0, typeorm_1.Index)("shift_shift_start_time_key", ["shiftStartTime"], { unique: true }),
     (0, typeorm_1.Entity)("shift", { schema: "humanresource" })

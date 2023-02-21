@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 import { EmployeeDepartmentHistory } from "./EmployeeDepartmentHistory";
 
-@Index("pk_dept_id", ["deptId"], { unique: true })
+@Index("department_pkey", ["deptId"], { unique: true })
 @Entity("department", { schema: "humanresource" })
 export class Department {
   @PrimaryGeneratedColumn({ type: "integer", name: "dept_id" })

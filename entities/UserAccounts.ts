@@ -1,11 +1,4 @@
-import {
-  Column,
-  Entity,
-  Index,
-  JoinColumn,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Entities } from "./Entities";
 import { Users } from "./Users";
 
@@ -15,7 +8,7 @@ import { Users } from "./Users";
 @Index("user_accounts_pk", ["usacEntityId", "usacUserId"], { unique: true })
 @Entity("user_accounts", { schema: "payment" })
 export class UserAccounts {
-  @PrimaryGeneratedColumn({ type: "integer", name: "usac_entity_id" })
+  @Column("integer", { primary: true, name: "usac_entity_id" })
   usacEntityId: number;
 
   @Column("integer", { primary: true, name: "usac_user_id" })

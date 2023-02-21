@@ -22,8 +22,8 @@ export class HotelReviews {
   })
   horeUserReview: string | null;
 
-  @Column("bit", { name: "hore_rating", nullable: true })
-  horeRating: string | null;
+  @Column("integer", { name: "hore_rating", nullable: true })
+  horeRating: number | null;
 
   @Column("timestamp without time zone", {
     name: "hore_created_on",

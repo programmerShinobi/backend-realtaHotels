@@ -15,7 +15,7 @@ const Entities_1 = require("./Entities");
 let PaymentGateaway = class PaymentGateaway {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "paga_entity_id" }),
+    (0, typeorm_1.Column)("integer", { primary: true, name: "paga_entity_id" }),
     __metadata("design:type", Number)
 ], PaymentGateaway.prototype, "pagaEntityId", void 0);
 __decorate([

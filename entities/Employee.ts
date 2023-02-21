@@ -13,7 +13,7 @@ import { EmployeePayHistory } from "./EmployeePayHistory";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { WorkOrderDetail } from "./WorkOrderDetail";
 
-@Index("pk_emp_id", ["empId"], { unique: true })
+@Index("employee_pkey", ["empId"], { unique: true })
 @Index("employee_emp_national_id_key", ["empNationalId"], { unique: true })
 @Entity("employee", { schema: "humanresource" })
 export class Employee {
