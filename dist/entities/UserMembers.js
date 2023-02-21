@@ -16,9 +16,9 @@ const Users_1 = require("./Users");
 let UserMembers = class UserMembers {
 };
 __decorate([
-    (0, typeorm_1.Column)("integer", { primary: true, name: "usme_user_id" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "usme_id" }),
     __metadata("design:type", Number)
-], UserMembers.prototype, "usmeUserId", void 0);
+], UserMembers.prototype, "usmeId", void 0);
 __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
         name: "usme_promote_date",
@@ -47,7 +47,7 @@ __decorate([
     __metadata("design:type", Members_1.Members)
 ], UserMembers.prototype, "usmeMembName", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => Users_1.Users, (users) => users.userMembers, {
+    (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.userMembers, {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", Users_1.Users)
 ], UserMembers.prototype, "usmeUser", void 0);
 UserMembers = __decorate([
-    (0, typeorm_1.Index)("user_members_pkey", ["usmeUserId"], { unique: true }),
+    (0, typeorm_1.Index)("user_members_pkey", ["usmeId"], { unique: true }),
     (0, typeorm_1.Entity)("user_members", { schema: "users" })
 ], UserMembers);
 exports.UserMembers = UserMembers;

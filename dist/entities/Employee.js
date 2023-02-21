@@ -127,7 +127,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Employee.prototype, "workOrderDetails", void 0);
 Employee = Employee_1 = __decorate([
-    (0, typeorm_1.Index)("pk_emp_id", ["empId"], { unique: true }),
+    (0, typeorm_1.Index)("employee_pkey", ["empId"], { unique: true }),
     (0, typeorm_1.Index)("employee_emp_national_id_key", ["empNationalId"], { unique: true }),
     (0, typeorm_1.Entity)("employee", { schema: "humanresource" })
 ], Employee);

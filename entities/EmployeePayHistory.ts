@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Employee } from "./Employee";
 
-@Index("pk_ephi_rate_change_date", ["ephiRateChangeDate"], { unique: true })
+@Index("employee_pay_history_pkey", ["ephiRateChangeDate"], { unique: true })
 @Entity("employee_pay_history", { schema: "humanresource" })
 export class EmployeePayHistory {
   @Column("date", { primary: true, name: "ephi_rate_change_date" })

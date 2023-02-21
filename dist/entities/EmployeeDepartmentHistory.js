@@ -61,7 +61,7 @@ __decorate([
     __metadata("design:type", Shift_1.Shift)
 ], EmployeeDepartmentHistory.prototype, "edhiShift", void 0);
 EmployeeDepartmentHistory = __decorate([
-    (0, typeorm_1.Index)("pk_edhi_id", ["edhiId"], { unique: true }),
+    (0, typeorm_1.Index)("employee_department_history_pkey", ["edhiId"], { unique: true }),
     (0, typeorm_1.Entity)("employee_department_history", { schema: "humanresource" })
 ], EmployeeDepartmentHistory);
 exports.EmployeeDepartmentHistory = EmployeeDepartmentHistory;

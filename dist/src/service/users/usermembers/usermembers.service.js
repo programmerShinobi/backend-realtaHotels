@@ -23,7 +23,7 @@ let UsermembersService = class UsermembersService {
     }
     async findAllUserMembers() {
         return await this.userMembersRepository.find({
-            order: { usmeUserId: -1 }
+            order: { usmeId: -1 }
         }).then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
@@ -41,7 +41,7 @@ let UsermembersService = class UsermembersService {
     }
     async findAllJoinUserMembers() {
         return await this.userMembersRepository.find({
-            order: { usmeUserId: -1 },
+            order: { usmeId: -1 },
             relations: ['usmeUser', 'usmeMembName']
         }).then((result) => {
             if (!result) {
@@ -60,7 +60,7 @@ let UsermembersService = class UsermembersService {
     }
     async findOneUserMembers(id) {
         return await this.userMembersRepository.findOne({
-            where: { usmeUserId: id },
+            where: { usmeId: id },
             relations: ['usmeUser', 'usmeMembName']
         }).then((result) => {
             if (!result) {
@@ -80,7 +80,7 @@ let UsermembersService = class UsermembersService {
     async createUserMembers(data) {
         const now = new Date();
         return await this.userMembersRepository.save({
-            usmeUserId: data.usmeUserId,
+            usmeUser: data.usmeUser,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
@@ -103,7 +103,7 @@ let UsermembersService = class UsermembersService {
     async updateUserMembers(id, data) {
         const now = new Date();
         return await this.userMembersRepository.update(id, {
-            usmeUserId: data.usmeUserId,
+            usmeId: data.usmeId,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
@@ -114,7 +114,7 @@ let UsermembersService = class UsermembersService {
             }
             return this.userMembersRepository.find({
                 relations: ['usmeUser', 'usmeMembName'],
-                where: { usmeUserId: id }
+                where: { usmeId: id }
             }).then((resultUpdated) => {
                 if (!resultUpdated) {
                     throw new common_1.NotFoundException('Data not found updated');

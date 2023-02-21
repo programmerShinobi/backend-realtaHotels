@@ -9,14 +9,14 @@ import {
 import { Roles } from "./Roles";
 import { Users } from "./Users";
 
-@Index("user_roles_pkey", ["usroUserId"], { unique: true })
+@Index("pk_usro_user_id", ["usroUserId"], { unique: true })
 @Entity("user_roles", { schema: "users" })
 export class UserRoles {
   @Column("integer", { primary: true, name: "usro_user_id" })
   usroUserId: number;
 
   @ManyToOne(() => Roles, (roles) => roles.userRoles, {
-    onDelete: "CASCADE",
+    onDelete: "RESTRICT",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "usro_role_id", referencedColumnName: "roleId" }])

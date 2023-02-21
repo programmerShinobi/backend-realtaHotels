@@ -21,7 +21,7 @@ __decorate([
 ], UserRoles.prototype, "usroUserId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Roles_1.Roles, (roles) => roles.userRoles, {
-        onDelete: "CASCADE",
+        onDelete: "RESTRICT",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "usro_role_id", referencedColumnName: "roleId" }]),
@@ -36,7 +36,7 @@ __decorate([
     __metadata("design:type", Users_1.Users)
 ], UserRoles.prototype, "usroUser", void 0);
 UserRoles = __decorate([
-    (0, typeorm_1.Index)("user_roles_pkey", ["usroUserId"], { unique: true }),
+    (0, typeorm_1.Index)("pk_usro_user_id", ["usroUserId"], { unique: true }),
     (0, typeorm_1.Entity)("user_roles", { schema: "users" })
 ], UserRoles);
 exports.UserRoles = UserRoles;

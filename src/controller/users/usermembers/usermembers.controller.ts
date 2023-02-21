@@ -1,7 +1,7 @@
 import { Controller, ValidationPipe } from '@nestjs/common';
 import { Body, Delete, Get, Param, Post, Put, UsePipes } from '@nestjs/common/decorators';
 import { UsermembersService } from 'src/service/users/usermembers/usermembers.service';
-import { bodyUserMembersDto } from './usermembers.dto';
+import { bodyUpdateUserMembersDto, bodyUserMembersDto } from './usermembers.dto';
 
 @UsePipes(new ValidationPipe())
 @Controller('usermembers')
@@ -31,7 +31,7 @@ export class UsermembersController {
     }
 
     @Put(':id')
-    updateUserMembers(@Param() params, @Body() body:bodyUserMembersDto) {
+    updateUserMembers(@Param() params, @Body() body:bodyUpdateUserMembersDto) {
         return this.userMembersService.updateUserMembers(params.id, body);
     }
 

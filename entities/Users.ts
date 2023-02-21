@@ -104,8 +104,8 @@ export class Users {
   )
   userBonusPoints: UserBonusPoints[];
 
-  @OneToOne(() => UserMembers, (userMembers) => userMembers.usmeUser)
-  userMembers: UserMembers;
+  @OneToMany(() => UserMembers, (userMembers) => userMembers.usmeUser)
+  userMembers: UserMembers[];
 
   @OneToOne(() => UserPassword, (userPassword) => userPassword.uspaUser)
   userPassword: UserPassword;

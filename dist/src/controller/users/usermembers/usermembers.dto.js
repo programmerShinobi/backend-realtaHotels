@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bodyUserMembersDto = void 0;
+exports.bodyUpdateUserMembersDto = exports.bodyUserMembersDto = void 0;
 const class_validator_1 = require("class-validator");
 var Type;
 (function (Type) {
@@ -42,7 +42,29 @@ __decorate([
 ], bodyUserMembersDto.prototype, "usmeType", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Date)
-], bodyUserMembersDto.prototype, "usmePromoteDate", void 0);
+    __metadata("design:type", Number)
+], bodyUserMembersDto.prototype, "usmeId", void 0);
 exports.bodyUserMembersDto = bodyUserMembersDto;
+class bodyUpdateUserMembersDto {
+}
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(Name),
+    __metadata("design:type", String)
+], bodyUpdateUserMembersDto.prototype, "usmeMembName", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], bodyUpdateUserMembersDto.prototype, "usmePoints", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    (0, class_validator_1.IsEnum)(Type),
+    __metadata("design:type", String)
+], bodyUpdateUserMembersDto.prototype, "usmeType", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", Number)
+], bodyUpdateUserMembersDto.prototype, "userUser", void 0);
+exports.bodyUpdateUserMembersDto = bodyUpdateUserMembersDto;
 //# sourceMappingURL=usermembers.dto.js.map

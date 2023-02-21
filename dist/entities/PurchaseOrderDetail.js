@@ -51,6 +51,10 @@ __decorate([
     __metadata("design:type", Date)
 ], PurchaseOrderDetail.prototype, "podeModifiedDate", void 0);
 __decorate([
+    (0, typeorm_1.Column)("integer", { name: "pode_stock_id", nullable: true }),
+    __metadata("design:type", Number)
+], PurchaseOrderDetail.prototype, "podeStockId", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => PurchaseOrderHeader_1.PurchaseOrderHeader, (purchaseOrderHeader) => purchaseOrderHeader.purchaseOrderDetails, { onDelete: "CASCADE", onUpdate: "CASCADE" }),
     (0, typeorm_1.JoinColumn)([{ name: "pode_pohe_id", referencedColumnName: "poheId" }]),
     __metadata("design:type", PurchaseOrderHeader_1.PurchaseOrderHeader)

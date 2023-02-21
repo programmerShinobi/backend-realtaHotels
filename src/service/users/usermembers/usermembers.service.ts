@@ -13,7 +13,7 @@ export class UsermembersService {
     
     async findAllUserMembers(): Promise<any>{
         return await this.userMembersRepository.find({
-            order: { usmeUserId: -1 }
+            order: { usmeId: -1 }
         }).then((result: any) => {
             if (!result) {
                 throw new NotFoundException('Data not found');
@@ -32,7 +32,7 @@ export class UsermembersService {
     
     async findAllJoinUserMembers(): Promise<any>{
         return await this.userMembersRepository.find({
-            order: { usmeUserId: -1 },
+            order: { usmeId: -1 },
             relations: ['usmeUser','usmeMembName']
         }).then((result: any) => {
             if (!result) {
@@ -52,7 +52,7 @@ export class UsermembersService {
 
     async findOneUserMembers(id:number): Promise<any>{
         return await this.userMembersRepository.findOne({
-            where: { usmeUserId: id },
+            where: { usmeId: id },
             relations: ['usmeUser','usmeMembName']
         }).then((result: any) => {
             if (!result) {
@@ -73,7 +73,7 @@ export class UsermembersService {
     async createUserMembers(data: any): Promise<any>{
         const now = new Date();
         return await this.userMembersRepository.save({
-            usmeUserId: data.usmeUserId,
+            usmeUser: data.usmeUser,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
@@ -97,7 +97,7 @@ export class UsermembersService {
     async updateUserMembers(id: number, data: any): Promise<any>{
         const now = new Date();
         return await this.userMembersRepository.update(id, {
-            usmeUserId: data.usmeUserId,
+            usmeId: data.usmeId,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
@@ -108,7 +108,7 @@ export class UsermembersService {
             }
             return this.userMembersRepository.find({
                 relations:  ['usmeUser','usmeMembName'],
-                where: { usmeUserId: id }
+                where: { usmeId: id }
             }).then((resultUpdated: any) => {
                 if (!resultUpdated) {
                     throw new NotFoundException('Data not found updated')

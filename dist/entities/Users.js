@@ -112,8 +112,8 @@ __decorate([
     __metadata("design:type", Array)
 ], Users.prototype, "userBonusPoints", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => UserMembers_1.UserMembers, (userMembers) => userMembers.usmeUser),
-    __metadata("design:type", UserMembers_1.UserMembers)
+    (0, typeorm_1.OneToMany)(() => UserMembers_1.UserMembers, (userMembers) => userMembers.usmeUser),
+    __metadata("design:type", Array)
 ], Users.prototype, "userMembers", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => UserPassword_1.UserPassword, (userPassword) => userPassword.uspaUser),

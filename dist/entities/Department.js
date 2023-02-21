@@ -39,7 +39,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Department.prototype, "employeeDepartmentHistories", void 0);
 Department = __decorate([
-    (0, typeorm_1.Index)("pk_dept_id", ["deptId"], { unique: true }),
+    (0, typeorm_1.Index)("department_pkey", ["deptId"], { unique: true }),
     (0, typeorm_1.Entity)("department", { schema: "humanresource" })
 ], Department);
 exports.Department = Department;

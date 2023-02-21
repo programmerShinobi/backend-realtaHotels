@@ -39,6 +39,9 @@ export class PurchaseOrderDetail {
   })
   podeModifiedDate: Date | null;
 
+  @Column("integer", { name: "pode_stock_id", nullable: true })
+  podeStockId: number | null;
+
   @ManyToOne(
     () => PurchaseOrderHeader,
     (purchaseOrderHeader) => purchaseOrderHeader.purchaseOrderDetails,

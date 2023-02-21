@@ -4,16 +4,16 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
-  OneToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Members } from "./Members";
 import { Users } from "./Users";
 
-@Index("user_members_pkey", ["usmeUserId"], { unique: true })
+@Index("user_members_pkey", ["usmeId"], { unique: true })
 @Entity("user_members", { schema: "users" })
 export class UserMembers {
-  @Column("integer", { primary: true, name: "usme_user_id" })
-  usmeUserId: number;
+  @PrimaryGeneratedColumn({ type: "integer", name: "usme_id" })
+  usmeId: number;
 
   @Column("timestamp without time zone", {
     name: "usme_promote_date",
@@ -38,7 +38,7 @@ export class UserMembers {
   @JoinColumn([{ name: "usme_memb_name", referencedColumnName: "membName" }])
   usmeMembName: Members;
 
-  @OneToOne(() => Users, (users) => users.userMembers, {
+  @ManyToOne(() => Users, (users) => users.userMembers, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })

@@ -28,8 +28,8 @@ __decorate([
     __metadata("design:type", String)
 ], HotelReviews.prototype, "horeUserReview", void 0);
 __decorate([
-    (0, typeorm_1.Column)("bit", { name: "hore_rating", nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("integer", { name: "hore_rating", nullable: true }),
+    __metadata("design:type", Number)
 ], HotelReviews.prototype, "horeRating", void 0);
 __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {

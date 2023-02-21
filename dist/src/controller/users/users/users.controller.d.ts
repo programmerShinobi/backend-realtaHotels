@@ -34,14 +34,11 @@ export declare class UsersController {
         };
     }>;
     updateUsers(params: any, body: bodyUpdateUsersDto): Promise<any>;
-    updateAllJoinToUsers(params: any, body1: any, body2: any, body3: any, body4: any, body5: any, body6: any): Promise<{
+    updateAllJoinToUsers(params: any, body1: any, body2: any, body3: any): Promise<{
         message: string;
         allResults: {
             updatedUser: any;
             updatedUserRoles: any;
-            updatedUserPassword: any;
-            updatedUserBonusPoints: any;
-            updatedUserMembers: any;
             updatedUserProfiles: any;
         };
     }>;

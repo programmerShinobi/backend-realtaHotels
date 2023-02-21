@@ -26,7 +26,7 @@ export declare class Users {
     paymentTransactions: PaymentTransaction[];
     userAccounts: UserAccounts[];
     userBonusPoints: UserBonusPoints[];
-    userMembers: UserMembers;
+    userMembers: UserMembers[];
     userPassword: UserPassword;
     userProfiles: UserProfiles[];
     userRoles: UserRoles;

@@ -15,7 +15,7 @@ const Entities_1 = require("./Entities");
 let Bank = class Bank {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "bank_entity_id" }),
+    (0, typeorm_1.Column)("integer", { primary: true, name: "bank_entity_id" }),
     __metadata("design:type", Number)
 ], Bank.prototype, "bankEntityId", void 0);
 __decorate([

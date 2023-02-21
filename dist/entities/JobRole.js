@@ -40,7 +40,7 @@ __decorate([
     __metadata("design:type", Array)
 ], JobRole.prototype, "employees", void 0);
 JobRole = __decorate([
-    (0, typeorm_1.Index)("pk_joro_id", ["joroId"], { unique: true }),
+    (0, typeorm_1.Index)("job_role_pkey", ["joroId"], { unique: true }),
     (0, typeorm_1.Index)("job_role_joro_name_key", ["joroName"], { unique: true }),
     (0, typeorm_1.Entity)("job_role", { schema: "humanresource" })
 ], JobRole);
