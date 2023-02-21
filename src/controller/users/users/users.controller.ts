@@ -75,13 +75,11 @@ export class UsersController {
         @Param() params,
         @Body() body1,
         @Body() body2,
-        @Body() body3,
     ) {
         return this.usersService.updateAllJoinToUsers(
             params.id,
             body1,
             body2,
-            body3,
         );
     }
 
