@@ -126,7 +126,8 @@ CREATE TABLE users.users(
 -- RUN 2
 -- CREATE TABLE user_members
 CREATE TABLE users.user_members(
-	usme_user_id INT PRIMARY KEY,
+	usme_id SERIAL PRIMARY KEY,
+	usme_user_id INT,
 	usme_memb_name VARCHAR(15),
 	usme_promote_date TIMESTAMP,
 	usme_points INT,
