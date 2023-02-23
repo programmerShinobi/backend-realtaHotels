@@ -493,9 +493,10 @@ let UsersService = class UsersService {
             throw err;
         }
     }
-    async updateAllJoinToUsers(id, dataUsers, dataUserProfiles) {
+    async updateAllJoinToUsers(id, dataUsers, dataUserRoles, dataUserProfiles) {
         const manager = this.usersRepository.manager;
         let updatedUser;
+        let updatedUserRoles;
         let updatedUserProfiles;
         try {
             await manager.transaction(async (transactionalEntityManager) => {
@@ -513,6 +514,21 @@ let UsersService = class UsersService {
                     }
                     let dataUserUpdated = this.usersRepository.findOneBy({ userId: id });
                     return dataUserUpdated;
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        error: err.name
+                    };
+                });
+                updatedUserRoles = await transactionalEntityManager.update(UserRoles_1.UserRoles, { usroUserId: id }, {
+                    usroRole: dataUserRoles.usroRole
+                })
+                    .then((result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data userRoles update failed');
+                    }
+                    let dataUserRolesUpdated = this.userRolesRepository.findOneBy({ usroUserId: id });
+                    return dataUserRolesUpdated;
                 }).catch((err) => {
                     return {
                         message: err.message,
@@ -544,6 +560,7 @@ let UsersService = class UsersService {
                 message: 'Data updated successfully',
                 allResults: {
                     updatedUser,
+                    updatedUserRoles,
                     updatedUserProfiles
                 },
             };

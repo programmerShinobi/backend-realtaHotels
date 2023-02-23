@@ -558,7 +558,7 @@ export class UsersService {
     async updateAllJoinToUsers(
         id: number,
         dataUsers: Users,
-        // dataUserRoles: UserRoles,
+        dataUserRoles: UserRoles,
         // dataUserPassword: UserPassword,
         // dataUserBonusPoints: UserBonusPoints,
         // dataUserMembers: UserMembers,
@@ -566,7 +566,7 @@ export class UsersService {
     ) {
         const manager = this.usersRepository.manager;
         let updatedUser;
-        // let updatedUserRoles;
+        let updatedUserRoles;
         // let updatedUserPassword;
         // let updatedUserBonusPoints;
         // let updatedUserMembers;
@@ -596,22 +596,22 @@ export class UsersService {
                         }
                     });
                 
-                // updatedUserRoles = await transactionalEntityManager.update(UserRoles, { usroUserId: id },
-                //     {
-                //         usroRole : dataUserRoles.usroRole
-                //     })
-                //     .then((result: any) => {
-                //         if (!result) {
-                //             throw new BadRequestException('Data userRoles update failed');
-                //         }
-                //         let dataUserRolesUpdated = this.userRolesRepository.findOneBy({ usroUserId: id });
-                //         return dataUserRolesUpdated;
-                //     }).catch((err: any) => {
-                //         return {
-                //             message: err.message,
-                //             error: err.name
-                //         }
-                //     });
+                updatedUserRoles = await transactionalEntityManager.update(UserRoles, { usroUserId: id },
+                    {
+                        usroRole : dataUserRoles.usroRole
+                    })
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userRoles update failed');
+                        }
+                        let dataUserRolesUpdated = this.userRolesRepository.findOneBy({ usroUserId: id });
+                        return dataUserRolesUpdated;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
                 
                 // if (dataUserPassword.uspaPasswordhash) {
                 //     const salt = await bcrypt.genSalt();
@@ -701,7 +701,7 @@ export class UsersService {
                 message: 'Data updated successfully',
                 allResults: {
                     updatedUser,
-                    // updatedUserRoles,
+                    updatedUserRoles,
                     // updatedUserPassword,
                     // updatedUserBonusPoints,
                     // updatedUserMembers,

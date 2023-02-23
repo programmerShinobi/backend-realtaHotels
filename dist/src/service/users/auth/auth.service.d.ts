@@ -37,4 +37,5 @@ export declare class AuthService implements CanActivate {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
     }>;
+    changePassword(id: any, data: any): Promise<any>;
 }
