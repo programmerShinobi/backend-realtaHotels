@@ -288,6 +288,50 @@ let AuthService = class AuthService {
             };
         }
     }
+    async changePassword(id, data) {
+        return await this.userRepository.findOne({
+            where: { userId: id },
+            relations: [
+                "userRoles",
+                "userPassword"
+            ]
+        }).then(async (result) => {
+            const passwordUser = result.userPassword.uspaPasswordhash;
+            if (!result) {
+                throw new common_1.BadRequestException('Data update failed');
+            }
+            if (await bcrypt.compare(data.uspaCurrentPasswordhash, passwordUser)) {
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
+                return this.userPasswordRepository.update(id, {
+                    uspaPasswordhash: hashedPassword,
+                    uspaPasswordsalt: 'bcrypt'
+                }).then(async (result) => {
+                    if (!result) {
+                        throw new common_1.BadRequestException('Data update failed');
+                    }
+                    const updateData = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                    return {
+                        message: 'Data updated successfully',
+                        results: updateData
+                    };
+                }).catch((err) => {
+                    return {
+                        message: err.message,
+                        name: err.name
+                    };
+                });
+            }
+            else {
+                throw new common_1.BadRequestException('Current Password Invalid');
+            }
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
 };
 AuthService = __decorate([
     (0, common_1.Injectable)(),

@@ -379,4 +379,50 @@ export class AuthService implements CanActivate{
         }
     }
     
+    async changePassword(id: any, data: any): Promise<any> {
+        return await this.userRepository.findOne({
+            where: { userId: id },
+            relations: [
+                "userRoles",
+                "userPassword"
+            ]
+        }).then(async (result: any) => {
+            const passwordUser = result.userPassword.uspaPasswordhash
+            if (!result) {
+                throw new BadRequestException('Data update failed');
+            }
+            if (await bcrypt.compare(data.uspaCurrentPasswordhash, passwordUser)) {
+                const salt = await bcrypt.genSalt();
+                const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
+                return this.userPasswordRepository.update(id, {
+                    uspaPasswordhash: hashedPassword,
+                    uspaPasswordsalt: 'bcrypt'
+                }).then(async (result: any) => {
+                    if (!result) {
+                        throw new BadRequestException('Data update failed');
+                    }
+                    const updateData = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                    return {
+                        message: 'Data updated successfully',
+                        results: updateData
+                    }
+                    
+                }).catch((err: any) => {
+                    return {
+                        message: err.message,
+                        name: err.name
+                    }
+                });
+            } else {
+                throw new BadRequestException('Current Password Invalid');
+            }
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
+
+        
+    }
 }

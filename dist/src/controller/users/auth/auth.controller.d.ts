@@ -34,4 +34,5 @@ export declare class AuthController {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
     }>;
+    changePassword(params: any, body: any): Promise<any>;
 }

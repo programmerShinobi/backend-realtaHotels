@@ -54,10 +54,11 @@ export declare class UsersService {
             savedUserPassword: any;
         };
     }>;
-    updateAllJoinToUsers(id: number, dataUsers: Users, dataUserProfiles: UserProfiles): Promise<{
+    updateAllJoinToUsers(id: number, dataUsers: Users, dataUserRoles: UserRoles, dataUserProfiles: UserProfiles): Promise<{
         message: string;
         allResults: {
             updatedUser: any;
+            updatedUserRoles: any;
             updatedUserProfiles: any;
         };
     }>;

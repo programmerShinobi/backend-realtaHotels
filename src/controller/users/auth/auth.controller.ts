@@ -1,5 +1,5 @@
 import { Controller, Get, Param, UsePipes, ValidationPipe } from '@nestjs/common';
-import { Body, Post } from '@nestjs/common/decorators';
+import { Body, Post, Put } from '@nestjs/common/decorators';
 import { AuthService } from 'src/service/users/auth/auth.service';
 import { UserpasswordService } from 'src/service/users/userpassword/userpassword.service';
 import { bodyLoginDto, bodyRegister1Dto, bodyRegister2Dto, bodyRegisterGuest1Dto, bodyRegisterGuest2Dto } from './auth.dto';
@@ -35,5 +35,10 @@ export class AuthController {
     @Post('registerGuest')
     registerGuest(@Body() body1:bodyRegisterGuest1Dto, @Body() body2, @Body() body3:bodyRegisterGuest2Dto) {
         return this.authService.registerGuest(body1, body2, body3);
+    }
+
+    @Put('changePassword/:id')
+    changePassword(@Param() params, @Body() body) {
+        return this.authService.changePassword(params.id, body);
     }
 }
