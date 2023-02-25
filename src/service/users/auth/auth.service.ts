@@ -360,8 +360,8 @@ export class AuthService implements CanActivate{
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users();
-                user.userFullName = data1.userFullName;
-                user.userEmail = data1.userEmail;
+                // user.userFullName = data1.userFullName;
+                // user.userEmail = data1.userEmail;
                 user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
                 savedUser = await transactionalEntityManager.save(user)
@@ -403,7 +403,7 @@ export class AuthService implements CanActivate{
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
                 .then((result: any) => {
                     if (!result) {
-                        throw new Error();
+                        throw new BadRequestException('Data userPassword insert failed');
                     }
                     return result
                 }).catch((err: any) => {

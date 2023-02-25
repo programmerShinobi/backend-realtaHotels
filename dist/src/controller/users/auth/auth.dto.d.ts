@@ -30,10 +30,10 @@ export declare class bodyRegister2Dto {
     uspaUser: any;
 }
 export declare class bodyRegisterGuest1Dto {
-    userFullName: string;
-    userEmail: string;
     userPhoneNumber: any;
+    userFullName: string;
     userId: number;
+    userEmail: string;
     userIsverified: number;
     userPassword: any;
     userType: any;
