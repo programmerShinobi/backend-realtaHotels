@@ -38,77 +38,177 @@ export class AuthService implements CanActivate{
         });
     }
 
-    async login(data: any): Promise<any> {
-        return await this.findEmail(data.userEmail).then(async (users) => {
-            if (users.userEmail == data.userEmail) {
-                const IdUser = await this.userRepository.findOneBy({
-                    userEmail: users.userEmail
-                }).then((result: any) => {
-                    return result.userId
-                }).catch((err: any) => {
-                    return err
-                });
-    
-                const passwordUser = await this.userRepository.findOne({
-                    where: { userId: IdUser },
-                    relations: [
-                        "userRoles",
-                        "userPassword"
-                    ]
-                }).then((result: any) => {
-                    return result.userPassword.uspaPasswordhash
-                }).catch((err: any) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    }
-                });
-
-                let payload ={}
-    
-                if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                    const token = await jwt.sign(
-                        payload,
-                        process.env.SECRET_KEY,
-                        { expiresIn: '3m' }
-                    );
-                    
-                    payload = await this.userRepository.query(`
-                        SELECT * FROM users.users uuu
-                        LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
-                        LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-                        WHERE uuu.user_id = ${IdUser} 
-                    `).then(async(result: any) => {
-                        if (!result) {
-                            throw new NotFoundException('Data not found');
-                        }
-
-                        return result;
-                        
-                    }).catch((err: any) => {
-                        return {
-                            message: err.message,
-                            error: err.name
-                        };
-                    });
-                    
-                    return {
-                        message: 'Login successfully',
-                        userdata: payload,
-                        token: token
-                    }
-                } else {
-                    throw new BadRequestException('Password Invalid');
-                }
-            } else {
-                throw new BadRequestException('Email invalid');
-            }   
+    async findPhone(phone: string): Promise<any>{
+        return await this.userRepository.findOneBy({
+            userPhoneNumber: phone
+        }).then((result: any) => {
+            return result
         }).catch((err: any) => {
             return {
                 message: err.message,
                 error: err.name
             }
-        })       
+        });
+    }
+
+    async login(data: any): Promise<any> {
+        const userByPhone = await this.findPhone(data.userEmailOrPhone)
+        .then(async (result) => {
+            return result;
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
+
+        const userByEmail = await this.findEmail(data.userEmailOrPhone)
+        .then(async (result) => {
+            return result;
+        }).catch((err: any) => {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        });
+        try {   
+            if (data.userEmailOrPhone && data.userEmailOrPhone.includes("@")) {
+                if (userByEmail.userEmail == data.userEmailOrPhone) {
+                    const IdUser = await this.userRepository.findOneBy({
+                        userEmail: userByEmail.userEmail
+                    }).then((result: any) => {
+                        return result.userId
+                    }).catch((err: any) => {
+                        return err
+                    });
+    
+                    const passwordUser = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword"
+                        ]
+                    }).then((result: any) => {
+                        return result.userPassword.uspaPasswordhash
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+    
+                    let payload ={}
+    
+                    if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                        const token = await jwt.sign(
+                            payload,
+                            process.env.SECRET_KEY,
+                            { expiresIn: '3m' }
+                        );
+                        
+                        payload = await this.userRepository.query(`
+                            SELECT * FROM users.users uuu
+                            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+                            WHERE uuu.user_id = ${IdUser} 
+                        `).then(async(result: any) => {
+                            if (!result) {
+                                throw new NotFoundException('Data not found');
+                            }
+    
+                            return result;
+                            
+                        }).catch((err: any) => {
+                            return {
+                                message: err.message,
+                                error: err.name
+                            };
+                        });
+                        
+                        return {
+                            message: 'Login successfully',
+                            userdata: payload,
+                            token: token
+                        }
+                    } else {
+                        throw new BadRequestException('Password Invalid');
+                    }
+                } else {
+                    throw new BadRequestException('Email Invalid');
+                }
+            } else if (data.userEmailOrPhone && data.userEmailOrPhone.includes("+")) {
+                if (userByPhone.userPhoneNumber == data.userEmailOrPhone) {
+                    const IdUser = await this.userRepository.findOneBy({
+                    userPhoneNumber: userByPhone.userPhoneNumber
+                    }).then((result: any) => {
+                        return result.userId
+                    }).catch((err: any) => {
+                        return err
+                    });
+
+                    const passwordUser = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword"
+                        ]
+                    }).then((result: any) => {
+                        return result.userPassword.uspaPasswordhash
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+
+                    let payload ={}
+
+                    if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                        const token = await jwt.sign(
+                            payload,
+                            process.env.SECRET_KEY,
+                            { expiresIn: '3m' }
+                        );
+                        
+                        payload = await this.userRepository.query(`
+                            SELECT * FROM users.users uuu
+                            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+                            WHERE uuu.user_id = ${IdUser} 
+                        `).then(async(result: any) => {
+                            if (!result) {
+                                throw new NotFoundException('Data not found');
+                            }
+
+                            return result;
+                            
+                        }).catch((err: any) => {
+                            return {
+                                message: err.message,
+                                error: err.name
+                            };
+                        });
+                        
+                        return {
+                            message: 'Login successfully',
+                            userdata: payload,
+                            token: token
+                        }
+                    } else {
+                        throw new BadRequestException('Password Invalid');
+                    }
+                } else {
+                    throw new BadRequestException('Phone Number Invalid');
+                }
+            } else {
+                throw new NotFoundException('Email or Phone Number invalid');
+            }
+        } catch (err) {
+            return {
+                message: err.message,
+                error: err.name
+            }
+        }
     }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

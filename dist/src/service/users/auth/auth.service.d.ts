@@ -9,6 +9,7 @@ export declare class AuthService implements CanActivate {
     private userPasswordRepository;
     constructor(userRepository: Repository<Users>, userRolesRepository: Repository<UserRoles>, userPasswordRepository: Repository<UserPassword>);
     findEmail(email: string): Promise<any>;
+    findPhone(phone: string): Promise<any>;
     login(data: any): Promise<any>;
     canActivate(context: ExecutionContext): Promise<boolean>;
     register(data1: Users, data2: UserRoles, data3: UserPassword): Promise<{

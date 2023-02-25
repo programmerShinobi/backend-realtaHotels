@@ -39,68 +39,160 @@ let AuthService = class AuthService {
             };
         });
     }
-    async login(data) {
-        return await this.findEmail(data.userEmail).then(async (users) => {
-            if (users.userEmail == data.userEmail) {
-                const IdUser = await this.userRepository.findOneBy({
-                    userEmail: users.userEmail
-                }).then((result) => {
-                    return result.userId;
-                }).catch((err) => {
-                    return err;
-                });
-                const passwordUser = await this.userRepository.findOne({
-                    where: { userId: IdUser },
-                    relations: [
-                        "userRoles",
-                        "userPassword"
-                    ]
-                }).then((result) => {
-                    return result.userPassword.uspaPasswordhash;
-                }).catch((err) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    };
-                });
-                let payload = {};
-                if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                    const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
-                    payload = await this.userRepository.query(`
-                        SELECT * FROM users.users uuu
-                        LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
-                        LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
-                        WHERE uuu.user_id = ${IdUser} 
-                    `).then(async (result) => {
-                        if (!result) {
-                            throw new common_1.NotFoundException('Data not found');
-                        }
-                        return result;
-                    }).catch((err) => {
-                        return {
-                            message: err.message,
-                            error: err.name
-                        };
-                    });
-                    return {
-                        message: 'Login successfully',
-                        userdata: payload,
-                        token: token
-                    };
-                }
-                else {
-                    throw new common_1.BadRequestException('Password Invalid');
-                }
-            }
-            else {
-                throw new common_1.BadRequestException('Email invalid');
-            }
+    async findPhone(phone) {
+        return await this.userRepository.findOneBy({
+            userPhoneNumber: phone
+        }).then((result) => {
+            return result;
         }).catch((err) => {
             return {
                 message: err.message,
                 error: err.name
             };
         });
+    }
+    async login(data) {
+        const userByPhone = await this.findPhone(data.userEmailOrPhone)
+            .then(async (result) => {
+            return result;
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+        const userByEmail = await this.findEmail(data.userEmailOrPhone)
+            .then(async (result) => {
+            return result;
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+        try {
+            if (data.userEmailOrPhone && data.userEmailOrPhone.includes("@")) {
+                if (userByEmail.userEmail == data.userEmailOrPhone) {
+                    const IdUser = await this.userRepository.findOneBy({
+                        userEmail: userByEmail.userEmail
+                    }).then((result) => {
+                        return result.userId;
+                    }).catch((err) => {
+                        return err;
+                    });
+                    const passwordUser = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword"
+                        ]
+                    }).then((result) => {
+                        return result.userPassword.uspaPasswordhash;
+                    }).catch((err) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        };
+                    });
+                    let payload = {};
+                    if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                        const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
+                        payload = await this.userRepository.query(`
+                            SELECT * FROM users.users uuu
+                            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+                            WHERE uuu.user_id = ${IdUser} 
+                        `).then(async (result) => {
+                            if (!result) {
+                                throw new common_1.NotFoundException('Data not found');
+                            }
+                            return result;
+                        }).catch((err) => {
+                            return {
+                                message: err.message,
+                                error: err.name
+                            };
+                        });
+                        return {
+                            message: 'Login successfully',
+                            userdata: payload,
+                            token: token
+                        };
+                    }
+                    else {
+                        throw new common_1.BadRequestException('Password Invalid');
+                    }
+                }
+                else {
+                    throw new common_1.BadRequestException('Email Invalid');
+                }
+            }
+            else if (data.userEmailOrPhone && data.userEmailOrPhone.includes("+")) {
+                if (userByPhone.userPhoneNumber == data.userEmailOrPhone) {
+                    const IdUser = await this.userRepository.findOneBy({
+                        userPhoneNumber: userByPhone.userPhoneNumber
+                    }).then((result) => {
+                        return result.userId;
+                    }).catch((err) => {
+                        return err;
+                    });
+                    const passwordUser = await this.userRepository.findOne({
+                        where: { userId: IdUser },
+                        relations: [
+                            "userRoles",
+                            "userPassword"
+                        ]
+                    }).then((result) => {
+                        return result.userPassword.uspaPasswordhash;
+                    }).catch((err) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        };
+                    });
+                    let payload = {};
+                    if (await bcrypt.compare(data.userPassword, passwordUser)) {
+                        const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
+                        payload = await this.userRepository.query(`
+                            SELECT * FROM users.users uuu
+                            LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
+                            LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+                            WHERE uuu.user_id = ${IdUser} 
+                        `).then(async (result) => {
+                            if (!result) {
+                                throw new common_1.NotFoundException('Data not found');
+                            }
+                            return result;
+                        }).catch((err) => {
+                            return {
+                                message: err.message,
+                                error: err.name
+                            };
+                        });
+                        return {
+                            message: 'Login successfully',
+                            userdata: payload,
+                            token: token
+                        };
+                    }
+                    else {
+                        throw new common_1.BadRequestException('Password Invalid');
+                    }
+                }
+                else {
+                    throw new common_1.BadRequestException('Phone Number Invalid');
+                }
+            }
+            else {
+                throw new common_1.NotFoundException('Email or Phone Number invalid');
+            }
+        }
+        catch (err) {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        }
     }
     async canActivate(context) {
         const request = context.switchToHttp().getRequest();

@@ -2,12 +2,7 @@ import { IsEmail, IsEmpty, IsNotEmpty, IsPhoneNumber, IsStrongPassword } from "c
 
 export class bodyLoginDto{
     @IsNotEmpty()
-    @IsEmail()
-    userEmail: string;
-
-    @IsNotEmpty()
     userPassword: string;
-
 }
 
 export class bodyRegister1Dto{
