@@ -302,8 +302,6 @@ let AuthService = class AuthService {
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users_1.Users();
-                user.userFullName = data1.userFullName;
-                user.userEmail = data1.userEmail;
                 user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
                 savedUser = await transactionalEntityManager.save(user)
@@ -344,7 +342,7 @@ let AuthService = class AuthService {
                 savedUserPassword = await transactionalEntityManager.save(userPassword)
                     .then((result) => {
                     if (!result) {
-                        throw new Error();
+                        throw new common_1.BadRequestException('Data userPassword insert failed');
                     }
                     return result;
                 }).catch((err) => {

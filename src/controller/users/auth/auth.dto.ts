@@ -50,20 +50,15 @@ export class bodyRegister2Dto{
 }
 
 export class bodyRegisterGuest1Dto{
-    @IsNotEmpty()
-    userFullName: string;
-    
-    @IsNotEmpty()
-    @IsEmail()
-    userEmail: string;
-    
+
     @IsNotEmpty()
     @IsPhoneNumber()
     userPhoneNumber: any;
-        
-        
+    
     @IsEmpty()
+    userFullName: string;
     userId: number; 
+    userEmail: string;
     userIsverified: number;
     userPassword: any; 
     userType: any; 

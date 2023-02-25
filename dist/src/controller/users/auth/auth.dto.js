@@ -55,22 +55,13 @@ class bodyRegisterGuest1Dto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
-], bodyRegisterGuest1Dto.prototype, "userFullName", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsEmail)(),
-    __metadata("design:type", String)
-], bodyRegisterGuest1Dto.prototype, "userEmail", void 0);
-__decorate([
-    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsPhoneNumber)(),
     __metadata("design:type", Object)
 ], bodyRegisterGuest1Dto.prototype, "userPhoneNumber", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Number)
-], bodyRegisterGuest1Dto.prototype, "userId", void 0);
+    __metadata("design:type", String)
+], bodyRegisterGuest1Dto.prototype, "userFullName", void 0);
 exports.bodyRegisterGuest1Dto = bodyRegisterGuest1Dto;
 class bodyRegisterGuest2Dto {
 }
