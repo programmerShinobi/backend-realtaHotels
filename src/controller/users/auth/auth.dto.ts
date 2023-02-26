@@ -76,10 +76,9 @@ export class bodyRegisterGuest1Dto{
     userRoles: any;
     workOrders: any;
 }
-
 export class bodyRegisterGuest2Dto{
     @IsNotEmpty()
-    @IsStrongPassword()
+    // @IsStrongPassword()
     uspaPasswordhash: string;
     
     @IsEmpty()

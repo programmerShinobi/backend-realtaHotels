@@ -67,7 +67,6 @@ class bodyRegisterGuest2Dto {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsStrongPassword)(),
     __metadata("design:type", String)
 ], bodyRegisterGuest2Dto.prototype, "uspaPasswordhash", void 0);
 __decorate([
