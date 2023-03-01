@@ -412,7 +412,7 @@ let AuthService = class AuthService {
                     };
                 });
                 const userProfiles = new UserProfiles_1.UserProfiles();
-                userProfiles.usproUserId = IDuser;
+                userProfiles.usproUser = IDuser;
                 savedUserProfiles = await transactionalEntityManager.save(userProfiles)
                     .then((result) => {
                     if (!result) {
