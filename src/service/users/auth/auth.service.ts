@@ -474,7 +474,7 @@ export class AuthService implements CanActivate{
                 });
 
                 const userProfiles:any = new UserProfiles();
-                userProfiles.usproUserId = IDuser;
+                userProfiles.usproUser = IDuser;
                 savedUserProfiles = await transactionalEntityManager.save(userProfiles)
                     .then((result: any) => {
                         if (!result) {
