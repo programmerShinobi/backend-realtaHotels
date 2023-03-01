@@ -1,7 +1,6 @@
 # 
 .env
 /node_modules
-package.json
 /src/module/global.module.ts
 
 # Logs

@@ -10,6 +10,9 @@ import { UserPassword } from 'entities/UserPassword';
 import { throwError } from 'rxjs';
 import { ValidationError } from 'class-validator';
 import { UserRoles } from 'entities/UserRoles';
+import { UserProfiles } from 'entities/UserProfiles';
+import { UserMembers } from 'entities/UserMembers';
+import { UserBonusPoints } from 'entities/UserBonusPoints';
 
 @Injectable()
 export class AuthService implements CanActivate{
@@ -229,6 +232,9 @@ export class AuthService implements CanActivate{
         let savedUser;
         let savedUserPassword; 
         let savedUserRoles;
+        let savedUserProfiles;
+        let savedUserMembers;
+        let savedUserBonusPoints;
         let IDuser;
         await manager.transaction(async (transactionalEntityManager) => {
             const user = new Users();
@@ -285,6 +291,51 @@ export class AuthService implements CanActivate{
                 }
             });
 
+            const userProfiles:any = new UserProfiles();
+                userProfiles.usproUser = IDuser;
+                savedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userProfiles insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+            
+            const userMembers:any = new UserMembers();
+                userMembers.usmeUser = IDuser;
+                savedUserMembers = await transactionalEntityManager.save(userMembers)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userMembers insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+            
+            const userBonusPoints:any = new UserBonusPoints();
+                userBonusPoints.ubpoUser = IDuser;
+                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userBonusPoints insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+            
             // const nodemailer = require("nodemailer");
             // // Generate test SMTP service account from ethereal.email
             // // Only needed if you don't have a real mail account for testing
@@ -334,10 +385,16 @@ export class AuthService implements CanActivate{
             throw new Error('Failed, password is not strong enough')
         } else if(!savedUser && !savedUserPassword) {
             throw new Error('Failed, email already exists and password is not strong enough')
+        } else if ( !savedUserProfiles) {
+            throw new Error('Failed, userProfile problem')
+        } else if ( !savedUserMembers) {
+            throw new Error('Failed, userMembers problem')
+        } else if ( !savedUserBonusPoints) {
+            throw new Error('Failed, userBonusPoints problem')
         } else {
             return {
                 message: "Register Successfully",
-                savedUser, savedUserRoles, savedUserPassword
+                savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints
             }
         }
     } catch (err) {
@@ -357,6 +414,9 @@ export class AuthService implements CanActivate{
             let savedUser;
             let savedUserPassword; 
             let savedUserRoles;
+            let savedUserProfiles;
+            let savedUserMembers;
+            let savedUserBonusPoints;
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users();
@@ -413,6 +473,50 @@ export class AuthService implements CanActivate{
                     }
                 });
 
+                const userProfiles:any = new UserProfiles();
+                userProfiles.usproUserId = IDuser;
+                savedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userProfiles insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+                
+                const userMembers:any = new UserMembers();
+                userMembers.usmeUser = IDuser;
+                savedUserMembers = await transactionalEntityManager.save(userMembers)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userMembers insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
+            
+                const userBonusPoints:any = new UserBonusPoints();
+                userBonusPoints.ubpoUser = IDuser;
+                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userBonusPoints insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
                 // const nodemailer = require("nodemailer");
                 // // Generate test SMTP service account from ethereal.email
                 // // Only needed if you don't have a real mail account for testing
@@ -462,10 +566,16 @@ export class AuthService implements CanActivate{
                 throw new Error('Failed, password is not strong enough')
             } else if(!savedUser && !savedUserPassword) {
                 throw new Error('Failed, email already exists and password is not strong enough')
+            } else if ( !savedUserProfiles) {
+                throw new Error('Failed, userProfiles problem');
+            } else if ( !savedUserMembers) {
+                throw new Error('Failed, usermembers problem');
+            } else if ( !savedUserBonusPoints) {
+                throw new Error('Failed, userBonusPoints problem');
             } else {
                 return {
                     message: "Register Successfully",
-                    savedUser, savedUserRoles, savedUserPassword
+                    savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints
                 }
             }
         } catch (err) {
