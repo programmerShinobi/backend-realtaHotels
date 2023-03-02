@@ -18,8 +18,6 @@ export declare class AuthService implements CanActivate {
         savedUserRoles: any;
         savedUserPassword: any;
         savedUserProfiles: any;
-        savedUserMembers: any;
-        savedUserBonusPoints: any;
         error?: undefined;
     } | {
         error: any;
@@ -28,8 +26,6 @@ export declare class AuthService implements CanActivate {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
         savedUserProfiles?: undefined;
-        savedUserMembers?: undefined;
-        savedUserBonusPoints?: undefined;
     }>;
     registerGuest(data1: Users, data2: UserRoles, data3: UserPassword): Promise<{
         message: string;
@@ -37,8 +33,6 @@ export declare class AuthService implements CanActivate {
         savedUserRoles: any;
         savedUserPassword: any;
         savedUserProfiles: any;
-        savedUserMembers: any;
-        savedUserBonusPoints: any;
         error?: undefined;
     } | {
         error: any;
@@ -47,8 +41,6 @@ export declare class AuthService implements CanActivate {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
         savedUserProfiles?: undefined;
-        savedUserMembers?: undefined;
-        savedUserBonusPoints?: undefined;
     }>;
     changePassword(id: any, data: any): Promise<any>;
 }
