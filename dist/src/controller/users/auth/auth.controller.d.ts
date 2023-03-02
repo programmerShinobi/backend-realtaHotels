@@ -14,8 +14,6 @@ export declare class AuthController {
         savedUserRoles: any;
         savedUserPassword: any;
         savedUserProfiles: any;
-        savedUserMembers: any;
-        savedUserBonusPoints: any;
         error?: undefined;
     } | {
         error: any;
@@ -24,8 +22,6 @@ export declare class AuthController {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
         savedUserProfiles?: undefined;
-        savedUserMembers?: undefined;
-        savedUserBonusPoints?: undefined;
     }>;
     registerGuest(body1: bodyRegisterGuest1Dto, body2: any, body3: bodyRegisterGuest2Dto): Promise<{
         message: string;
@@ -33,8 +29,6 @@ export declare class AuthController {
         savedUserRoles: any;
         savedUserPassword: any;
         savedUserProfiles: any;
-        savedUserMembers: any;
-        savedUserBonusPoints: any;
         error?: undefined;
     } | {
         error: any;
@@ -43,8 +37,6 @@ export declare class AuthController {
         savedUserRoles?: undefined;
         savedUserPassword?: undefined;
         savedUserProfiles?: undefined;
-        savedUserMembers?: undefined;
-        savedUserBonusPoints?: undefined;
     }>;
     changePassword(params: any, body: any): Promise<any>;
 }

@@ -22,8 +22,6 @@ const bcrypt = require("bcrypt");
 const UserPassword_1 = require("../../../../entities/UserPassword");
 const UserRoles_1 = require("../../../../entities/UserRoles");
 const UserProfiles_1 = require("../../../../entities/UserProfiles");
-const UserMembers_1 = require("../../../../entities/UserMembers");
-const UserBonusPoints_1 = require("../../../../entities/UserBonusPoints");
 let AuthService = class AuthService {
     constructor(userRepository, userRolesRepository, userPasswordRepository) {
         this.userRepository = userRepository;
@@ -216,8 +214,6 @@ let AuthService = class AuthService {
             let savedUserPassword;
             let savedUserRoles;
             let savedUserProfiles;
-            let savedUserMembers;
-            let savedUserBonusPoints;
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users_1.Users();
@@ -286,34 +282,6 @@ let AuthService = class AuthService {
                         error: err.name
                     };
                 });
-                const userMembers = new UserMembers_1.UserMembers();
-                userMembers.usmeUser = IDuser;
-                savedUserMembers = await transactionalEntityManager.save(userMembers)
-                    .then((result) => {
-                    if (!result) {
-                        throw new common_1.BadRequestException('Data userMembers insert failed');
-                    }
-                    return result;
-                }).catch((err) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    };
-                });
-                const userBonusPoints = new UserBonusPoints_1.UserBonusPoints();
-                userBonusPoints.ubpoUser = IDuser;
-                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
-                    .then((result) => {
-                    if (!result) {
-                        throw new common_1.BadRequestException('Data userBonusPoints insert failed');
-                    }
-                    return result;
-                }).catch((err) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    };
-                });
             });
             if (!savedUser) {
                 throw new Error('Failed, email already exists');
@@ -327,16 +295,13 @@ let AuthService = class AuthService {
             else if (!savedUserProfiles) {
                 throw new Error('Failed, userProfile problem');
             }
-            else if (!savedUserMembers) {
-                throw new Error('Failed, userMembers problem');
-            }
-            else if (!savedUserBonusPoints) {
-                throw new Error('Failed, userBonusPoints problem');
-            }
             else {
                 return {
                     message: "Register Successfully",
-                    savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints
+                    savedUser,
+                    savedUserRoles,
+                    savedUserPassword,
+                    savedUserProfiles,
                 };
             }
         }
@@ -357,8 +322,6 @@ let AuthService = class AuthService {
             let savedUserPassword;
             let savedUserRoles;
             let savedUserProfiles;
-            let savedUserMembers;
-            let savedUserBonusPoints;
             let IDuser;
             await manager.transaction(async (transactionalEntityManager) => {
                 const user = new Users_1.Users();
@@ -425,34 +388,6 @@ let AuthService = class AuthService {
                         error: err.name
                     };
                 });
-                const userMembers = new UserMembers_1.UserMembers();
-                userMembers.usmeUser = IDuser;
-                savedUserMembers = await transactionalEntityManager.save(userMembers)
-                    .then((result) => {
-                    if (!result) {
-                        throw new common_1.BadRequestException('Data userMembers insert failed');
-                    }
-                    return result;
-                }).catch((err) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    };
-                });
-                const userBonusPoints = new UserBonusPoints_1.UserBonusPoints();
-                userBonusPoints.ubpoUser = IDuser;
-                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
-                    .then((result) => {
-                    if (!result) {
-                        throw new common_1.BadRequestException('Data userBonusPoints insert failed');
-                    }
-                    return result;
-                }).catch((err) => {
-                    return {
-                        message: err.message,
-                        error: err.name
-                    };
-                });
             });
             if (!savedUser) {
                 throw new Error('Failed, email already exists');
@@ -466,16 +401,13 @@ let AuthService = class AuthService {
             else if (!savedUserProfiles) {
                 throw new Error('Failed, userProfiles problem');
             }
-            else if (!savedUserMembers) {
-                throw new Error('Failed, usermembers problem');
-            }
-            else if (!savedUserBonusPoints) {
-                throw new Error('Failed, userBonusPoints problem');
-            }
             else {
                 return {
                     message: "Register Successfully",
-                    savedUser, savedUserRoles, savedUserPassword, savedUserProfiles, savedUserMembers, savedUserBonusPoints
+                    savedUser,
+                    savedUserRoles,
+                    savedUserPassword,
+                    savedUserProfiles,
                 };
             }
         }
