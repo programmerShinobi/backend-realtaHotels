@@ -372,7 +372,8 @@ CREATE TABLE humanresource.employee(
 	emp_emp_id integer,
 	emp_joro_id integer,
 	foreign key (emp_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
-	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade
+	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade,
+	foreign key (emp_emp_id) references users.users(user_id) on delete cascade on update cascade
 );
 
 CREATE TABLE humanresource.shift(

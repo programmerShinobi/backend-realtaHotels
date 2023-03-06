@@ -7,8 +7,6 @@ const port = process.env.PORT || 6000
 async function bootstrap() {
   const app = await NestFactory.create(MainModule);
 
-  
-
   app.enableCors() // CONNECT TO API
   // app.enableCors({
   //   origin: 'http://localhost:3005', // React app running on port 3000
