@@ -1,4 +1,3 @@
-import { Facilities } from "./Facilities";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { Stocks } from "./Stocks";
 export declare class StockDetail {
@@ -6,7 +5,7 @@ export declare class StockDetail {
     stodBarcodeNumber: string | null;
     stodStatus: string | null;
     stodNotes: string | null;
-    stodFaci: Facilities;
+    stodFaciId: number | null;
     stodPohe: PurchaseOrderHeader;
     stodStock: Stocks;
 }

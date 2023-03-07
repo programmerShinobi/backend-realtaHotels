@@ -66,14 +66,13 @@ export class PaymentTransaction {
   })
   patrTrxNumberRef: string | null;
 
-  @Column("integer", { name: "patr_source_id", nullable: true })
-  patrSourceId: number | null;
+  @Column("numeric", { name: "patr_source_id", nullable: true })
+  patrSourceId: string | null;
 
-  @Column("integer", { name: "patr_target_id", nullable: true })
-  patrTargetId: number | null;
+  @Column("numeric", { name: "patr_target_id", nullable: true })
+  patrTargetId: string | null;
 
   @ManyToOne(() => Users, (users) => users.paymentTransactions, {
-    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "patr_user_id", referencedColumnName: "userId" }])

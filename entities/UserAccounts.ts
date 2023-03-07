@@ -45,15 +45,23 @@ export class UserAccounts {
   })
   usacModifiedDate: Date | null;
 
+  @Column("character varying", {
+    name: "usac_card_holder_name",
+    nullable: true,
+    length: 50,
+  })
+  usacCardHolderName: string | null;
+
+  @Column("character varying", { name: "usac_secured_key", nullable: true })
+  usacSecuredKey: string | null;
+
   @ManyToOne(() => Entities, (entities) => entities.userAccounts, {
-    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "usac_entity_id", referencedColumnName: "entityId" }])
   usacEntity: Entities;
 
   @ManyToOne(() => Users, (users) => users.userAccounts, {
-    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "usac_user_id", referencedColumnName: "userId" }])

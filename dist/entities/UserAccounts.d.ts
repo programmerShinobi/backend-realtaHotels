@@ -9,6 +9,8 @@ export declare class UserAccounts {
     usacExpmonth: number | null;
     usacExpyear: number | null;
     usacModifiedDate: Date | null;
+    usacCardHolderName: string | null;
+    usacSecuredKey: string | null;
     usacEntity: Entities;
     usacUser: Users;
 }

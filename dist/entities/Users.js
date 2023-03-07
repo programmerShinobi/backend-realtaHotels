@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Users = void 0;
 const typeorm_1 = require("typeorm");
 const BookingOrders_1 = require("./BookingOrders");
+const Employee_1 = require("./Employee");
 const FacilityPriceHistory_1 = require("./FacilityPriceHistory");
 const HotelReviews_1 = require("./HotelReviews");
 const OrderMenus_1 = require("./OrderMenus");
@@ -87,6 +88,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => BookingOrders_1.BookingOrders, (bookingOrders) => bookingOrders.boorUser),
     __metadata("design:type", Array)
 ], Users.prototype, "bookingOrders", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => Employee_1.Employee, (employee) => employee.empUser),
+    __metadata("design:type", Array)
+], Users.prototype, "employees", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => FacilityPriceHistory_1.FacilityPriceHistory, (facilityPriceHistory) => facilityPriceHistory.faphUser),
     __metadata("design:type", Array)

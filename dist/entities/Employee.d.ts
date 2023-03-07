@@ -1,7 +1,7 @@
 import { JobRole } from "./JobRole";
+import { Users } from "./Users";
 import { EmployeeDepartmentHistory } from "./EmployeeDepartmentHistory";
 import { EmployeePayHistory } from "./EmployeePayHistory";
-import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { WorkOrderDetail } from "./WorkOrderDetail";
 export declare class Employee {
     empId: number;
@@ -19,8 +19,8 @@ export declare class Employee {
     empEmp: Employee;
     employees: Employee[];
     empJoro: JobRole;
+    empUser: Users;
     employeeDepartmentHistories: EmployeeDepartmentHistory[];
     employeePayHistories: EmployeePayHistory[];
-    purchaseOrderHeaders: PurchaseOrderHeader[];
     workOrderDetails: WorkOrderDetail[];
 }

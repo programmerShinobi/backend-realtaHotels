@@ -46,7 +46,6 @@ __decorate([
 ], PaymentGateaway.prototype, "pagaModifiedDate", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => Entities_1.Entities, (entities) => entities.paymentGateaway, {
-        onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "paga_entity_id", referencedColumnName: "entityId" }]),

@@ -61,8 +61,19 @@ __decorate([
     __metadata("design:type", Date)
 ], UserAccounts.prototype, "usacModifiedDate", void 0);
 __decorate([
+    (0, typeorm_1.Column)("character varying", {
+        name: "usac_card_holder_name",
+        nullable: true,
+        length: 50,
+    }),
+    __metadata("design:type", String)
+], UserAccounts.prototype, "usacCardHolderName", void 0);
+__decorate([
+    (0, typeorm_1.Column)("character varying", { name: "usac_secured_key", nullable: true }),
+    __metadata("design:type", String)
+], UserAccounts.prototype, "usacSecuredKey", void 0);
+__decorate([
     (0, typeorm_1.ManyToOne)(() => Entities_1.Entities, (entities) => entities.userAccounts, {
-        onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "usac_entity_id", referencedColumnName: "entityId" }]),
@@ -70,7 +81,6 @@ __decorate([
 ], UserAccounts.prototype, "usacEntity", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.userAccounts, {
-        onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "usac_user_id", referencedColumnName: "userId" }]),

@@ -13,9 +13,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Employee = void 0;
 const typeorm_1 = require("typeorm");
 const JobRole_1 = require("./JobRole");
+const Users_1 = require("./Users");
 const EmployeeDepartmentHistory_1 = require("./EmployeeDepartmentHistory");
 const EmployeePayHistory_1 = require("./EmployeePayHistory");
-const PurchaseOrderHeader_1 = require("./PurchaseOrderHeader");
 const WorkOrderDetail_1 = require("./WorkOrderDetail");
 let Employee = Employee_1 = class Employee {
 };
@@ -111,6 +111,14 @@ __decorate([
     __metadata("design:type", JobRole_1.JobRole)
 ], Employee.prototype, "empJoro", void 0);
 __decorate([
+    (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.employees, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)([{ name: "emp_user_id", referencedColumnName: "userId" }]),
+    __metadata("design:type", Users_1.Users)
+], Employee.prototype, "empUser", void 0);
+__decorate([
     (0, typeorm_1.OneToMany)(() => EmployeeDepartmentHistory_1.EmployeeDepartmentHistory, (employeeDepartmentHistory) => employeeDepartmentHistory.edhiEmp),
     __metadata("design:type", Array)
 ], Employee.prototype, "employeeDepartmentHistories", void 0);
@@ -118,10 +126,6 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => EmployeePayHistory_1.EmployeePayHistory, (employeePayHistory) => employeePayHistory.ephiEmp),
     __metadata("design:type", Array)
 ], Employee.prototype, "employeePayHistories", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => PurchaseOrderHeader_1.PurchaseOrderHeader, (purchaseOrderHeader) => purchaseOrderHeader.poheEmp),
-    __metadata("design:type", Array)
-], Employee.prototype, "purchaseOrderHeaders", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => WorkOrderDetail_1.WorkOrderDetail, (workOrderDetail) => workOrderDetail.wodeEmp),
     __metadata("design:type", Array)

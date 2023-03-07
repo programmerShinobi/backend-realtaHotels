@@ -19,6 +19,7 @@ export declare class bodyUsersDto {
     userProfiles: any;
     userRoles: any;
     workOrders: any;
+    employees: any;
 }
 export declare class bodyUpdateUsersDto {
     userId: number;
@@ -41,6 +42,7 @@ export declare class bodyUpdateUsersDto {
     userProfiles: any;
     userRoles: any;
     workOrders: any;
+    employees: any;
 }
 export declare class detailUsersDto {
     userId: number;

@@ -36,6 +36,7 @@ export class bodyRegister1Dto{
     userProfiles: any; 
     userRoles: any;
     workOrders: any;
+    employees:any;
 }
 
 export class bodyRegister2Dto{
@@ -75,6 +76,7 @@ export class bodyRegisterGuest1Dto{
     userProfiles: any; 
     userRoles: any;
     workOrders: any;
+    employees:any;
 }
 export class bodyRegisterGuest2Dto{
     @IsNotEmpty()

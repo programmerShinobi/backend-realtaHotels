@@ -44,6 +44,7 @@ export class bodyUsersDto {
     userProfiles: any; 
     userRoles: any;
     workOrders: any;
+    employees:any;
 }
 
 export class bodyUpdateUsersDto {
@@ -81,6 +82,7 @@ export class bodyUpdateUsersDto {
     userProfiles: any; 
     userRoles: any;
     workOrders: any;
+    employees:any;
 }
 
 export class detailUsersDto{

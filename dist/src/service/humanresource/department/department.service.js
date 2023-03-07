@@ -17,25 +17,75 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const Department_1 = require("../../../../entities/Department");
-const exceptions_1 = require("@nestjs/common/exceptions");
-const enums_1 = require("@nestjs/common/enums");
+const date = new Date();
 let DepartmentService = class DepartmentService {
     constructor(departmentRepository) {
         this.departmentRepository = departmentRepository;
+        this.paginateResponse = (data, page, limit) => {
+            const [result, total] = data;
+            const lastPage = Math.ceil(total / limit);
+            const nextPage = parseInt(page) + 1 > lastPage ? null : parseInt(page) + 1;
+            const prevPage = parseInt(page) - 1 < 1 ? null : parseInt(page) - 1;
+            return {
+                statusCode: 'success',
+                data: [...result],
+                count: total,
+                currentPage: page,
+                nextPage: nextPage,
+                prevPage: prevPage,
+                lastPage: lastPage,
+            };
+        };
+    }
+    ucwords(str) {
+        return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+            return $1.toUpperCase();
+        });
     }
     async findAllDepartment() {
         return await this.departmentRepository.find();
     }
     async findOneDepartment(deptId) {
-        const result = await this.departmentRepository.findOne({
-            where: {
-                deptId: deptId,
-            },
+        return await this.departmentRepository.findOne({
+            where: { deptId: deptId },
         });
-        if (result) {
-            return result;
-        }
-        throw new exceptions_1.HttpException('Categories not found', enums_1.HttpStatus.NOT_FOUND);
+    }
+    async createDepartment(data) {
+        await this.departmentRepository.insert({
+            deptName: this.ucwords(data.deptName),
+        });
+        const res = await this.paginationDepartment(data);
+        return res;
+    }
+    async updateDepartment(deptId, data) {
+        await this.departmentRepository.update({
+            deptId: deptId,
+        }, {
+            deptName: this.ucwords(data.deptName),
+            deptModifiedDate: date,
+        });
+        const res = await this.paginationDepartment(data);
+        return res;
+    }
+    async deleteDepartment(data) {
+        await this.departmentRepository.delete({
+            deptId: data.deptId,
+        });
+        const res = await this.paginationDepartment(data);
+        return res;
+    }
+    async paginationDepartment(query) {
+        const limit = (query === null || query === void 0 ? void 0 : query.limit) || 10;
+        const page = (query === null || query === void 0 ? void 0 : query.page) || 1;
+        const skip = (page - 1) * limit;
+        const keyword = (query === null || query === void 0 ? void 0 : query.keyword) || '';
+        const data = await this.departmentRepository.findAndCount({
+            where: { deptName: (0, typeorm_1.Like)(`%${keyword}%`) },
+            order: { deptId: 'ASC' },
+            take: limit,
+            skip: skip,
+        });
+        return this.paginateResponse(data, page, limit);
     }
 };
 DepartmentService = __decorate([

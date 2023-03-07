@@ -1,6 +1,6 @@
 import { Employee } from "./Employee";
 export declare class EmployeePayHistory {
-    ephiRateChangeDate: string;
+    ephiRateChangeDate: Date;
     ephiRateSalary: string | null;
     ephiPayFrequence: number | null;
     ephiModifiedDate: Date | null;

@@ -4,8 +4,12 @@ import { Employee } from "./Employee";
 @Index("employee_pay_history_pkey", ["ephiRateChangeDate"], { unique: true })
 @Entity("employee_pay_history", { schema: "humanresource" })
 export class EmployeePayHistory {
-  @Column("date", { primary: true, name: "ephi_rate_change_date" })
-  ephiRateChangeDate: string;
+  @Column("timestamp without time zone", {
+    primary: true,
+    name: "ephi_rate_change_date",
+    default: () => "now()",
+  })
+  ephiRateChangeDate: Date;
 
   @Column("money", { name: "ephi_rate_salary", nullable: true })
   ephiRateSalary: string | null;
