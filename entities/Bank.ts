@@ -33,7 +33,6 @@ export class Bank {
   bankModifiedDate: Date | null;
 
   @OneToOne(() => Entities, (entities) => entities.bank, {
-    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "bank_entity_id", referencedColumnName: "entityId" }])

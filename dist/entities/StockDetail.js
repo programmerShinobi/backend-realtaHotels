@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StockDetail = void 0;
 const typeorm_1 = require("typeorm");
-const Facilities_1 = require("./Facilities");
 const PurchaseOrderHeader_1 = require("./PurchaseOrderHeader");
 const Stocks_1 = require("./Stocks");
 let StockDetail = class StockDetail {
@@ -25,7 +24,7 @@ __decorate([
         name: "stod_barcode_number",
         nullable: true,
         unique: true,
-        length: 225,
+        length: 255,
     }),
     __metadata("design:type", String)
 ], StockDetail.prototype, "stodBarcodeNumber", void 0);
@@ -46,13 +45,9 @@ __decorate([
     __metadata("design:type", String)
 ], StockDetail.prototype, "stodNotes", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Facilities_1.Facilities, (facilities) => facilities.stockDetails, {
-        onDelete: "CASCADE",
-        onUpdate: "CASCADE",
-    }),
-    (0, typeorm_1.JoinColumn)([{ name: "stod_faci_id", referencedColumnName: "faciId" }]),
-    __metadata("design:type", Facilities_1.Facilities)
-], StockDetail.prototype, "stodFaci", void 0);
+    (0, typeorm_1.Column)("integer", { name: "stod_faci_id", nullable: true }),
+    __metadata("design:type", Number)
+], StockDetail.prototype, "stodFaciId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => PurchaseOrderHeader_1.PurchaseOrderHeader, (purchaseOrderHeader) => purchaseOrderHeader.stockDetails, { onDelete: "CASCADE", onUpdate: "CASCADE" }),
     (0, typeorm_1.JoinColumn)([{ name: "stod_pohe_id", referencedColumnName: "poheId" }]),

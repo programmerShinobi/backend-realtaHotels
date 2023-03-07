@@ -12,7 +12,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PurchaseOrderHeader = void 0;
 const typeorm_1 = require("typeorm");
 const PurchaseOrderDetail_1 = require("./PurchaseOrderDetail");
-const Employee_1 = require("./Employee");
 const Vendor_1 = require("./Vendor");
 const StockDetail_1 = require("./StockDetail");
 let PurchaseOrderHeader = class PurchaseOrderHeader {
@@ -24,22 +23,18 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)("character varying", {
         name: "pohe_number",
-        nullable: true,
         unique: true,
         length: 20,
     }),
     __metadata("design:type", String)
 ], PurchaseOrderHeader.prototype, "poheNumber", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "pohe_status", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "pohe_status" }),
     __metadata("design:type", Number)
 ], PurchaseOrderHeader.prototype, "poheStatus", void 0);
 __decorate([
-    (0, typeorm_1.Column)("timestamp without time zone", {
-        name: "pohe_order_date",
-        nullable: true,
-    }),
-    __metadata("design:type", Date)
+    (0, typeorm_1.Column)("date", { name: "pohe_order_date" }),
+    __metadata("design:type", String)
 ], PurchaseOrderHeader.prototype, "poheOrderDate", void 0);
 __decorate([
     (0, typeorm_1.Column)("money", { name: "pohe_subtotal", nullable: true }),
@@ -66,24 +61,32 @@ __decorate([
 ], PurchaseOrderHeader.prototype, "poheArrivalDate", void 0);
 __decorate([
     (0, typeorm_1.Column)("character varying", {
-        name: "pohe_pay_tipe",
+        name: "pohe_pay_type",
         nullable: true,
         length: 2,
     }),
     __metadata("design:type", String)
-], PurchaseOrderHeader.prototype, "pohePayTipe", void 0);
+], PurchaseOrderHeader.prototype, "pohePayType", void 0);
+__decorate([
+    (0, typeorm_1.Column)("character varying", {
+        name: "pohe_emp_id",
+        nullable: true,
+        length: 20,
+    }),
+    __metadata("design:type", String)
+], PurchaseOrderHeader.prototype, "poheEmpId", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => PurchaseOrderDetail_1.PurchaseOrderDetail, (purchaseOrderDetail) => purchaseOrderDetail.podePohe),
     __metadata("design:type", Array)
 ], PurchaseOrderHeader.prototype, "purchaseOrderDetails", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Employee_1.Employee, (employee) => employee.purchaseOrderHeaders),
-    (0, typeorm_1.JoinColumn)([{ name: "pohe_emp_id", referencedColumnName: "empId" }]),
-    __metadata("design:type", Employee_1.Employee)
-], PurchaseOrderHeader.prototype, "poheEmp", void 0);
-__decorate([
-    (0, typeorm_1.ManyToOne)(() => Vendor_1.Vendor, (vendor) => vendor.purchaseOrderHeaders),
-    (0, typeorm_1.JoinColumn)([{ name: "pohe_vendor_id", referencedColumnName: "vendorId" }]),
+    (0, typeorm_1.ManyToOne)(() => Vendor_1.Vendor, (vendor) => vendor.purchaseOrderHeaders, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)([
+        { name: "pohe_vendor_id", referencedColumnName: "vendorEntityId" },
+    ]),
     __metadata("design:type", Vendor_1.Vendor)
 ], PurchaseOrderHeader.prototype, "poheVendor", void 0);
 __decorate([

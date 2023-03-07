@@ -1,13 +1,14 @@
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
+import { Stocks } from "./Stocks";
 export declare class PurchaseOrderDetail {
     podeId: number;
-    podeOrderQty: number | null;
-    podePrice: string | null;
-    podeLineTotal: string | null;
-    podeReceivedQty: string | null;
-    podeRejectedQty: string | null;
-    podeStockedQty: string | null;
+    podeOrderQty: number;
+    podePrice: string;
+    podeLineTotal: string;
+    podeReceivedQty: number | null;
+    podeRejectedQty: number | null;
+    podeStockedQty: number | null;
     podeModifiedDate: Date | null;
-    podeStockId: number | null;
     podePohe: PurchaseOrderHeader;
+    podeStock: Stocks;
 }

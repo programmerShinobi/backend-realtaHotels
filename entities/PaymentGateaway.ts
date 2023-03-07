@@ -33,7 +33,6 @@ export class PaymentGateaway {
   pagaModifiedDate: Date | null;
 
   @OneToOne(() => Entities, (entities) => entities.paymentGateaway, {
-    onDelete: "CASCADE",
     onUpdate: "CASCADE",
   })
   @JoinColumn([{ name: "paga_entity_id", referencedColumnName: "entityId" }])

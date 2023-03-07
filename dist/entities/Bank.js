@@ -46,7 +46,6 @@ __decorate([
 ], Bank.prototype, "bankModifiedDate", void 0);
 __decorate([
     (0, typeorm_1.OneToOne)(() => Entities_1.Entities, (entities) => entities.bank, {
-        onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "bank_entity_id", referencedColumnName: "entityId" }]),

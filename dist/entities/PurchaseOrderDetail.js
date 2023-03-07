@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PurchaseOrderDetail = void 0;
 const typeorm_1 = require("typeorm");
 const PurchaseOrderHeader_1 = require("./PurchaseOrderHeader");
+const Stocks_1 = require("./Stocks");
 let PurchaseOrderDetail = class PurchaseOrderDetail {
 };
 __decorate([
@@ -19,46 +20,49 @@ __decorate([
     __metadata("design:type", Number)
 ], PurchaseOrderDetail.prototype, "podeId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "pode_order_qty", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "pode_order_qty" }),
     __metadata("design:type", Number)
 ], PurchaseOrderDetail.prototype, "podeOrderQty", void 0);
 __decorate([
-    (0, typeorm_1.Column)("money", { name: "pode_price", nullable: true }),
+    (0, typeorm_1.Column)("money", { name: "pode_price" }),
     __metadata("design:type", String)
 ], PurchaseOrderDetail.prototype, "podePrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)("money", { name: "pode_line_total", nullable: true }),
+    (0, typeorm_1.Column)("money", { name: "pode_line_total" }),
     __metadata("design:type", String)
 ], PurchaseOrderDetail.prototype, "podeLineTotal", void 0);
 __decorate([
-    (0, typeorm_1.Column)("numeric", { name: "pode_received_qty", nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("integer", { name: "pode_received_qty", nullable: true }),
+    __metadata("design:type", Number)
 ], PurchaseOrderDetail.prototype, "podeReceivedQty", void 0);
 __decorate([
-    (0, typeorm_1.Column)("numeric", { name: "pode_rejected_qty", nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("integer", { name: "pode_rejected_qty", nullable: true }),
+    __metadata("design:type", Number)
 ], PurchaseOrderDetail.prototype, "podeRejectedQty", void 0);
 __decorate([
-    (0, typeorm_1.Column)("numeric", { name: "pode_stocked_qty", nullable: true }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("integer", { name: "pode_stocked_qty", nullable: true }),
+    __metadata("design:type", Number)
 ], PurchaseOrderDetail.prototype, "podeStockedQty", void 0);
 __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
         name: "pode_modified_date",
         nullable: true,
-        default: () => "now()",
     }),
     __metadata("design:type", Date)
 ], PurchaseOrderDetail.prototype, "podeModifiedDate", void 0);
-__decorate([
-    (0, typeorm_1.Column)("integer", { name: "pode_stock_id", nullable: true }),
-    __metadata("design:type", Number)
-], PurchaseOrderDetail.prototype, "podeStockId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => PurchaseOrderHeader_1.PurchaseOrderHeader, (purchaseOrderHeader) => purchaseOrderHeader.purchaseOrderDetails, { onDelete: "CASCADE", onUpdate: "CASCADE" }),
     (0, typeorm_1.JoinColumn)([{ name: "pode_pohe_id", referencedColumnName: "poheId" }]),
     __metadata("design:type", PurchaseOrderHeader_1.PurchaseOrderHeader)
 ], PurchaseOrderDetail.prototype, "podePohe", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Stocks_1.Stocks, (stocks) => stocks.purchaseOrderDetails, {
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    }),
+    (0, typeorm_1.JoinColumn)([{ name: "pode_stock_id", referencedColumnName: "stockId" }]),
+    __metadata("design:type", Stocks_1.Stocks)
+], PurchaseOrderDetail.prototype, "podeStock", void 0);
 PurchaseOrderDetail = __decorate([
     (0, typeorm_1.Index)("pode_id_pk", ["podeId"], { unique: true }),
     (0, typeorm_1.Entity)("purchase_order_detail", { schema: "purchasing" })

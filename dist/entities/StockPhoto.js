@@ -35,8 +35,8 @@ __decorate([
     __metadata("design:type", String)
 ], StockPhoto.prototype, "sphoPhotoFilename", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { name: "spho_primary", nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)("bit", { name: "spho_primary", nullable: true }),
+    __metadata("design:type", String)
 ], StockPhoto.prototype, "sphoPrimary", void 0);
 __decorate([
     (0, typeorm_1.Column)("character varying", {

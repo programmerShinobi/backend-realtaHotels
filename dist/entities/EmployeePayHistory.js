@@ -15,8 +15,12 @@ const Employee_1 = require("./Employee");
 let EmployeePayHistory = class EmployeePayHistory {
 };
 __decorate([
-    (0, typeorm_1.Column)("date", { primary: true, name: "ephi_rate_change_date" }),
-    __metadata("design:type", String)
+    (0, typeorm_1.Column)("timestamp without time zone", {
+        primary: true,
+        name: "ephi_rate_change_date",
+        default: () => "now()",
+    }),
+    __metadata("design:type", Date)
 ], EmployeePayHistory.prototype, "ephiRateChangeDate", void 0);
 __decorate([
     (0, typeorm_1.Column)("money", { name: "ephi_rate_salary", nullable: true }),

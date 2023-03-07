@@ -17,5 +17,9 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], DepartmentDto.prototype, "deptName", void 0);
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], DepartmentDto.prototype, "page", void 0);
 exports.DepartmentDto = DepartmentDto;
 //# sourceMappingURL=department.dto.js.map

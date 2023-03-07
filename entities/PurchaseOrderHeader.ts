@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { PurchaseOrderDetail } from "./PurchaseOrderDetail";
-import { Employee } from "./Employee";
 import { Vendor } from "./Vendor";
 import { StockDetail } from "./StockDetail";
 
@@ -23,20 +22,16 @@ export class PurchaseOrderHeader {
 
   @Column("character varying", {
     name: "pohe_number",
-    nullable: true,
     unique: true,
     length: 20,
   })
-  poheNumber: string | null;
+  poheNumber: string;
 
-  @Column("smallint", { name: "pohe_status", nullable: true })
-  poheStatus: number | null;
+  @Column("integer", { name: "pohe_status" })
+  poheStatus: number;
 
-  @Column("timestamp without time zone", {
-    name: "pohe_order_date",
-    nullable: true,
-  })
-  poheOrderDate: Date | null;
+  @Column("date", { name: "pohe_order_date" })
+  poheOrderDate: string;
 
   @Column("money", { name: "pohe_subtotal", nullable: true })
   poheSubtotal: string | null;
@@ -57,11 +52,18 @@ export class PurchaseOrderHeader {
   poheArrivalDate: Date | null;
 
   @Column("character varying", {
-    name: "pohe_pay_tipe",
+    name: "pohe_pay_type",
     nullable: true,
     length: 2,
   })
-  pohePayTipe: string | null;
+  pohePayType: string | null;
+
+  @Column("character varying", {
+    name: "pohe_emp_id",
+    nullable: true,
+    length: 20,
+  })
+  poheEmpId: string | null;
 
   @OneToMany(
     () => PurchaseOrderDetail,
@@ -69,12 +71,13 @@ export class PurchaseOrderHeader {
   )
   purchaseOrderDetails: PurchaseOrderDetail[];
 
-  @ManyToOne(() => Employee, (employee) => employee.purchaseOrderHeaders)
-  @JoinColumn([{ name: "pohe_emp_id", referencedColumnName: "empId" }])
-  poheEmp: Employee;
-
-  @ManyToOne(() => Vendor, (vendor) => vendor.purchaseOrderHeaders)
-  @JoinColumn([{ name: "pohe_vendor_id", referencedColumnName: "vendorId" }])
+  @ManyToOne(() => Vendor, (vendor) => vendor.purchaseOrderHeaders, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([
+    { name: "pohe_vendor_id", referencedColumnName: "vendorEntityId" },
+  ])
   poheVendor: Vendor;
 
   @OneToMany(() => StockDetail, (stockDetail) => stockDetail.stodPohe)

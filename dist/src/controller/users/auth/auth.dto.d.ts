@@ -22,6 +22,7 @@ export declare class bodyRegister1Dto {
     userProfiles: any;
     userRoles: any;
     workOrders: any;
+    employees: any;
 }
 export declare class bodyRegister2Dto {
     uspaPasswordhash: string;
@@ -50,6 +51,7 @@ export declare class bodyRegisterGuest1Dto {
     userProfiles: any;
     userRoles: any;
     workOrders: any;
+    employees: any;
 }
 export declare class bodyRegisterGuest2Dto {
     uspaPasswordhash: string;

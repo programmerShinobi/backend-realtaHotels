@@ -1,4 +1,5 @@
 import { BookingOrders } from "./BookingOrders";
+import { Employee } from "./Employee";
 import { FacilityPriceHistory } from "./FacilityPriceHistory";
 import { HotelReviews } from "./HotelReviews";
 import { OrderMenus } from "./OrderMenus";
@@ -20,6 +21,7 @@ export declare class Users {
     userIsverified: number | null;
     userModifiedDate: Date | null;
     bookingOrders: BookingOrders[];
+    employees: Employee[];
     facilityPriceHistories: FacilityPriceHistory[];
     hotelReviews: HotelReviews[];
     orderMenus: OrderMenus[];

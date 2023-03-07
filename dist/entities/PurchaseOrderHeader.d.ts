@@ -1,20 +1,19 @@
 import { PurchaseOrderDetail } from "./PurchaseOrderDetail";
-import { Employee } from "./Employee";
 import { Vendor } from "./Vendor";
 import { StockDetail } from "./StockDetail";
 export declare class PurchaseOrderHeader {
     poheId: number;
-    poheNumber: string | null;
-    poheStatus: number | null;
-    poheOrderDate: Date | null;
+    poheNumber: string;
+    poheStatus: number;
+    poheOrderDate: string;
     poheSubtotal: string | null;
     poheTax: string | null;
     poheTotalAmount: string | null;
     poheRefund: string | null;
     poheArrivalDate: Date | null;
-    pohePayTipe: string | null;
+    pohePayType: string | null;
+    poheEmpId: string | null;
     purchaseOrderDetails: PurchaseOrderDetail[];
-    poheEmp: Employee;
     poheVendor: Vendor;
     stockDetails: StockDetail[];
 }

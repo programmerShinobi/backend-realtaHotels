@@ -1,11 +1,13 @@
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
+import { VendorProduct } from "./VendorProduct";
 export declare class Vendor {
-    vendorId: number;
+    vendorEntityId: number;
     vendorName: string | null;
-    vendorActive: number | null;
-    vendorPriority: number | null;
+    vendorActive: string | null;
+    vendorPriority: string | null;
     vendorRegisterDate: Date | null;
-    vendorWeburi: string | null;
+    vendorWeburl: string | null;
     vendorModifiedDate: Date | null;
     purchaseOrderHeaders: PurchaseOrderHeader[];
+    vendorProducts: VendorProduct[];
 }

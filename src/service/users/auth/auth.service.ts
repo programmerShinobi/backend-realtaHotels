@@ -113,12 +113,14 @@ export class AuthService implements CanActivate{
                             SELECT * FROM users.users uuu
                             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
                             LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
+                            LEFT JOIN humanresource.employee hre ON hre.emp_emp_id = uuu.user_id
+                            LEFT JOIN humanresource.employee_department_history hredh ON hredh.edhi_emp_id = hre.emp_emp_id
+                            LEFT JOIN humanresource.department hrd ON hrd.dept_id = hredh.edhi_dept_id
                             WHERE uuu.user_id = ${IdUser} 
                         `).then(async(result: any) => {
                             if (!result) {
                                 throw new NotFoundException('Data not found');
                             }
-    
                             return result;
                             
                         }).catch((err: any) => {

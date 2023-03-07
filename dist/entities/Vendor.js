@@ -12,12 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Vendor = void 0;
 const typeorm_1 = require("typeorm");
 const PurchaseOrderHeader_1 = require("./PurchaseOrderHeader");
+const VendorProduct_1 = require("./VendorProduct");
 let Vendor = class Vendor {
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "vendor_id" }),
+    (0, typeorm_1.Column)("integer", { primary: true, name: "vendor_entity_id" }),
     __metadata("design:type", Number)
-], Vendor.prototype, "vendorId", void 0);
+], Vendor.prototype, "vendorEntityId", void 0);
 __decorate([
     (0, typeorm_1.Column)("character varying", {
         name: "vendor_name",
@@ -27,12 +28,12 @@ __decorate([
     __metadata("design:type", String)
 ], Vendor.prototype, "vendorName", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { name: "vendor_active", nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)("bit", { name: "vendor_active", nullable: true }),
+    __metadata("design:type", String)
 ], Vendor.prototype, "vendorActive", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { name: "vendor_priority", nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)("bit", { name: "vendor_priority", nullable: true }),
+    __metadata("design:type", String)
 ], Vendor.prototype, "vendorPriority", void 0);
 __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
@@ -43,17 +44,16 @@ __decorate([
 ], Vendor.prototype, "vendorRegisterDate", void 0);
 __decorate([
     (0, typeorm_1.Column)("character varying", {
-        name: "vendor_weburi",
+        name: "vendor_weburl",
         nullable: true,
         length: 1024,
     }),
     __metadata("design:type", String)
-], Vendor.prototype, "vendorWeburi", void 0);
+], Vendor.prototype, "vendorWeburl", void 0);
 __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
         name: "vendor_modified_date",
         nullable: true,
-        default: () => "now()",
     }),
     __metadata("design:type", Date)
 ], Vendor.prototype, "vendorModifiedDate", void 0);
@@ -61,8 +61,12 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => PurchaseOrderHeader_1.PurchaseOrderHeader, (purchaseOrderHeader) => purchaseOrderHeader.poheVendor),
     __metadata("design:type", Array)
 ], Vendor.prototype, "purchaseOrderHeaders", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => VendorProduct_1.VendorProduct, (vendorProduct) => vendorProduct.veproVendor),
+    __metadata("design:type", Array)
+], Vendor.prototype, "vendorProducts", void 0);
 Vendor = __decorate([
-    (0, typeorm_1.Index)("vendor_id_pk", ["vendorId"], { unique: true }),
+    (0, typeorm_1.Index)("vendor_entity_id_pk", ["vendorEntityId"], { unique: true }),
     (0, typeorm_1.Entity)("vendor", { schema: "purchasing" })
 ], Vendor);
 exports.Vendor = Vendor;

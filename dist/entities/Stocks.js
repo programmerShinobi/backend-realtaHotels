@@ -11,8 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Stocks = void 0;
 const typeorm_1 = require("typeorm");
+const PurchaseOrderDetail_1 = require("./PurchaseOrderDetail");
 const StockDetail_1 = require("./StockDetail");
 const StockPhoto_1 = require("./StockPhoto");
+const VendorProduct_1 = require("./VendorProduct");
 let Stocks = class Stocks {
 };
 __decorate([
@@ -20,11 +22,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Stocks.prototype, "stockId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("character varying", {
-        name: "stock_name",
-        nullable: true,
-        length: 255,
-    }),
+    (0, typeorm_1.Column)("character varying", { name: "stock_name", length: 255 }),
     __metadata("design:type", String)
 ], Stocks.prototype, "stockName", void 0);
 __decorate([
@@ -36,29 +34,21 @@ __decorate([
     __metadata("design:type", String)
 ], Stocks.prototype, "stockDescription", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "stock_quantity", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "stock_quantity" }),
     __metadata("design:type", Number)
 ], Stocks.prototype, "stockQuantity", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "stock_reorder_point", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "stock_reorder_point", nullable: true }),
     __metadata("design:type", Number)
 ], Stocks.prototype, "stockReorderPoint", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "stock_used", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "stock_used", nullable: true }),
     __metadata("design:type", Number)
 ], Stocks.prototype, "stockUsed", void 0);
 __decorate([
-    (0, typeorm_1.Column)("smallint", { name: "stock_scrap", nullable: true }),
+    (0, typeorm_1.Column)("integer", { name: "stock_scrap", nullable: true }),
     __metadata("design:type", Number)
 ], Stocks.prototype, "stockScrap", void 0);
-__decorate([
-    (0, typeorm_1.Column)("money", { name: "stock_price", nullable: true }),
-    __metadata("design:type", String)
-], Stocks.prototype, "stockPrice", void 0);
-__decorate([
-    (0, typeorm_1.Column)("money", { name: "stock_standar_cost", nullable: true }),
-    __metadata("design:type", String)
-], Stocks.prototype, "stockStandarCost", void 0);
 __decorate([
     (0, typeorm_1.Column)("character varying", {
         name: "stock_size",
@@ -79,10 +69,13 @@ __decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
         name: "stock_modified_date",
         nullable: true,
-        default: () => "now()",
     }),
     __metadata("design:type", Date)
 ], Stocks.prototype, "stockModifiedDate", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => PurchaseOrderDetail_1.PurchaseOrderDetail, (purchaseOrderDetail) => purchaseOrderDetail.podeStock),
+    __metadata("design:type", Array)
+], Stocks.prototype, "purchaseOrderDetails", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => StockDetail_1.StockDetail, (stockDetail) => stockDetail.stodStock),
     __metadata("design:type", Array)
@@ -91,6 +84,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => StockPhoto_1.StockPhoto, (stockPhoto) => stockPhoto.sphoStock),
     __metadata("design:type", Array)
 ], Stocks.prototype, "stockPhotos", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => VendorProduct_1.VendorProduct, (vendorProduct) => vendorProduct.veproStock),
+    __metadata("design:type", Array)
+], Stocks.prototype, "vendorProducts", void 0);
 Stocks = __decorate([
     (0, typeorm_1.Index)("stock_id_pk", ["stockId"], { unique: true }),
     (0, typeorm_1.Entity)("stocks", { schema: "purchasing" })

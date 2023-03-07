@@ -8,9 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { JobRole } from "./JobRole";
+import { Users } from "./Users";
 import { EmployeeDepartmentHistory } from "./EmployeeDepartmentHistory";
 import { EmployeePayHistory } from "./EmployeePayHistory";
-import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { WorkOrderDetail } from "./WorkOrderDetail";
 
 @Index("employee_pkey", ["empId"], { unique: true })
@@ -93,6 +93,13 @@ export class Employee {
   @JoinColumn([{ name: "emp_joro_id", referencedColumnName: "joroId" }])
   empJoro: JobRole;
 
+  @ManyToOne(() => Users, (users) => users.employees, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "emp_user_id", referencedColumnName: "userId" }])
+  empUser: Users;
+
   @OneToMany(
     () => EmployeeDepartmentHistory,
     (employeeDepartmentHistory) => employeeDepartmentHistory.edhiEmp
@@ -104,12 +111,6 @@ export class Employee {
     (employeePayHistory) => employeePayHistory.ephiEmp
   )
   employeePayHistories: EmployeePayHistory[];
-
-  @OneToMany(
-    () => PurchaseOrderHeader,
-    (purchaseOrderHeader) => purchaseOrderHeader.poheEmp
-  )
-  purchaseOrderHeaders: PurchaseOrderHeader[];
 
   @OneToMany(
     () => WorkOrderDetail,

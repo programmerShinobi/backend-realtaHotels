@@ -9,7 +9,7 @@ export declare class PaymentTransaction {
     patrModifiedDate: Date | null;
     patrOrderNumber: string | null;
     patrTrxNumberRef: string | null;
-    patrSourceId: number | null;
-    patrTargetId: number | null;
+    patrSourceId: string | null;
+    patrTargetId: string | null;
     patrUser: Users;
 }

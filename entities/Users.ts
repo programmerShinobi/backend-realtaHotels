@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { BookingOrders } from "./BookingOrders";
+import { Employee } from "./Employee";
 import { FacilityPriceHistory } from "./FacilityPriceHistory";
 import { HotelReviews } from "./HotelReviews";
 import { OrderMenus } from "./OrderMenus";
@@ -76,6 +77,9 @@ export class Users {
 
   @OneToMany(() => BookingOrders, (bookingOrders) => bookingOrders.boorUser)
   bookingOrders: BookingOrders[];
+
+  @OneToMany(() => Employee, (employee) => employee.empUser)
+  employees: Employee[];
 
   @OneToMany(
     () => FacilityPriceHistory,

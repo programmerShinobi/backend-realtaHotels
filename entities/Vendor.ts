@@ -1,17 +1,12 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, Index, OneToMany } from "typeorm";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
+import { VendorProduct } from "./VendorProduct";
 
-@Index("vendor_id_pk", ["vendorId"], { unique: true })
+@Index("vendor_entity_id_pk", ["vendorEntityId"], { unique: true })
 @Entity("vendor", { schema: "purchasing" })
 export class Vendor {
-  @PrimaryGeneratedColumn({ type: "integer", name: "vendor_id" })
-  vendorId: number;
+  @Column("integer", { primary: true, name: "vendor_entity_id" })
+  vendorEntityId: number;
 
   @Column("character varying", {
     name: "vendor_name",
@@ -20,11 +15,11 @@ export class Vendor {
   })
   vendorName: string | null;
 
-  @Column("integer", { name: "vendor_active", nullable: true })
-  vendorActive: number | null;
+  @Column("bit", { name: "vendor_active", nullable: true })
+  vendorActive: string | null;
 
-  @Column("integer", { name: "vendor_priority", nullable: true })
-  vendorPriority: number | null;
+  @Column("bit", { name: "vendor_priority", nullable: true })
+  vendorPriority: string | null;
 
   @Column("timestamp without time zone", {
     name: "vendor_register_date",
@@ -33,16 +28,15 @@ export class Vendor {
   vendorRegisterDate: Date | null;
 
   @Column("character varying", {
-    name: "vendor_weburi",
+    name: "vendor_weburl",
     nullable: true,
     length: 1024,
   })
-  vendorWeburi: string | null;
+  vendorWeburl: string | null;
 
   @Column("timestamp without time zone", {
     name: "vendor_modified_date",
     nullable: true,
-    default: () => "now()",
   })
   vendorModifiedDate: Date | null;
 
@@ -51,4 +45,7 @@ export class Vendor {
     (purchaseOrderHeader) => purchaseOrderHeader.poheVendor
   )
   purchaseOrderHeaders: PurchaseOrderHeader[];
+
+  @OneToMany(() => VendorProduct, (vendorProduct) => vendorProduct.veproVendor)
+  vendorProducts: VendorProduct[];
 }

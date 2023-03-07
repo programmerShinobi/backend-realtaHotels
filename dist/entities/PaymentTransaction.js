@@ -73,16 +73,15 @@ __decorate([
     __metadata("design:type", String)
 ], PaymentTransaction.prototype, "patrTrxNumberRef", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { name: "patr_source_id", nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)("numeric", { name: "patr_source_id", nullable: true }),
+    __metadata("design:type", String)
 ], PaymentTransaction.prototype, "patrSourceId", void 0);
 __decorate([
-    (0, typeorm_1.Column)("integer", { name: "patr_target_id", nullable: true }),
-    __metadata("design:type", Number)
+    (0, typeorm_1.Column)("numeric", { name: "patr_target_id", nullable: true }),
+    __metadata("design:type", String)
 ], PaymentTransaction.prototype, "patrTargetId", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => Users_1.Users, (users) => users.paymentTransactions, {
-        onDelete: "CASCADE",
         onUpdate: "CASCADE",
     }),
     (0, typeorm_1.JoinColumn)([{ name: "patr_user_id", referencedColumnName: "userId" }]),
