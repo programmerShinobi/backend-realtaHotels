@@ -10,7 +10,7 @@ export declare class bodyUpdateUserMembersDto {
     usmeMembName: string;
     usmePoints: number;
     usmeId: number;
-    usmeType: string;
     userUser: number;
+    usmeType: string;
     usmePromoteDate: Date;
 }

@@ -64,7 +64,7 @@ __decorate([
 ], bodyUpdateUserMembersDto.prototype, "usmeType", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Number)
-], bodyUpdateUserMembersDto.prototype, "userUser", void 0);
+    __metadata("design:type", Date)
+], bodyUpdateUserMembersDto.prototype, "usmePromoteDate", void 0);
 exports.bodyUpdateUserMembersDto = bodyUpdateUserMembersDto;
 //# sourceMappingURL=usermembers.dto.js.map

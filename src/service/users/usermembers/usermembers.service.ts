@@ -98,6 +98,7 @@ export class UsermembersService {
         const now = new Date();
         return await this.userMembersRepository.update(id, {
             usmeId: data.usmeId,
+            usmeUser: data.usmeUser,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,

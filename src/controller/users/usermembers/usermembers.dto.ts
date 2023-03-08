@@ -41,13 +41,13 @@ export class bodyUpdateUserMembersDto {
     @IsNumber()
     usmePoints: number;
     usmeId: number;
+    userUser: number;
     
     @IsNotEmpty()
     @IsEnum(Type)
     usmeType: string;
 
     @IsEmpty()
-    userUser: number;
     usmePromoteDate: Date;
 
 }
