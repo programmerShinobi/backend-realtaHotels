@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bodyUserBonusPoints = void 0;
+exports.bodyUserBonusPointsUpdate = exports.bodyUserBonusPoints = void 0;
 const class_validator_1 = require("class-validator");
 class bodyUserBonusPoints {
 }
@@ -19,7 +19,18 @@ __decorate([
 ], bodyUserBonusPoints.prototype, "ubpoTotalPoints", void 0);
 __decorate([
     (0, class_validator_1.IsEmpty)(),
-    __metadata("design:type", Object)
-], bodyUserBonusPoints.prototype, "ubpoUser", void 0);
+    __metadata("design:type", Number)
+], bodyUserBonusPoints.prototype, "ubpoId", void 0);
 exports.bodyUserBonusPoints = bodyUserBonusPoints;
+class bodyUserBonusPointsUpdate {
+}
+__decorate([
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], bodyUserBonusPointsUpdate.prototype, "ubpoTotalPoints", void 0);
+__decorate([
+    (0, class_validator_1.IsEmpty)(),
+    __metadata("design:type", Date)
+], bodyUserBonusPointsUpdate.prototype, "ubpoCreateOn", void 0);
+exports.bodyUserBonusPointsUpdate = bodyUserBonusPointsUpdate;
 //# sourceMappingURL=userbonuspoints.dto.js.map

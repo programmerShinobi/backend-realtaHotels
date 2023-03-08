@@ -1,5 +1,5 @@
 import { UserbonuspointsService } from 'src/service/users/userbonuspoints/userbonuspoints.service';
-import { bodyUserBonusPoints } from './userbonuspoints.dto';
+import { bodyUserBonusPoints, bodyUserBonusPointsUpdate } from './userbonuspoints.dto';
 export declare class UserbonuspointsController {
     private userBonusPointsService;
     constructor(userBonusPointsService: UserbonuspointsService);
@@ -13,4 +13,15 @@ export declare class UserbonuspointsController {
         message: any;
         error: any;
     }>;
+    updateUserBonusPoints(params: any, body: bodyUserBonusPointsUpdate): Promise<{
+        message: string;
+        results: any;
+    } | {
+        message: any;
+        error: any;
+    } | {
+        message: any;
+        error: any;
+    }>;
+    deleteUserMembers(params: any): Promise<any>;
 }

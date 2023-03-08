@@ -68,7 +68,7 @@ let UserbonuspointsService = class UserbonuspointsService {
             }
             return {
                 message: 'Data displayed successfully',
-                resutls: result
+                results: result
             };
         }).catch((err) => {
             return {
@@ -80,6 +80,7 @@ let UserbonuspointsService = class UserbonuspointsService {
     async createUserBonusPoints(data) {
         const now = new Date();
         return await this.userBonusRepository.save({
+            ubpoUser: data.ubpoUser,
             ubpoTotalPoints: data.ubpoTotalPoints,
             ubpoBonusType: data.ubpoBonusType,
             ubpoCreatedOn: now
@@ -90,6 +91,56 @@ let UserbonuspointsService = class UserbonuspointsService {
             return {
                 message: 'Data inserted successfully',
                 results: result
+            };
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async updateUserBonusPoints(id, data) {
+        return await this.userBonusRepository.update(id, {
+            ubpoId: data.ubpoId,
+            ubpoUser: data.ubpoUser,
+            ubpoTotalPoints: data.ubpoTotalPoints,
+            ubpoBonusType: data.ubpoBonusType,
+        }).then((result) => {
+            if (!result) {
+                throw new common_1.BadRequestException('Data insert failed');
+            }
+            return this.userBonusRepository.find({
+                relations: ['ubpoUser'],
+                where: { ubpoId: id }
+            }).then((resultUpdated) => {
+                if (!resultUpdated) {
+                    throw new common_1.NotFoundException('Data not found updated');
+                }
+                return {
+                    message: 'Data updated successfully',
+                    results: resultUpdated
+                };
+            }).catch((err) => {
+                return {
+                    message: err.message,
+                    error: err.name
+                };
+            });
+        }).catch((err) => {
+            return {
+                message: err.message,
+                error: err.name
+            };
+        });
+    }
+    async deleteUserBonusPoints(id) {
+        return await this.userBonusRepository.delete(id)
+            .then((result) => {
+            if (!result.affected) {
+                throw new common_1.NotFoundException('Data not found');
+            }
+            return {
+                message: `Data deleted with ID : ${id} successfully`
             };
         }).catch((err) => {
             return {

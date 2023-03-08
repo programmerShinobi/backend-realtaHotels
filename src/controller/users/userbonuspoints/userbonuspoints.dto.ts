@@ -5,8 +5,19 @@ export class bodyUserBonusPoints{
     ubpoTotalPoints: number;
     ubpoBonusType: string;
     ubpoCreateOn: Date
+    ubpoUser: any;
     
     @IsEmpty()
+    ubpoId: number;
+}
+
+export class bodyUserBonusPointsUpdate{
+    @IsNotEmpty()
+    ubpoTotalPoints: number;
+    ubpoBonusType: string;
     ubpoUser: any;
     ubpoId: number;
+    
+    @IsEmpty()
+    ubpoCreateOn: Date
 }
