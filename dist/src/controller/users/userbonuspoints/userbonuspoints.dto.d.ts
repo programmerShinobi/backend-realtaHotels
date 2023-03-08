@@ -5,3 +5,10 @@ export declare class bodyUserBonusPoints {
     ubpoUser: any;
     ubpoId: number;
 }
+export declare class bodyUserBonusPointsUpdate {
+    ubpoTotalPoints: number;
+    ubpoBonusType: string;
+    ubpoUser: any;
+    ubpoId: number;
+    ubpoCreateOn: Date;
+}

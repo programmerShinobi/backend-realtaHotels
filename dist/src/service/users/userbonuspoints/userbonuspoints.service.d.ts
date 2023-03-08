@@ -13,4 +13,15 @@ export declare class UserbonuspointsService {
         message: any;
         error: any;
     }>;
+    updateUserBonusPoints(id: number, data: UserBonusPoints): Promise<{
+        message: string;
+        results: any;
+    } | {
+        message: any;
+        error: any;
+    } | {
+        message: any;
+        error: any;
+    }>;
+    deleteUserBonusPoints(id: any): Promise<any>;
 }

@@ -32,6 +32,12 @@ let UserbonuspointsController = class UserbonuspointsController {
     createUserBonusPoints(body) {
         return this.userBonusPointsService.createUserBonusPoints(body);
     }
+    updateUserBonusPoints(params, body) {
+        return this.userBonusPointsService.updateUserBonusPoints(params.id, body);
+    }
+    deleteUserMembers(params) {
+        return this.userBonusPointsService.deleteUserBonusPoints(params.id);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -59,6 +65,21 @@ __decorate([
     __metadata("design:paramtypes", [userbonuspoints_dto_1.bodyUserBonusPoints]),
     __metadata("design:returntype", void 0)
 ], UserbonuspointsController.prototype, "createUserBonusPoints", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, userbonuspoints_dto_1.bodyUserBonusPointsUpdate]),
+    __metadata("design:returntype", void 0)
+], UserbonuspointsController.prototype, "updateUserBonusPoints", null);
+__decorate([
+    (0, common_1.Delete)(':id'),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserbonuspointsController.prototype, "deleteUserMembers", null);
 UserbonuspointsController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('userbonuspoints'),
