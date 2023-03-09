@@ -5,19 +5,9 @@ import { TransactionService } from 'src/service/payment/transaction/transaction.
 @Controller('transaction')
 export class TransactionController {
     constructor(private paymentTransactionService: TransactionService) { }
-    
-    @Get()
-    async findAllTransactions() {
-        return await this.paymentTransactionService.find()
-    }
 
     @Get('filter?')
-    async findByFilter(@Query() filter: {
-        page?: number;
-        limit?: number;
-        transactionType?: string;
-        transactionNumber?: string;
-    }) {
+    async findByFilter(@Query() filter: any) {
         return await this.paymentTransactionService.find(filter);
     }
 

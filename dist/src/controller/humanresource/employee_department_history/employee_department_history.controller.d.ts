@@ -2,5 +2,13 @@ import { EmployeeDepartmentHistoryService } from 'src/service/humanresource/empl
 export declare class EmployeeDepartmentHistoryController {
     private readonly employeeDepartmentHistoryService;
     constructor(employeeDepartmentHistoryService: EmployeeDepartmentHistoryService);
-    findAllEmployee(param: any): Promise<any>;
+    findAllEmployeeDepartmentHistorys(query: any): Promise<any>;
+    findAllEmployeeDepartmentHistory(edhiEmp: any): Promise<any>;
+    createEmployeeDepartmentHistory(body: any): Promise<any>;
+    updateEmployeeDepartmentHistory(id: number, body: any): Promise<any>;
+    deleteEmployeeDepartmentHistory(query: any): Promise<{
+        message: string;
+        result: any;
+    }>;
+    paginationEmployeeDepartmentHistory(query: any): Promise<any>;
 }

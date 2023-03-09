@@ -180,7 +180,7 @@ DECLARE
 	HotelName text;
 
     RealtaUserID int := (
-        SELECT "userId" FROM payment.user_payment_methods WHERE accountNumber = TargetNumber
+        SELECT DISTINCT "userId" FROM payment.user_payment_methods WHERE accountNumber = TargetNumber
     );
 
 BEGIN
@@ -304,7 +304,7 @@ DECLARE
 	Note text;
 
     RealtaUserID int := (
-        SELECT "userId" FROM payment.user_payment_methods WHERE "fullName" = 'Realta Group'
+        SELECT DISTINCT "userId" FROM payment.user_payment_methods WHERE "fullName" = 'Realta Group'
     );
 
 BEGIN

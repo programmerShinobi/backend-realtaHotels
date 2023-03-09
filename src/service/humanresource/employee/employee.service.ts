@@ -17,13 +17,12 @@ export class EmployeeService {
   constructor(
     @InjectRepository(Employee)
     private employeeRepository: Repository<Employee>,
-    private readonly httpService: HttpService,
   ) {}
 
   // Method untuk menampilkan semua data employee
   async findAllEmployee(): Promise<any> {
     return await this.employeeRepository.query(
-      'select * from getAllEmployee()',
+      'select * from humanresource.getAllEmployee()',
     );
   } 
 
@@ -83,8 +82,6 @@ export class EmployeeService {
         empId,
       ]
     );
-    
-     
   }
 
   //   method untuk menghapus data Employee
@@ -108,7 +105,6 @@ export class EmployeeService {
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    let urlImage = "";
 
     const storage = getStorage(app);
     /* generate name */

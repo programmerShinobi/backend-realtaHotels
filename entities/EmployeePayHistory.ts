@@ -1,15 +1,25 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Employee } from "./Employee";
 
-@Index("employee_pay_history_pkey", ["ephiRateChangeDate"], { unique: true })
+@Index("employee_pay_history_pkey", ["ephiId"], { unique: true })
 @Entity("employee_pay_history", { schema: "humanresource" })
 export class EmployeePayHistory {
+  @PrimaryGeneratedColumn({ type: "integer", name: "ephi_id" })
+  ephiId: number;
+
   @Column("timestamp without time zone", {
-    primary: true,
     name: "ephi_rate_change_date",
+    nullable: true,
     default: () => "now()",
   })
-  ephiRateChangeDate: Date;
+  ephiRateChangeDate: Date | null;
 
   @Column("money", { name: "ephi_rate_salary", nullable: true })
   ephiRateSalary: string | null;

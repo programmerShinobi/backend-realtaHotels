@@ -5,8 +5,8 @@ export class BankDto {
   bankCode: string;
 
   @IsNotEmpty()
-  bankName: string;
+  bankName?: string;
 
   @IsOptional()
-  bankModifiedDate: string;
+  bankModifiedDate?: string;
 }

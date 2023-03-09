@@ -87,7 +87,7 @@ export class UserAccountsService {
     const salt = bcrypt.genSaltSync(10);
     const hashedKey = bcrypt.hashSync(newData.securedKey, salt);
 
-    // Check account type
+    // Check account type, if payment type is bank
     if (!AccountType.fintech.includes(newData.paymentName)) {
       // Return an error if bank expiry date is null
       if (newData.expMonth == null || newData.expYear == null) {
@@ -99,7 +99,7 @@ export class UserAccountsService {
     return await this.UserAccountsRepository.query(
       `CALL payment.InsertUserAccount($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
       [
-        newData.userId,
+        +newData.userId,
         newData.paymentType,
         newData.cardHolderName,
         hashedKey,

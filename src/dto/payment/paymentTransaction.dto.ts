@@ -2,23 +2,23 @@ import { IsOptional, IsNotEmpty } from 'class-validator';
 
 export class PaymentTransactionDto {
     @IsNotEmpty()
-    userId: number;
+    userId?: number;
     
     @IsOptional()
-    orderNumber: string;
+    orderNumber?: string;
 
     @IsOptional()
-    paymentType: string;
+    paymentType?: string;
 
     @IsOptional()
-    transactionType: string;
+    transactionType?: string;
     
     @IsNotEmpty()
-    amount: number;
+    amount?: number;
 
     @IsNotEmpty()
-    sourceNumber: string;
+    sourceNumber?: string;
 
     @IsNotEmpty()
-    targetNumber: string;
+    targetNumber?: string;
 }

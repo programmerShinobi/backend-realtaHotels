@@ -77,7 +77,7 @@ let UserAccountsService = class UserAccountsService {
             }
         }
         return await this.UserAccountsRepository.query(`CALL payment.InsertUserAccount($1, $2, $3, $4, $5, $6, $7, $8, $9)`, [
-            newData.userId,
+            +newData.userId,
             newData.paymentType,
             newData.cardHolderName,
             hashedKey,

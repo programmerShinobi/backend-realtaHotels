@@ -17,12 +17,95 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const EmployeeDepartmentHistory_1 = require("../../../../entities/EmployeeDepartmentHistory");
 const typeorm_2 = require("typeorm");
+let date = new Date();
+let year = date.getFullYear();
+let month = String(date.getMonth() + 1).padStart(2, '0');
+let day = String(date.getDate()).padStart(2, '0');
+let hours = String(date.getHours()).padStart(2, '0');
+let minutes = String(date.getMinutes()).padStart(2, '0');
+let seconds = String(date.getSeconds()).padStart(2, '0');
+let formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 let EmployeeDepartmentHistoryService = class EmployeeDepartmentHistoryService {
     constructor(employeeDepartmentHistoryRepository) {
         this.employeeDepartmentHistoryRepository = employeeDepartmentHistoryRepository;
+        this.paginateResponse = (data, page, limit) => {
+            const [result, total] = data;
+            const lastPage = Math.ceil(total / limit);
+            const nextPage = parseInt(page) + 1 > lastPage ? null : parseInt(page) + 1;
+            const prevPage = parseInt(page) - 1 < 1 ? null : parseInt(page) - 1;
+            return {
+                statusCode: 'success',
+                data: [...result],
+                count: total,
+                currentPage: page,
+                nextPage: nextPage,
+                prevPage: prevPage,
+                lastPage: lastPage,
+            };
+        };
     }
-    async findAllEmployeeDepartmentHistory(data) {
-        return await this.employeeDepartmentHistoryRepository.query('getAllEmployeeDepartmentHistory($1)', [data.empId]);
+    ucwords(str) {
+        return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+            return $1.toUpperCase();
+        });
+    }
+    async findAllEmployeeDepartmentHistory(edhiEmp) {
+        return await this.employeeDepartmentHistoryRepository.query('select * from humanresource.getAllEmployeeDepartmentHistory($1)', [edhiEmp.edhiEmp]);
+    }
+    async findOneEmployeeDepartmentHistory(edhiId) {
+        return await this.employeeDepartmentHistoryRepository.findOne({
+            where: { edhiId: edhiId },
+        });
+    }
+    async createEmployeeDepartmentHistory(data) {
+        await this.employeeDepartmentHistoryRepository.insert({
+            edhiStartDate: data.edhiStartDate,
+            edhiEndDate: data.edhiEndDate,
+            edhiEmp: data.edhiEmp,
+            edhiDept: data.deptId,
+            edhiShift: data.shiftId,
+        });
+        const res = await this.paginationEmployeeDepartmentHistory(data);
+        return res;
+    }
+    async updateEmployeeDepartmentHistory(edhiId, data) {
+        await this.employeeDepartmentHistoryRepository.update({
+            edhiId: edhiId,
+        }, {
+            edhiStartDate: data.edhiStartDate,
+            edhiEndDate: data.edhiEndDate,
+            edhiEmp: data.edhiEmp,
+            edhiDept: data.deptId,
+            edhiShift: data.shiftId,
+        });
+        const res = await this.paginationEmployeeDepartmentHistory(data);
+        return res;
+    }
+    async deleteEmployeeDepartmentHistory(data) {
+        await this.employeeDepartmentHistoryRepository.delete({
+            edhiId: data.edhiId,
+        });
+        const res = await this.paginationEmployeeDepartmentHistory(data);
+        return res;
+    }
+    async paginationEmployeeDepartmentHistory(query) {
+        const limit = (query === null || query === void 0 ? void 0 : query.limit) || 10;
+        const page = (query === null || query === void 0 ? void 0 : query.page) || 1;
+        const skip = (page - 1) * limit;
+        const keyword = (query === null || query === void 0 ? void 0 : query.keyword) || '';
+        const edhiEmp = query === null || query === void 0 ? void 0 : query.edhiEmp;
+        const data = await this.employeeDepartmentHistoryRepository.findAndCount({
+            relations: ['edhiEmp', 'edhiDept', 'edhiShift'],
+            where: {
+                edhiEmp: {
+                    empId: edhiEmp,
+                },
+            },
+            order: { edhiId: 'ASC' },
+            take: limit,
+            skip: skip,
+        });
+        return this.paginateResponse(data, page, limit);
     }
 };
 EmployeeDepartmentHistoryService = __decorate([

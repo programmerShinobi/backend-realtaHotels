@@ -53,8 +53,22 @@ let EmployeeController = class EmployeeController {
         }
     }
     async updateEmployee(id, body) {
-        console.log("id", id, "type :", typeof id);
-        console.log("body", body);
+        const checkEmployee = await this.employeeService.findOneEmployee({
+            empId: id,
+        });
+        if (checkEmployee) {
+            const result = await this.employeeService.updateEmployee(id, body);
+            if (result) {
+                const getAll = await this.employeeService.findAllEmployee();
+                return { message: 'Employee updated successfully', result: getAll };
+            }
+            else {
+                throw new exceptions_1.HttpException({ message: 'Employee updated failed', err: result }, enums_1.HttpStatus.CONFLICT);
+            }
+        }
+        else {
+            throw new exceptions_1.HttpException({ message: 'Employee not found' }, enums_1.HttpStatus.CONFLICT);
+        }
     }
     async deleteEmployee(id) {
         const getOneData = await this.employeeService.findOneEmployee(id);

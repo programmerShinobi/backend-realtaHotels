@@ -21,9 +21,6 @@ let PriceItemsController = class PriceItemsController {
     }
     async getAll() {
         const hasil = await this.PriceItemsRepository.getAll();
-        console.log({
-            hasil: hasil
-        });
         return hasil;
     }
     async getById(Param) {

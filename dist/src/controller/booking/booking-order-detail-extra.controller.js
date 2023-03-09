@@ -34,6 +34,9 @@ let BookingOrderDetailExtraController = class BookingOrderDetailExtraController 
     remove(params) {
         return this.bookingorderdetailextraService.deleteBookingOrderDetailExtra(params.id);
     }
+    createExtraMultiple(body) {
+        return this.bookingorderdetailextraService.createExtraMultiple(body);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -70,6 +73,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], BookingOrderDetailExtraController.prototype, "remove", null);
+__decorate([
+    (0, common_1.Post)('createBoexArray'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], BookingOrderDetailExtraController.prototype, "createExtraMultiple", null);
 BookingOrderDetailExtraController = __decorate([
     (0, common_1.Controller)('booking-order-detail-extra'),
     __metadata("design:paramtypes", [booking_order_detail_extra_service_1.BookingOrderDetailExtraService])
