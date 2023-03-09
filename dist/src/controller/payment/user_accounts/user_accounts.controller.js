@@ -47,7 +47,6 @@ let UserAccountsController = class UserAccountsController {
         }
     }
     async addAccount(body) {
-        console.log('data di controller', body);
         return await this.userAccountsService.create(body);
     }
     async updateAccount(accountNumber, body) {

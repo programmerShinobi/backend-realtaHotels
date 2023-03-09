@@ -1,9 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentTransaction } from 'entities/PaymentTransaction';
 import e from 'express';
 import { PaymentTransactionDto } from 'src/dto/payment/paymentTransaction.dto';
+import { PaginationOptions } from 'src/lib/types';
 import { Repository } from 'typeorm';
+
+type TransactionWithPagination = PaginationOptions & PaymentTransactionDto
 
 @Injectable()
 export class TransactionService { 
@@ -12,19 +15,22 @@ export class TransactionService {
         private paymentTransactionRepository: Repository<PaymentTransaction>
     ) {}
 
-    async find(query?: {
-        page?: number;
-        limit?: number;
-        transactionType?: string;
-        transactionNumber?: string;
-    }) {
+    async find(query?: TransactionWithPagination) {
         const page = query?.page || 1
         const limit = query?.limit || 10 // data shown per page
         const offset = (page - 1) * limit || 0 // data skipped
+        const totalData = await this.paymentTransactionRepository.count()
         
         // Filtering keyword for `transactionType` and `transactionNumber`
         // If query params includes `transactionType` or `transactionNumber` params,
-        const filter = Object.entries(query).filter(([key, value]) => key === "transactionType" || key === "transactionNumber" || key === "userFullName")
+        const filter = Object.entries(query).filter(
+            ([key, value]) =>
+                key === "transactionType" ||
+                key === "transactionNumber" ||
+                key === "userFullName" ||
+                key === "orderNumber" ||
+                key === "userId"
+        )
         
         const stringQuery = `
         SELECT * FROM payment.user_transactions
@@ -36,25 +42,35 @@ export class TransactionService {
         `
 
         for (let [key, value] of filter) {
+            const comparator = Number.isInteger(+value) ? '=' : 'LIKE'
+            value = Number.isInteger(+value) ? value : `'%${value.toLowerCase()}%'`
+
             filter.length == 0 ? "" :
-                (filter.length > 1) ? condition += `LOWER("${key}") LIKE LOWER('%${value}%') AND ` : 
-                    condition += `WHERE LOWER("${key}") LIKE LOWER('%${value}%')`
+                (filter.length > 1) ? condition += `"${key}" ${comparator} ${value} OR ` : 
+                    condition += `WHERE "${key}" ${comparator} ${value}`
         }
-        // If condition is more than one, `AND` on the back is deleted.
+
+        // If condition is more than one, `OR` on the back is deleted.
         condition = filter.length > 1 ? condition.slice(0, -5) : condition
 
-        // console.log (stringQuery + condition + setting)
+        console.log( stringQuery + condition + setting)
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
                 return {
-                    data: result,
+                    page: page,
+                    totalTrx: totalData,
                     total: result.length,
-                    message: "Fetch transaction data succeed! :-)"
+                    result: result,
+                    lastPage: Math.ceil(totalData/limit),
+                    message: result.length !== 0 ? "Fetch transaction data succeed! :-)" : "Transaction data is not found!",
+                    status: result.length!==0 ? HttpStatus.OK : HttpStatus.NOT_FOUND
                 }
             })
             .catch(err => {
                 return {
-                    message: "Error in fetching transaction data, " + err.message
+                    result: [],
+                    message: "Error in fetching transaction data, " + err.message,
+                    status: HttpStatus.BAD_REQUEST
                 }
             })
     }
@@ -78,13 +94,19 @@ export class TransactionService {
                     newTransaction.amount,
                     newTransaction.sourceNumber,
                     newTransaction.targetNumber,
-                ]
-            ).then(() => {
-                return this.paymentTransactionRepository.find()
-            })
-            .catch((err) => {
-                return "There's an error in adding new payment transaction, " + err
-            })
+                ])
+                .then(() => {
+                    return {
+                        message: `Transaction ${newTransaction.transactionType} has been added!`,
+                        status: HttpStatus.OK
+                    }
+                })
+                .catch((err) => {
+                    return {
+                        message: "ERROR adding new transaction data, " + err.message,
+                        status: HttpStatus.BAD_REQUEST
+                    }
+                })
         
         // Orders
         } else {
@@ -94,14 +116,24 @@ export class TransactionService {
                     newTransaction.userId, 
                     newTransaction.orderNumber,
                     newTransaction.amount,
-                    0,
-                    0,
+                    newTransaction.sourceNumber,
+                    newTransaction.targetNumber,
                 ])
-                .then(() => {
-                    return this.paymentTransactionRepository.find()
+                .then(async () => {
+                    const newTransactionData = await this.find({
+                        orderNumber: newTransaction.orderNumber
+                    })
+                    return {
+                        result: newTransactionData.result,
+                        message: `Transaction for order number ${newTransaction.orderNumber} has been added!`,
+                        status: HttpStatus.OK
+                    }
                 })
                 .catch((err) => {
-                    return "There's an error in adding new booking payment transaction, " + err
+                    return {
+                        message: "There's an error in adding new booking payment transaction, " + err,
+                        status: HttpStatus.BAD_REQUEST
+                    }
                 })
         }
     }

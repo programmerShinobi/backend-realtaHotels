@@ -25,7 +25,12 @@ let TransactionService = class TransactionService {
         const page = (query === null || query === void 0 ? void 0 : query.page) || 1;
         const limit = (query === null || query === void 0 ? void 0 : query.limit) || 10;
         const offset = (page - 1) * limit || 0;
-        const filter = Object.entries(query).filter(([key, value]) => key === "transactionType" || key === "transactionNumber" || key === "userFullName");
+        const totalData = await this.paymentTransactionRepository.count();
+        const filter = Object.entries(query).filter(([key, value]) => key === "transactionType" ||
+            key === "transactionNumber" ||
+            key === "userFullName" ||
+            key === "orderNumber" ||
+            key === "userId");
         const stringQuery = `
         SELECT * FROM payment.user_transactions
         `;
@@ -35,22 +40,31 @@ let TransactionService = class TransactionService {
         OFFSET ${offset} LIMIT ${limit}
         `;
         for (let [key, value] of filter) {
+            const comparator = Number.isInteger(+value) ? '=' : 'LIKE';
+            value = Number.isInteger(+value) ? value : `'%${value.toLowerCase()}%'`;
             filter.length == 0 ? "" :
-                (filter.length > 1) ? condition += `LOWER("${key}") LIKE LOWER('%${value}%') AND ` :
-                    condition += `WHERE LOWER("${key}") LIKE LOWER('%${value}%')`;
+                (filter.length > 1) ? condition += `"${key}" ${comparator} ${value} OR ` :
+                    condition += `WHERE "${key}" ${comparator} ${value}`;
         }
         condition = filter.length > 1 ? condition.slice(0, -5) : condition;
+        console.log(stringQuery + condition + setting);
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
             return {
-                data: result,
+                page: page,
+                totalTrx: totalData,
                 total: result.length,
-                message: "Fetch transaction data succeed! :-)"
+                result: result,
+                lastPage: Math.ceil(totalData / limit),
+                message: result.length !== 0 ? "Fetch transaction data succeed! :-)" : "Transaction data is not found!",
+                status: result.length !== 0 ? common_1.HttpStatus.OK : common_1.HttpStatus.NOT_FOUND
             };
         })
             .catch(err => {
             return {
-                message: "Error in fetching transaction data, " + err.message
+                result: [],
+                message: "Error in fetching transaction data, " + err.message,
+                status: common_1.HttpStatus.BAD_REQUEST
             };
         });
     }
@@ -68,11 +82,18 @@ let TransactionService = class TransactionService {
                 newTransaction.amount,
                 newTransaction.sourceNumber,
                 newTransaction.targetNumber,
-            ]).then(() => {
-                return this.paymentTransactionRepository.find();
+            ])
+                .then(() => {
+                return {
+                    message: `Transaction ${newTransaction.transactionType} has been added!`,
+                    status: common_1.HttpStatus.OK
+                };
             })
                 .catch((err) => {
-                return "There's an error in adding new payment transaction, " + err;
+                return {
+                    message: "ERROR adding new transaction data, " + err.message,
+                    status: common_1.HttpStatus.BAD_REQUEST
+                };
             });
         }
         else {
@@ -80,14 +101,24 @@ let TransactionService = class TransactionService {
                 newTransaction.userId,
                 newTransaction.orderNumber,
                 newTransaction.amount,
-                0,
-                0,
+                newTransaction.sourceNumber,
+                newTransaction.targetNumber,
             ])
-                .then(() => {
-                return this.paymentTransactionRepository.find();
+                .then(async () => {
+                const newTransactionData = await this.find({
+                    orderNumber: newTransaction.orderNumber
+                });
+                return {
+                    result: newTransactionData.result,
+                    message: `Transaction for order number ${newTransaction.orderNumber} has been added!`,
+                    status: common_1.HttpStatus.OK
+                };
             })
                 .catch((err) => {
-                return "There's an error in adding new booking payment transaction, " + err;
+                return {
+                    message: "There's an error in adding new booking payment transaction, " + err,
+                    status: common_1.HttpStatus.BAD_REQUEST
+                };
             });
         }
     }

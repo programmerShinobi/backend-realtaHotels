@@ -48,9 +48,11 @@ import { UserPassword } from 'entities/UserPassword';
 import { UserProfiles } from 'entities/UserProfiles';
 import { UserRoles } from 'entities/UserRoles';
 import { Users } from 'entities/Users';
-import { Vendor } from 'entities/Vendor';
-import { WorkOrderDetail } from 'entities/WorkOrderDetail';
-import { WorkOrders } from 'entities/WorkOrders';
+import { FacilityController } from 'src/controller/hotel/facility.controller';
+import { FacilityPhotosController } from 'src/controller/hotel/facility_photos.controller';
+import { FacilityPriceHistoryController } from 'src/controller/hotel/facility_price_history.controller';
+import { HotelController } from 'src/controller/hotel/hotel.controller';
+import { HotelReviewController } from 'src/controller/hotel/hotel_review.controller';
 import { DepartmentController } from 'src/controller/humanresource/department/department.controller';
 import { EmployeeController } from 'src/controller/humanresource/employee/employee.controller';
 import { EmployeeDepartmentHistoryController } from 'src/controller/humanresource/employee_department_history/employee_department_history.controller';
@@ -73,6 +75,11 @@ import { UserpasswordController } from 'src/controller/users/userpassword/userpa
 import { UserprofilesController } from 'src/controller/users/userprofiles/userprofiles.controller';
 import { UserrolesController } from 'src/controller/users/userroles/userroles.controller';
 import { UsersController } from 'src/controller/users/users/users.controller';
+import { FacilityService } from 'src/service/hotel/facility.service';
+import { FacilityPhotosService } from 'src/service/hotel/facility_photos.service';
+import { FacilityPriceHistoryService } from 'src/service/hotel/facility_price_history.service';
+import { HotelService } from 'src/service/hotel/hotel.service';
+import { HotelReviewService } from 'src/service/hotel/hotel_review.service';
 import { DepartmentService } from 'src/service/humanresource/department/department.service';
 import { EmployeeService } from 'src/service/humanresource/employee/employee.service';
 import { EmployeeDepartmentHistoryService } from 'src/service/humanresource/employee_department_history/employee_department_history.service';
@@ -115,6 +122,37 @@ import { PriceItemsService } from 'src/service/master/price_items/price_items.se
 import { ProvincesService } from 'src/service/master/provinces/provinces.service';
 import { RegionService } from 'src/service/master/region/region.service';
 import { ServiceTaskService } from 'src/service/master/service_task/service_task.service';
+import { Vendor } from 'entities/Vendor';
+import { WorkOrderDetail } from 'entities/WorkOrderDetail';
+import { WorkOrders } from 'entities/WorkOrders';
+import { Entities } from 'entities/Entities';
+import { SpecialOffersController } from 'src/controller/booking/special_offers.controller';
+import { BookingOrderDetailController } from 'src/controller/booking/booking-order-detail.controller';
+import { BookingOrderDetailExtraController } from 'src/controller/booking/booking-order-detail-extra.controller';
+import { SpecialOfferCouponController } from 'src/controller/booking/special-offer-coupon.controller';
+import { UserBreakfeastController } from 'src/controller/booking/user-breakfeast.controller';
+import { BookingOrdersController } from 'src/controller/booking/booking-orders.controller';
+import { SpecialOffersService } from 'src/service/booking/special_offers.service';
+import { SpecialOfferCouponsService } from 'src/service/booking/special-offer-coupons.service';
+import { BookingOrdersService } from 'src/service/booking/booking-orders.service';
+import { BookingOrderDetailService } from 'src/service/booking/booking-order-detail.service';
+import { BookingOrderDetailExtraService } from 'src/service/booking/booking-order-detail-extra.service';
+import { UserBreakfeastService } from 'src/service/booking/user-breakfeast.service';
+import { StocksController } from 'src/controller/Purchasing/stocks/stocks.controller';
+import { StockPhotoController } from 'src/controller/Purchasing/stock-photo/stock-photo.controller';
+import { StockDetailController } from 'src/controller/Purchasing/stock-detail/stock-detail.controller';
+import { PurchaseOrderDetailController } from 'src/controller/Purchasing/purchase-order-detail/purchase-order-detail.controller';
+import { PurchaseOrderHeaderController } from 'src/controller/Purchasing/purchase-order-header/purchase-order-header.controller';
+import { VendorController } from 'src/controller/Purchasing/vendor/vendor.controller';
+import { VendorProductController } from 'src/controller/Purchasing/vendor-product/vendor-product.controller';
+import { VendorProduct } from 'entities/VendorProduct';
+import { PurchaseOrderDetailService } from 'src/service/purchasing/purchase-order-detail/purchase-order-detail.service';
+import { PurchaseOrderHeaderService } from 'src/service/purchasing/purchase-order-header/purchase-order-header.service';
+import { StockDetailService } from 'src/service/purchasing/stock-detail/stock-detail.service';
+import { StocksService } from 'src/service/purchasing/stocks/stocks.service';
+import { VendorService } from 'src/service/purchasing/vendor/vendor.service';
+import { VendorProductService } from 'src/service/purchasing/vendor-product/vendor-product.service';
+import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-photo.service';
 
 @Module({
   imports: [
@@ -128,6 +166,7 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
       CategoryGroup,
       Country,
       Department,
+      Entities,
       Employee,
       EmployeeDepartmentHistory,
       EmployeePayHistory,
@@ -159,6 +198,7 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
       StockDetail,
       StockPhoto,
       Stocks,
+      StockDetail,
       UserAccounts,
       UserBonusPoints,
       UserBreakfeast,
@@ -168,11 +208,12 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
       UserRoles,
       Users,
       Vendor,
+      VendorProduct,
       WorkOrderDetail,
       WorkOrders,
     ]),
   ],
-
+  
   controllers: [
     /* HR */
     DepartmentController,
@@ -186,6 +227,11 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UploadController,
 
     /* HOTEL */
+    HotelController,
+    HotelReviewController,
+    FacilityPriceHistoryController,
+    FacilityController,
+    FacilityPhotosController,
 
     /* USERS */
     UsersController,
@@ -196,7 +242,15 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UserbonuspointsController,
     UsermembersController,
     UserprofilesController,
+
     /* BOOKING */
+    SpecialOffersController,
+    BookingOrderDetailController,
+    BookingOrderDetailExtraController,
+    SpecialOfferCouponController,
+    UserBreakfeastController,
+    BookingOrdersController,
+    
     /* RESTO */
 
     /* PAYMENT */
@@ -205,8 +259,17 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UserAccountsController,
     TransactionController,
     UserAccountAuthController,
-    
+
     /* PURCHASING */
+    StocksController,
+    StockPhotoController,
+    StockDetailController,
+    VendorController,
+    VendorProductController,
+    PurchaseOrderDetailController,
+    PurchaseOrderHeaderController,
+
+
     /* MASTER */
     RegionController,
     CountriesController,
@@ -232,6 +295,11 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UploadService,
 
     /* HOTEL */
+    HotelService,
+    HotelReviewService,
+    FacilityPriceHistoryService,
+    FacilityService,
+    FacilityPhotosService,
 
     /* USERS */
     UsersService,
@@ -242,9 +310,17 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UserbonuspointsService,
     UsermembersService,
     UserprofilesService,
+
     /* BOOKING */
+    SpecialOffersService,
+    SpecialOfferCouponsService,
+    BookingOrdersService,
+    BookingOrderDetailService,
+    BookingOrderDetailExtraService,
+    UserBreakfeastService,
+    
     /* RESTO */
-  
+
     /* PAYMENT */
     BankService,
     PaymentGateawayService,
@@ -253,8 +329,16 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     UserAccountAuthService,
 
     /* PURCHASING */
+    PurchaseOrderDetailService,
+    PurchaseOrderHeaderService,
+    StockDetailService,
+    StocksService,
+    StockPhotoService,
+    VendorService,
+    VendorProductService,
+
     /* MASTER */
-    
+
     RegionService,
     CountriesService,
     MembersService,
@@ -265,8 +349,7 @@ import { ServiceTaskService } from 'src/service/master/service_task/service_task
     AddressService,
     CategoryGroupService,
     ProvincesService,
-    ServiceTaskService
-
+    ServiceTaskService,
   ],
 })
 export class GlobalModule {}

@@ -20,28 +20,19 @@ let BankController = class BankController {
     constructor(bankService) {
         this.bankService = bankService;
     }
-    async findAllBank() {
-        return await this.bankService.find();
-    }
     async findByFilter(filter) {
         return await this.bankService.find(filter);
     }
-    async updateBank(id, body) {
-        return await this.bankService.update(id, body);
+    async updateBank(code, body) {
+        return await this.bankService.update(code, body);
     }
     async insertBank(body) {
         return await this.bankService.insert(body);
     }
-    async deleteBank(id) {
-        return await this.bankService.delete(id);
+    async deleteBank(code) {
+        return await this.bankService.delete(code);
     }
 };
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], BankController.prototype, "findAllBank", null);
 __decorate([
     (0, common_1.Get)('filter?'),
     __param(0, (0, common_1.Query)()),
@@ -50,11 +41,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BankController.prototype, "findByFilter", null);
 __decorate([
-    (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)(':code'),
+    __param(0, (0, common_1.Param)('code')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, bank_dto_1.BankDto]),
+    __metadata("design:paramtypes", [String, bank_dto_1.BankDto]),
     __metadata("design:returntype", Promise)
 ], BankController.prototype, "updateBank", null);
 __decorate([
@@ -65,10 +56,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], BankController.prototype, "insertBank", null);
 __decorate([
-    (0, common_1.Delete)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Delete)(':code'),
+    __param(0, (0, common_1.Param)('code')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], BankController.prototype, "deleteBank", null);
 BankController = __decorate([

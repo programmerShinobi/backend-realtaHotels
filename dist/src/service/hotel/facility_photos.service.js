@@ -75,36 +75,28 @@ let FacilityPhotosService = class FacilityPhotosService {
         };
         const app = (0, app_1.initializeApp)(firebaseConfig);
         const storage = (0, storage_1.getStorage)(app);
-        file &&
-            file.map(async (data, index) => {
-                const storageRef = (0, storage_1.ref)(storage, `image/${data.originalname}`);
-                let primary = '0';
-                if (index == 0) {
-                    primary = '1';
-                }
-                const metadata = {
-                    contentType: 'image/jpeg',
-                    name: data.originalname,
-                };
-                await (0, storage_1.uploadBytes)(storageRef, data.buffer, metadata)
-                    .then(async (snapshot) => {
-                    console.log('Uploaded a blob or file!');
-                })
-                    .catch((err) => {
-                    console.log(err);
-                });
-                (0, storage_1.getDownloadURL)(storageRef).then(async (url) => {
-                    console.log('url', url);
-                    const fileInfo = new FacilityPhotos_1.FacilityPhotos();
-                    fileInfo.faphoUrl = url;
-                    fileInfo.faphoPhotoFilename = data.originalname;
-                    fileInfo.faphoModifieldDate = new Date();
-                    fileInfo.faphoThumbnailFilename = `tumb ${data.originalname}`;
-                    fileInfo.faphoFaci = body.faphoFaci;
-                    fileInfo.faphoPrimary = primary;
-                    await this.repositoryFacPhotos.save(fileInfo);
-                });
-            });
+        const promises = file.map(async (data, index) => {
+            const storageRef = (0, storage_1.ref)(storage, `image/${data.originalname}`);
+            let primary = '0';
+            if (index == 0) {
+                primary = '1';
+            }
+            const metadata = {
+                contentType: 'image/jpeg',
+                name: data.originalname,
+            };
+            await (0, storage_1.uploadBytes)(storageRef, data.buffer, metadata);
+            const url = await (0, storage_1.getDownloadURL)(storageRef);
+            const fileInfo = new FacilityPhotos_1.FacilityPhotos();
+            fileInfo.faphoUrl = url;
+            fileInfo.faphoPhotoFilename = data.originalname;
+            fileInfo.faphoModifieldDate = new Date();
+            fileInfo.faphoThumbnailFilename = `tumb ${data.originalname}`;
+            fileInfo.faphoFaci = body.faphoFaci;
+            fileInfo.faphoPrimary = primary;
+            return this.repositoryFacPhotos.save(fileInfo);
+        });
+        await Promise.all(promises);
         const res = await this.repositoryFacPhotos.query('select * from hotel.facility_photos');
         return { result: res };
     }

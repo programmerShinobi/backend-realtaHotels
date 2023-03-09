@@ -19,18 +19,116 @@ let EmployeeDepartmentHistoryController = class EmployeeDepartmentHistoryControl
     constructor(employeeDepartmentHistoryService) {
         this.employeeDepartmentHistoryService = employeeDepartmentHistoryService;
     }
-    findAllEmployee(param) {
-        return this.employeeDepartmentHistoryService.findAllEmployeeDepartmentHistory(param);
+    async findAllEmployeeDepartmentHistorys(query) {
+        const result = await this.employeeDepartmentHistoryService.paginationEmployeeDepartmentHistory(query);
+        return result;
+    }
+    async findAllEmployeeDepartmentHistory(edhiEmp) {
+        const result = await this.employeeDepartmentHistoryService.findAllEmployeeDepartmentHistory(edhiEmp);
+        return result;
+    }
+    async createEmployeeDepartmentHistory(body) {
+        const result = await this.employeeDepartmentHistoryService.createEmployeeDepartmentHistory(body);
+        if (result) {
+            return {
+                message: 'EmployeeDepartmentHistory created successfully',
+                result: result,
+            };
+        }
+        else {
+            throw new common_1.HttpException('EmployeeDepartmentHistory created failed', common_1.HttpStatus.EXPECTATION_FAILED);
+        }
+    }
+    async updateEmployeeDepartmentHistory(id, body) {
+        const getOneData = await this.employeeDepartmentHistoryService.findOneEmployeeDepartmentHistory(id);
+        if (getOneData) {
+            const result = await this.employeeDepartmentHistoryService.updateEmployeeDepartmentHistory(id, body);
+            if (result) {
+                return {
+                    message: 'EmployeeDepartmentHistory updated successfully',
+                    result: result,
+                };
+            }
+            else {
+                throw new common_1.HttpException('EmployeeDepartmentHistory updated failed', common_1.HttpStatus.EXPECTATION_FAILED);
+            }
+        }
+        else {
+            throw new common_1.HttpException({ message: 'EmployeeDepartmentHistory not found' }, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
+    async deleteEmployeeDepartmentHistory(query) {
+        const getOneData = await this.employeeDepartmentHistoryService.findOneEmployeeDepartmentHistory(query.edhiId);
+        if (getOneData) {
+            const result = await this.employeeDepartmentHistoryService.deleteEmployeeDepartmentHistory(query);
+            if (result) {
+                return {
+                    message: 'EmployeeDepartmentHistory deleted successfully',
+                    result: result,
+                };
+            }
+            else {
+                throw new common_1.HttpException('EmployeeDepartmentHistory deleted failed', common_1.HttpStatus.BAD_REQUEST);
+            }
+        }
+        else {
+            throw new common_1.HttpException({ message: 'EmployeeDepartmentHistory not found' }, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
+    async paginationEmployeeDepartmentHistory(query) {
+        const result = await this.employeeDepartmentHistoryService.paginationEmployeeDepartmentHistory(query);
+        return result;
     }
 };
 __decorate([
-    (0, common_1.Get)(':id'),
+    (0, common_1.Get)(),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EmployeeDepartmentHistoryController.prototype, "findAllEmployeeDepartmentHistorys", null);
+__decorate([
+    (0, common_1.Get)('alldata/:edhiEmp'),
     (0, common_1.HttpCode)(200),
     __param(0, (0, common_1.Param)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], EmployeeDepartmentHistoryController.prototype, "findAllEmployee", null);
+], EmployeeDepartmentHistoryController.prototype, "findAllEmployeeDepartmentHistory", null);
+__decorate([
+    (0, common_1.Post)('insert'),
+    (0, common_1.HttpCode)(201),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EmployeeDepartmentHistoryController.prototype, "createEmployeeDepartmentHistory", null);
+__decorate([
+    (0, common_1.Put)('update/:id'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], EmployeeDepartmentHistoryController.prototype, "updateEmployeeDepartmentHistory", null);
+__decorate([
+    (0, common_1.Delete)('delete'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EmployeeDepartmentHistoryController.prototype, "deleteEmployeeDepartmentHistory", null);
+__decorate([
+    (0, common_1.Get)('pagination'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Query)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], EmployeeDepartmentHistoryController.prototype, "paginationEmployeeDepartmentHistory", null);
 EmployeeDepartmentHistoryController = __decorate([
     (0, common_1.Controller)('employee-department-history'),
     __metadata("design:paramtypes", [employee_department_history_service_1.EmployeeDepartmentHistoryService])

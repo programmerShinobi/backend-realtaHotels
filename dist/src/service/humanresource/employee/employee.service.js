@@ -17,17 +17,15 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const Employee_1 = require("../../../../entities/Employee");
 const typeorm_2 = require("typeorm");
-const axios_1 = require("@nestjs/axios");
 require("dotenv/config");
 const app_1 = require("firebase/app");
 const storage_1 = require("firebase/storage");
 let EmployeeService = class EmployeeService {
-    constructor(employeeRepository, httpService) {
+    constructor(employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.httpService = httpService;
     }
     async findAllEmployee() {
-        return await this.employeeRepository.query('select * from getAllEmployee()');
+        return await this.employeeRepository.query('select * from humanresource.getAllEmployee()');
     }
     async findOneEmployee(id) {
         return await this.employeeRepository.findOne({
@@ -90,7 +88,6 @@ let EmployeeService = class EmployeeService {
             measurementId: 'G-95CZN3EK2S',
         };
         const app = (0, app_1.initializeApp)(firebaseConfig);
-        let urlImage = "";
         const storage = (0, storage_1.getStorage)(app);
         const path = require('path');
         const extension = path.parse(file.originalname).ext;
@@ -114,8 +111,7 @@ let EmployeeService = class EmployeeService {
 EmployeeService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(Employee_1.Employee)),
-    __metadata("design:paramtypes", [typeorm_2.Repository,
-        axios_1.HttpService])
+    __metadata("design:paramtypes", [typeorm_2.Repository])
 ], EmployeeService);
 exports.EmployeeService = EmployeeService;
 //# sourceMappingURL=employee.service.js.map

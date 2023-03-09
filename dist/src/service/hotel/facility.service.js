@@ -101,6 +101,7 @@ let FacilityService = class FacilityService {
     }
     async deleteFaci(id) {
         await this.repositoryFac.delete({ faciId: id });
+        await this.repositoryFaph.delete({ faphFaci: id });
         return 'berhasil hapus data';
     }
 };

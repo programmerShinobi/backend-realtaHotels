@@ -3,24 +3,21 @@ import { TransactionService } from 'src/service/payment/transaction/transaction.
 export declare class TransactionController {
     private paymentTransactionService;
     constructor(paymentTransactionService: TransactionService);
-    findAllTransactions(): Promise<{
-        data: any;
+    findByFilter(filter: any): Promise<{
+        page: number;
+        totalTrx: number;
         total: any;
+        result: any;
+        lastPage: number;
         message: string;
+        status: import("@nestjs/common").HttpStatus;
     } | {
+        result: any[];
         message: string;
+        status: import("@nestjs/common").HttpStatus;
     }>;
-    findByFilter(filter: {
-        page?: number;
-        limit?: number;
-        transactionType?: string;
-        transactionNumber?: string;
-    }): Promise<{
-        data: any;
-        total: any;
+    createTransaction(body: PaymentTransactionDto): Promise<{
         message: string;
-    } | {
-        message: string;
+        status: import("@nestjs/common").HttpStatus;
     }>;
-    createTransaction(body: PaymentTransactionDto): Promise<string | import("../../../../entities/PaymentTransaction").PaymentTransaction[]>;
 }

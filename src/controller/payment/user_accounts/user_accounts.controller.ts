@@ -68,7 +68,6 @@ export class UserAccountsController {
 
 	@Post('add')
 	async addAccount(@Body() body: UserAccountsDto) {
-		console.log('data di controller', body)
 		return await this.userAccountsService.create(body)
 	}
 

@@ -78,34 +78,29 @@ export class EmployeeController {
     @Body() body: any,
   ): Promise<any> {
  
-    console.log("id", id, "type :", typeof id)
-    console.log("body", body)
-    // const checkEmployee = await this.employeeService.findOneEmployee({
-    //   empId: id,
-    // });
+    const checkEmployee = await this.employeeService.findOneEmployee({
+      empId: id,
+    });
 
-    // if (checkEmployee) {
-    //   console.log(body)
-    //   const result = await this.employeeService.updateEmployee(id, body);
-    //   console.log(result)
+    if (checkEmployee) {
+      const result = await this.employeeService.updateEmployee(id, body);
 
+      if (result) {
+        const getAll = await this.employeeService.findAllEmployee();
 
-    //   if (result) {
-    //     const getAll = await this.employeeService.findAllEmployee();
-
-    //     return { message: 'Employee updated successfully', result: getAll };
-    //   } else {
-    //     throw new HttpException(
-    //       { message: 'Employee updated failed', err: result },
-    //       HttpStatus.CONFLICT,
-    //     );
-    //   }
-    // } else {
-    //   throw new HttpException(
-    //     { message: 'Employee not found' },
-    //     HttpStatus.CONFLICT,
-    //   );
-    // }
+        return { message: 'Employee updated successfully', result: getAll };
+      } else {
+        throw new HttpException(
+          { message: 'Employee updated failed', err: result },
+          HttpStatus.CONFLICT,
+        );
+      }
+    } else {
+      throw new HttpException(
+        { message: 'Employee not found' },
+        HttpStatus.CONFLICT,
+      );
+    }
   }
 
   @Delete('delete/:id/')

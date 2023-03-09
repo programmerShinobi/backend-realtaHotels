@@ -31,6 +31,18 @@ let BookingOrderDetailExtraService = class BookingOrderDetailExtraService {
             }
         });
     }
+    async createExtraMultiple(body) {
+        body.map(async (body) => {
+            const extraDetail = new BookingOrderDetailExtra_1.BookingOrderDetailExtra();
+            extraDetail.boexPrit = body.boexPritId;
+            extraDetail.boexPrice = body.boexPrice;
+            extraDetail.boexQty = body.boexQty;
+            extraDetail.boexSubtotal = body.boexSubtotal;
+            extraDetail.boexMeasureUnit = body.boexMeasureUnit;
+            extraDetail.boexBorde = body.boex_borde_id;
+            return await this.bookingorderdetailextraRepository.save(extraDetail);
+        });
+    }
     async createBookingOrderDetailExtra(data) {
         return await this.bookingorderdetailextraRepository.save(data);
     }

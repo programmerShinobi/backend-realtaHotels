@@ -57,9 +57,11 @@ const UserPassword_1 = require("../../entities/UserPassword");
 const UserProfiles_1 = require("../../entities/UserProfiles");
 const UserRoles_1 = require("../../entities/UserRoles");
 const Users_1 = require("../../entities/Users");
-const Vendor_1 = require("../../entities/Vendor");
-const WorkOrderDetail_1 = require("../../entities/WorkOrderDetail");
-const WorkOrders_1 = require("../../entities/WorkOrders");
+const facility_controller_1 = require("../controller/hotel/facility.controller");
+const facility_photos_controller_1 = require("../controller/hotel/facility_photos.controller");
+const facility_price_history_controller_1 = require("../controller/hotel/facility_price_history.controller");
+const hotel_controller_1 = require("../controller/hotel/hotel.controller");
+const hotel_review_controller_1 = require("../controller/hotel/hotel_review.controller");
 const department_controller_1 = require("../controller/humanresource/department/department.controller");
 const employee_controller_1 = require("../controller/humanresource/employee/employee.controller");
 const employee_department_history_controller_1 = require("../controller/humanresource/employee_department_history/employee_department_history.controller");
@@ -82,6 +84,11 @@ const userpassword_controller_1 = require("../controller/users/userpassword/user
 const userprofiles_controller_1 = require("../controller/users/userprofiles/userprofiles.controller");
 const userroles_controller_1 = require("../controller/users/userroles/userroles.controller");
 const users_controller_1 = require("../controller/users/users/users.controller");
+const facility_service_1 = require("../service/hotel/facility.service");
+const facility_photos_service_1 = require("../service/hotel/facility_photos.service");
+const facility_price_history_service_1 = require("../service/hotel/facility_price_history.service");
+const hotel_service_1 = require("../service/hotel/hotel.service");
+const hotel_review_service_1 = require("../service/hotel/hotel_review.service");
 const department_service_1 = require("../service/humanresource/department/department.service");
 const employee_service_1 = require("../service/humanresource/employee/employee.service");
 const employee_department_history_service_1 = require("../service/humanresource/employee_department_history/employee_department_history.service");
@@ -124,6 +131,37 @@ const price_items_service_1 = require("../service/master/price_items/price_items
 const provinces_service_1 = require("../service/master/provinces/provinces.service");
 const region_service_1 = require("../service/master/region/region.service");
 const service_task_service_1 = require("../service/master/service_task/service_task.service");
+const Vendor_1 = require("../../entities/Vendor");
+const WorkOrderDetail_1 = require("../../entities/WorkOrderDetail");
+const WorkOrders_1 = require("../../entities/WorkOrders");
+const Entities_1 = require("../../entities/Entities");
+const special_offers_controller_1 = require("../controller/booking/special_offers.controller");
+const booking_order_detail_controller_1 = require("../controller/booking/booking-order-detail.controller");
+const booking_order_detail_extra_controller_1 = require("../controller/booking/booking-order-detail-extra.controller");
+const special_offer_coupon_controller_1 = require("../controller/booking/special-offer-coupon.controller");
+const user_breakfeast_controller_1 = require("../controller/booking/user-breakfeast.controller");
+const booking_orders_controller_1 = require("../controller/booking/booking-orders.controller");
+const special_offers_service_1 = require("../service/booking/special_offers.service");
+const special_offer_coupons_service_1 = require("../service/booking/special-offer-coupons.service");
+const booking_orders_service_1 = require("../service/booking/booking-orders.service");
+const booking_order_detail_service_1 = require("../service/booking/booking-order-detail.service");
+const booking_order_detail_extra_service_1 = require("../service/booking/booking-order-detail-extra.service");
+const user_breakfeast_service_1 = require("../service/booking/user-breakfeast.service");
+const stocks_controller_1 = require("../controller/Purchasing/stocks/stocks.controller");
+const stock_photo_controller_1 = require("../controller/Purchasing/stock-photo/stock-photo.controller");
+const stock_detail_controller_1 = require("../controller/Purchasing/stock-detail/stock-detail.controller");
+const purchase_order_detail_controller_1 = require("../controller/Purchasing/purchase-order-detail/purchase-order-detail.controller");
+const purchase_order_header_controller_1 = require("../controller/Purchasing/purchase-order-header/purchase-order-header.controller");
+const vendor_controller_1 = require("../controller/Purchasing/vendor/vendor.controller");
+const vendor_product_controller_1 = require("../controller/Purchasing/vendor-product/vendor-product.controller");
+const VendorProduct_1 = require("../../entities/VendorProduct");
+const purchase_order_detail_service_1 = require("../service/purchasing/purchase-order-detail/purchase-order-detail.service");
+const purchase_order_header_service_1 = require("../service/purchasing/purchase-order-header/purchase-order-header.service");
+const stock_detail_service_1 = require("../service/purchasing/stock-detail/stock-detail.service");
+const stocks_service_1 = require("../service/purchasing/stocks/stocks.service");
+const vendor_service_1 = require("../service/purchasing/vendor/vendor.service");
+const vendor_product_service_1 = require("../service/purchasing/vendor-product/vendor-product.service");
+const stock_photo_service_1 = require("../service/purchasing/stock-photo/stock-photo.service");
 let GlobalModule = class GlobalModule {
 };
 GlobalModule = __decorate([
@@ -139,6 +177,7 @@ GlobalModule = __decorate([
                 CategoryGroup_1.CategoryGroup,
                 Country_1.Country,
                 Department_1.Department,
+                Entities_1.Entities,
                 Employee_1.Employee,
                 EmployeeDepartmentHistory_1.EmployeeDepartmentHistory,
                 EmployeePayHistory_1.EmployeePayHistory,
@@ -170,6 +209,7 @@ GlobalModule = __decorate([
                 StockDetail_1.StockDetail,
                 StockPhoto_1.StockPhoto,
                 Stocks_1.Stocks,
+                StockDetail_1.StockDetail,
                 UserAccounts_1.UserAccounts,
                 UserBonusPoints_1.UserBonusPoints,
                 UserBreakfeast_1.UserBreakfeast,
@@ -179,6 +219,7 @@ GlobalModule = __decorate([
                 UserRoles_1.UserRoles,
                 Users_1.Users,
                 Vendor_1.Vendor,
+                VendorProduct_1.VendorProduct,
                 WorkOrderDetail_1.WorkOrderDetail,
                 WorkOrders_1.WorkOrders,
             ]),
@@ -193,6 +234,11 @@ GlobalModule = __decorate([
             work_order_detail_controller_1.WorkOrderDetailController,
             work_orders_controller_1.WorkOrdersController,
             upload_controller_1.UploadController,
+            hotel_controller_1.HotelController,
+            hotel_review_controller_1.HotelReviewController,
+            facility_price_history_controller_1.FacilityPriceHistoryController,
+            facility_controller_1.FacilityController,
+            facility_photos_controller_1.FacilityPhotosController,
             users_controller_1.UsersController,
             roles_controller_1.RolesController,
             userroles_controller_1.UserrolesController,
@@ -201,11 +247,24 @@ GlobalModule = __decorate([
             userbonuspoints_controller_1.UserbonuspointsController,
             usermembers_controller_1.UsermembersController,
             userprofiles_controller_1.UserprofilesController,
+            special_offers_controller_1.SpecialOffersController,
+            booking_order_detail_controller_1.BookingOrderDetailController,
+            booking_order_detail_extra_controller_1.BookingOrderDetailExtraController,
+            special_offer_coupon_controller_1.SpecialOfferCouponController,
+            user_breakfeast_controller_1.UserBreakfeastController,
+            booking_orders_controller_1.BookingOrdersController,
             bank_controller_1.BankController,
             payment_gateaway_controller_1.PaymentGateawayController,
             user_accounts_controller_1.UserAccountsController,
             transaction_controller_1.TransactionController,
             auth_controller_1.UserAccountAuthController,
+            stocks_controller_1.StocksController,
+            stock_photo_controller_1.StockPhotoController,
+            stock_detail_controller_1.StockDetailController,
+            vendor_controller_1.VendorController,
+            vendor_product_controller_1.VendorProductController,
+            purchase_order_detail_controller_1.PurchaseOrderDetailController,
+            purchase_order_header_controller_1.PurchaseOrderHeaderController,
             region_controller_1.RegionController,
             countries_controller_1.CountriesController,
             provinces_controller_1.ProvincesController,
@@ -227,6 +286,11 @@ GlobalModule = __decorate([
             employee_department_history_service_1.EmployeeDepartmentHistoryService,
             work_orders_service_1.WorkOrdersService,
             upload_service_1.UploadService,
+            hotel_service_1.HotelService,
+            hotel_review_service_1.HotelReviewService,
+            facility_price_history_service_1.FacilityPriceHistoryService,
+            facility_service_1.FacilityService,
+            facility_photos_service_1.FacilityPhotosService,
             users_service_1.UsersService,
             roles_service_1.RolesService,
             userroles_service_1.UserrolesService,
@@ -235,11 +299,24 @@ GlobalModule = __decorate([
             userbonuspoints_service_1.UserbonuspointsService,
             usermembers_service_1.UsermembersService,
             userprofiles_service_1.UserprofilesService,
+            special_offers_service_1.SpecialOffersService,
+            special_offer_coupons_service_1.SpecialOfferCouponsService,
+            booking_orders_service_1.BookingOrdersService,
+            booking_order_detail_service_1.BookingOrderDetailService,
+            booking_order_detail_extra_service_1.BookingOrderDetailExtraService,
+            user_breakfeast_service_1.UserBreakfeastService,
             bank_service_1.BankService,
             payment_gateaway_service_1.PaymentGateawayService,
             user_accounts_service_1.UserAccountsService,
             transaction_service_1.TransactionService,
             auth_service_1.UserAccountAuthService,
+            purchase_order_detail_service_1.PurchaseOrderDetailService,
+            purchase_order_header_service_1.PurchaseOrderHeaderService,
+            stock_detail_service_1.StockDetailService,
+            stocks_service_1.StocksService,
+            stock_photo_service_1.StockPhotoService,
+            vendor_service_1.VendorService,
+            vendor_product_service_1.VendorProductService,
             region_service_1.RegionService,
             countries_service_1.CountriesService,
             members_service_1.MembersService,
@@ -250,7 +327,7 @@ GlobalModule = __decorate([
             address_service_1.AddressService,
             category_group_service_1.CategoryGroupService,
             provinces_service_1.ProvincesService,
-            service_task_service_1.ServiceTaskService
+            service_task_service_1.ServiceTaskService,
         ],
     })
 ], GlobalModule);

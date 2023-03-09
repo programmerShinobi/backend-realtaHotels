@@ -20,9 +20,6 @@ let TransactionController = class TransactionController {
     constructor(paymentTransactionService) {
         this.paymentTransactionService = paymentTransactionService;
     }
-    async findAllTransactions() {
-        return await this.paymentTransactionService.find();
-    }
     async findByFilter(filter) {
         return await this.paymentTransactionService.find(filter);
     }
@@ -30,12 +27,6 @@ let TransactionController = class TransactionController {
         return await this.paymentTransactionService.create(body);
     }
 };
-__decorate([
-    (0, common_1.Get)(),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], TransactionController.prototype, "findAllTransactions", null);
 __decorate([
     (0, common_1.Get)('filter?'),
     __param(0, (0, common_1.Query)()),

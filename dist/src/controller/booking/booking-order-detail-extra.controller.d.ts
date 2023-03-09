@@ -7,4 +7,5 @@ export declare class BookingOrderDetailExtraController {
     create(body: any): Promise<any>;
     update(params: any, body: any): Promise<any>;
     remove(params: any): Promise<any>;
+    createExtraMultiple(body: any): Promise<void>;
 }
