@@ -14,7 +14,11 @@ export class RegionService {
 
     //get semua data region
     async getAll(): Promise<any> {
-        const ShowData = await this.regionRepository.find()
+        const ShowData = await this.regionRepository.find({
+            order: {
+                regionCode: "ASC"
+              }
+        })
         // console.log(ShowData);
         return ShowData 
     }
@@ -34,7 +38,8 @@ export class RegionService {
     async create(data: Regions): Promise<any> {
         const addData = await this.regionRepository.save(
             {
-                regionName: data.regionName
+                regionName: data.regionName,
+                // regionCode: data.regionCode
             }
         )
         console.log(addData)

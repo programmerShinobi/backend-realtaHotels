@@ -6,5 +6,5 @@ export declare class ProvincesController {
     getById(Param: any): Promise<any>;
     create(Body: any): Promise<any>;
     edit(id: any, Body: any): Promise<any>;
-    delete(Param: any): Promise<string>;
+    delete(Param: any): Promise<import("typeorm").DeleteResult>;
 }

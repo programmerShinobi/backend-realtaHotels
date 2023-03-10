@@ -22,7 +22,7 @@ let ProvincesService = class ProvincesService {
         this.ProvincesRepository = ProvincesRepository;
     }
     async getAll() {
-        const ShowData = await this.ProvincesRepository.query('select * from master.provinces');
+        const ShowData = await this.ProvincesRepository.query('select * from master.provinces order by prov_id');
         return ShowData;
     }
     async getById(provId) {
@@ -37,7 +37,6 @@ let ProvincesService = class ProvincesService {
         const addData = await this.ProvincesRepository.save({
             provName: data.provName,
             provCountry: data.provCountry,
-            provId: data.provId
         });
         console.log(addData);
         if (addData) {
@@ -66,7 +65,7 @@ let ProvincesService = class ProvincesService {
         const deleteData = await this.ProvincesRepository.delete({
             provId: provId
         });
-        return deleteData + 'berhasil di hapus';
+        return deleteData;
     }
 };
 ProvincesService = __decorate([

@@ -9,7 +9,13 @@ export class PriceItemsService {
         private PriceItemsRepository: Repository<PriceItems>
     ) { }
     async getAll(): Promise<any> {
-        const ShowData = await this.PriceItemsRepository.find()
+        const ShowData = await this.PriceItemsRepository.find(
+            {
+                order: {
+                    pritId: "ASC"
+                  }
+            }
+        )
         return ShowData
     }
     async getById(pritId: number): Promise<any> {

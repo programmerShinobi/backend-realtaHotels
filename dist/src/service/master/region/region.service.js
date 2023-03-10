@@ -25,7 +25,11 @@ let RegionService = class RegionService {
         this.regionRepository = regionRepository;
     }
     async getAll() {
-        const ShowData = await this.regionRepository.find();
+        const ShowData = await this.regionRepository.find({
+            order: {
+                regionCode: "ASC"
+            }
+        });
         return ShowData;
     }
     async getById(regionCode) {
@@ -38,7 +42,7 @@ let RegionService = class RegionService {
     }
     async create(data) {
         const addData = await this.regionRepository.save({
-            regionName: data.regionName
+            regionName: data.regionName,
         });
         console.log(addData);
         if (addData) {

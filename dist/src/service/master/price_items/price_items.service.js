@@ -22,7 +22,11 @@ let PriceItemsService = class PriceItemsService {
         this.PriceItemsRepository = PriceItemsRepository;
     }
     async getAll() {
-        const ShowData = await this.PriceItemsRepository.find();
+        const ShowData = await this.PriceItemsRepository.find({
+            order: {
+                pritId: "ASC"
+            }
+        });
         return ShowData;
     }
     async getById(pritId) {

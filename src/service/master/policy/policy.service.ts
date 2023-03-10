@@ -9,7 +9,13 @@ export class PolicyService {
         private PolicyRepository: Repository<Policy>
     ) { }
     async getAll(): Promise<any> {
-        const ShowData = await this.PolicyRepository.find()
+        const ShowData = await this.PolicyRepository.find(
+            {
+                order: {
+                    poliId: "ASC"
+                  }
+            }
+        )
         return ShowData
     }
     async getById(poliId: number): Promise<any> {

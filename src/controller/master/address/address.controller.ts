@@ -23,7 +23,7 @@ export class AddressController {
     @HttpCode(200)
     async create(@Body() Body: any): Promise<any> {
         const hasil = await this.AddressRepository.create(Body)
-        console.log(hasil + 'berhasil');
+        // console.log(hasil + 'berhasil');
         return hasil
     }
     @Put('edit/:id')

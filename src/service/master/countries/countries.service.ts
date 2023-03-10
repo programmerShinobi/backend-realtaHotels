@@ -5,6 +5,14 @@ import { Country } from 'entities/Country';
 
 @Injectable()
 export class CountriesService {
+    findAll() {
+        throw new Error('Method not implemented.');
+    }
+    // private locationRepository: Repository<Location>
+    find // private locationRepository: Repository<Location>
+        () {
+        throw new Error('Method not implemented.');
+    }
     query(arg0: string) {
         throw new Error('Method not implemented.');
     }
@@ -14,7 +22,7 @@ export class CountriesService {
         // private locationRepository: Repository<Location>
     ) { }
     async getAll(): Promise<any> {
-        const ShowData = await this.countryRepository.query('select * from master.country')
+        const ShowData = await this.countryRepository.query('select * from master.country order by country_id')
         return ShowData
     }
     // async getAllLocation(): Promise<any> {
@@ -31,7 +39,7 @@ export class CountriesService {
     }
     async create(data: Country): Promise<any> {
         const addData = await this.countryRepository.save({
-            countryId: data.countryId,
+            // countryId: data.countryId,
             countryName: data.countryName,
             countryRegion: data.countryRegion
         })
@@ -43,23 +51,38 @@ export class CountriesService {
             return { message: 'Data gagal ditambahkan' }
         }
     }
-    async edit(data: Country, countryId: any) {
-        const editData = await this.countryRepository.update({
-            countryId: countryId
-        },
-            {
-                countryName: data.countryName,
-                countryRegion: data.countryRegion
-            }
-        )
-        console.log(editData)
-        if (editData.affected) {
-            return { message: 'Data berhasil di edit' }
-        }
-        else {
-            return { message: 'Data gagal di edit' }
-        }
-    }
+    // async edit(data: Country, countryId: any) {
+    //     const editData = await this.countryRepository.update({
+    //         countryId: countryId
+    //     },
+    //         {
+    //             countryName: data.countryName,
+    //             countryRegion: data.countryRegion
+    //         }
+    //     )
+    //     console.log(editData)
+    //     if (editData.affected) {
+    //         return { message: 'Data berhasil di edit' }
+    //     }
+    //     else {
+    //         return { message: 'Data gagal di edit' }
+    //     }
+    // }
+    //update
+  async updateCountry(countryId: number, data: any): Promise<Country> {
+    const country = new Country();
+    country.countryName = data.country_name;
+    country.countryRegion = data.country_region_id;
+
+    return await this.countryRepository
+      .update({ countryId: countryId }, country)
+      .then(() => {
+        return 'success';
+      })
+      .catch((error) => {
+        return error;
+      });
+  }
 
     async delete(countryId: any) {
         const deleteData = await this.countryRepository.delete({

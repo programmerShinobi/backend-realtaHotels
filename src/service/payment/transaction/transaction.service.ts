@@ -53,7 +53,7 @@ export class TransactionService {
         // If condition is more than one, `OR` on the back is deleted.
         condition = filter.length > 1 ? condition.slice(0, -5) : condition
 
-        console.log( stringQuery + condition + setting)
+        // console.log( stringQuery + condition + setting)
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
                 return {

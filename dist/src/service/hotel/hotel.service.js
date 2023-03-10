@@ -53,7 +53,7 @@ let HotelService = class HotelService {
         return 'berhasil hapus data';
     }
     async findProcedure() {
-        return await this.hotelsRepository.query('SELECT * FROM hotel');
+        return await this.hotelsRepository.query('SELECT * FROM  hotel.card_hotel');
     }
     async findLastOrder() {
         return await this.hotelsRepository.query('SELECT * FROM booking.booking_orders ORDER BY boor_id DESC LIMIT 1');

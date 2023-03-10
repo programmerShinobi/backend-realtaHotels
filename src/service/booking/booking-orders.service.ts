@@ -46,10 +46,10 @@ export class BookingOrdersService {
         return await this.bookingordersRepository.find()
     }
 
-    async findOneBookingOrders(boor_id:number): Promise<any> {
+    async findOneBookingOrders(boorUserId:number): Promise<any> {
         return await this.bookingordersRepository.findOne({
             where:{
-                boorId: boor_id
+                boorId: boorUserId
             }
         })
     }

@@ -32,23 +32,10 @@ let CategoryGroupController = class CategoryGroupController {
         console.log({ hasil: hasil });
         return hasil;
     }
-    async create(data, file) {
-        const addData = await this.CategoryGroupRepository.create({
-            cagroName: data.cagroName,
-            cagroDescription: data.cagroDescription,
-            cagroType: data.cagroType,
-            cagroIcon: file.originalname,
-            cagroIconUrl: data.upload(file),
-            cagroId: 0,
-            facilities: [],
-            policyCategoryGroups: []
-        });
-        if (addData) {
-            return { message: 'Data berhasil ditambahkan', addData: addData };
-        }
-        else {
-            return { message: 'Data gagal ditambahkan' };
-        }
+    async create(Body, file) {
+        const hasil = await this.CategoryGroupRepository.create(Body, file);
+        console.log(hasil + 'berhasil');
+        return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.CategoryGroupRepository.edit(Body, id);
@@ -58,7 +45,23 @@ let CategoryGroupController = class CategoryGroupController {
     async delete(Param) {
         const hasil = await this.CategoryGroupRepository.delete(Param);
         console.log('berhasil di hapus' + hasil);
-        return hasil;
+        if (!hasil) {
+            return 'failed';
+        }
+        else {
+            return 'succes';
+        }
+    }
+    async logFile(file, body) {
+        const result = await this.CategoryGroupRepository.UploadFirebase(file, body);
+        if (!result) {
+            return 'gagal upload';
+        }
+        else {
+            return {
+                message: 'berhasil upload'
+            };
+        }
     }
 };
 __decorate([
@@ -79,9 +82,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('save'),
     (0, common_1.HttpCode)(200),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
@@ -103,12 +104,20 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], CategoryGroupController.prototype, "delete", null);
+__decorate([
+    (0, common_1.Post)('upload/firebase'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
+        validators: [],
+    }))),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CategoryGroupController.prototype, "logFile", null);
 CategoryGroupController = __decorate([
     (0, common_1.Controller)('category-group'),
     __metadata("design:paramtypes", [category_group_service_1.CategoryGroupService])
 ], CategoryGroupController);
 exports.CategoryGroupController = CategoryGroupController;
-function upload(file) {
-    throw new Error('Function not implemented.');
-}
 //# sourceMappingURL=category_group.controller.js.map

@@ -7,7 +7,7 @@ export class CountriesController {
     @Get()
     @HttpCode(200)
     async getAll(): Promise<any> {
-        const hasil = await this.CountryService.query("select * from master.country")
+        const hasil = await this.CountryService.getAll()
         console.log(hasil)
         return hasil
     }
@@ -21,18 +21,24 @@ export class CountriesController {
 
     @Post('save')
     @HttpCode(200)
-    async create(@Body() Body: any) {
+    async create(@Body() Body: any): Promise<any> {
         const hasil = await this.CountryService.create(Body)
         console.log({ message: 'berhasil', hasil: hasil })
         return hasil
     }
-    @Put('edit/:id')
-    @HttpCode(200)
-    async edit(@Param('id') id: any, @Body() Body: any): Promise<any> {
-        const hasil = await this.CountryService.edit(Body, id);
-        console.log('Berhasil')
-        return hasil
-    }
+    // @Put('edit/:id')
+    // @HttpCode(200)
+    // async edit(@Param('id') id: any, @Body() Body: any): Promise<any> {
+    //     const hasil = await this.CountryService.edit(Body, id);
+    //     console.log('Berhasil')
+    //     return hasil
+    // }
+
+    //update
+  @Put('edit/:id')
+  update(@Param() params, @Body() body: any): Promise<any> {
+    return this.CountryService.updateCountry(params.id, body);
+  }
 
     @Delete('delete/:id')
     @HttpCode(200)

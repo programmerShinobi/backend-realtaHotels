@@ -32,7 +32,7 @@ __decorate([
     __metadata("design:type", BookingOrderDetail_1.BookingOrderDetail)
 ], UserBreakfeast.prototype, "usbrBorde", void 0);
 UserBreakfeast = __decorate([
-    (0, typeorm_1.Index)("pk_borde_modified_id", ["usbrModifiedDate"], { unique: true }),
+    (0, typeorm_1.Index)("pk_borde_id", ["usbrBorde"], { unique: true }),
     (0, typeorm_1.Entity)("user_breakfeast", { schema: "booking" })
 ], UserBreakfeast);
 exports.UserBreakfeast = UserBreakfeast;

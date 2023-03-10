@@ -28,7 +28,6 @@ let EmployeePayHistoryController = class EmployeePayHistoryController {
         return result;
     }
     async createEmployeePayHistory(body) {
-        console.log(body);
         const result = await this.employeePayHistoryService.createEmployeePayHistory(body);
         if (result) {
             return {
@@ -41,7 +40,6 @@ let EmployeePayHistoryController = class EmployeePayHistoryController {
         }
     }
     async updateEmployeePayHistory(id, body) {
-        console.log(body, id);
         const getOneData = await this.employeePayHistoryService.findOneEmployeePayHistory(id);
         if (getOneData) {
             const result = await this.employeePayHistoryService.updateEmployeePayHistory(id, body);

@@ -51,7 +51,7 @@ export class HotelService {
   //Procedure
     // prosedur
     async findProcedure() {
-      return await this.hotelsRepository.query('SELECT * FROM hotel');
+      return await this.hotelsRepository.query('SELECT * FROM  hotel.card_hotel');
     } 
   
     async findLastOrder() {

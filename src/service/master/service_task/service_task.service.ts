@@ -9,7 +9,13 @@ export class ServiceTaskService {
         private ServiceTaskRepository: Repository<ServiceTask>
     ) { }
     async getAll(): Promise<any> {
-        const ShowData = await this.ServiceTaskRepository.find()
+        const ShowData = await this.ServiceTaskRepository.find(
+            {
+                order: {
+                    setaId: "ASC"
+                  }
+            }
+        )
         return ShowData
     }
     async getById(setaId: number): Promise<any> {

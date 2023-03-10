@@ -3,36 +3,22 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoryGroup } from 'entities/CategoryGroup';
 import { diskStorage } from 'multer';
+import { initializeApp } from 'firebase/app';
+import { getStorage, ref, listAll, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
+import { getApp } from 'firebase/app';
+import { Express } from 'express';
+
 @Injectable()
 export class CategoryGroupService {
     query(arg0: string) {
-      throw new Error('Method not implemented.');
+        throw new Error('Method not implemented.');
     }
     constructor(
         @InjectRepository(CategoryGroup)
         private CategoryGroupRepository: Repository<CategoryGroup>
     ) { }
 
-    // untuk upload data CagroIcon
-    async upload(file: Express.Multer.File): Promise<string> {
-        const fileName = `${new Date().getTime()}_${file.originalname}`;
-        const fileDestination = 'public/upload';
-    
-        const storage = diskStorage({
-          destination: fileDestination,
-          filename: (req, file, cb) => cb(null, fileName),
-        });
-    
-        // const upload = multer({ storage }).any();
-    
-        return new Promise((resolve, reject) => {
-        //   upload(file, null, (err: any) => {
-        //     if (err) reject(err);
-        //     else resolve(`${fileDestination}/${fileName}`);
-        //   });
-        });
-      }
-   
+
     // untuk get semua data 
     async getAll(): Promise<any> {
         const ShowData = await this.CategoryGroupRepository.find()
@@ -48,13 +34,14 @@ export class CategoryGroupService {
         return ShowDataId
     }
     // add data 
-    async create(data: CategoryGroup): Promise<any> {
+    async create(data: CategoryGroup,file: Express.Multer.File): Promise<any> {
+        // const imageUrl = await this.uploadImage(file);
         const addData = await this.CategoryGroupRepository.save({
             cagroName: data.cagroName,
             cagroDescription: data.cagroDescription,
             cagroType: data.cagroType,
-            cagroIcon: data.cagroIcon,
-            cagroIconUrl: data.cagroIconUrl
+            // cagroIcon:imageUrl,
+            // cagroIconUrl: imageUrl
 
         })
         console.log(addData)
@@ -93,8 +80,34 @@ export class CategoryGroupService {
         })
         return deleteData
     }
+    async UploadFirebase(file: any, body: any) {
+        const firebaseConfig = {
+          apiKey: 'AIzaSyCEmZE2W1VOTZpPVrndbpAvVpAJnLfE_V0',
+          authDomain: 'hotelrealta.firebaseapp.com',
+          projectId: 'hotelrealta',
+          storageBucket: 'hotelrealta.appspot.com',
+          messagingSenderId: '481044855652',
+          appId: '1:481044855652:web:1441df251b64fd62c71871',
+          measurementId: 'G-1FZ6YKHLV9',
+        };
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+    
+        
+          const storageRef = ref(storage, `image/${file.originalname}`);
+          const metadata = {
+            contentType: 'image/jpeg',
+            name: file.originalname,
+          };
+          await uploadBytes(storageRef, file.buffer, metadata);
+          const url = await getDownloadURL(storageRef);
+          const fileInfo = new CategoryGroup();
+          fileInfo.cagroIconUrl = url;
+          fileInfo.cagroIcon = file.originalname;
+          fileInfo.cagroName = body.cagroName;
+          fileInfo.cagroType = body.cagroType;
+          fileInfo.cagroDescription = body.cagroDescription;
+          return this.CategoryGroupRepository.save(fileInfo);
+        
+      }
 }
-function multer(_arg0: { storage: any; }) {
-    throw new Error('Function not implemented.');
-}
-

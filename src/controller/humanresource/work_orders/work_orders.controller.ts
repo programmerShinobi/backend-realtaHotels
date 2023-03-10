@@ -8,6 +8,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Query,
   Put,
 } from '@nestjs/common';
 import { WorkOrdersService } from 'src/service/humanresource/work_orders/work_orders.service';
@@ -18,15 +19,18 @@ export class WorkOrdersController {
 
   @Get()
   @HttpCode(200)
-  async findAllWorkorders(): Promise<any> {
-    return this.workordersService.findAllWorkOrders();
+  async findAllWorkorder(@Query() query): Promise<any> {
+    const result = await this.workordersService.paginationWorkorder(
+      query,
+    );
+    return result;
   }
 
   @Get(':id')
   @HttpCode(200)
-  async findOneWorkorders(@Param() param: any): Promise<any> {
-    const result = await this.workordersService.findOneWorkOrders(param.id);
-
+  async findOneWorkorder(@Param() param: any): Promise<any> {
+    const result = await this.workordersService.findOneWorkorder(param.id);
+ 
     if (result) {
       return result;
     } else {
@@ -39,8 +43,8 @@ export class WorkOrdersController {
 
   @Post('insert')
   @HttpCode(201)
-  async createWorkorders(@Body() body: any): Promise<any> {
-    const result = await this.workordersService.createWorkOrders(body);
+  async createWorkorder(@Body() body: any): Promise<any> {
+    const result = await this.workordersService.createWorkorder(body);
 
     if (result) {
       return { message: 'Workorders created successfully', result: result };
@@ -54,14 +58,14 @@ export class WorkOrdersController {
 
   @Put('update/:id')
   @HttpCode(200)
-  async updateWorkorders(
+  async updateWorkorder(
     @Param('id') id: number,
     @Body() body: any,
   ): Promise<any> {
-    const getOneData = await this.workordersService.findOneWorkOrders(id);
+    const getOneData = await this.workordersService.findOneWorkorder(id);
 
     if (getOneData) {
-      const result = await this.workordersService.updateWorkOrders(id, body);
+      const result = await this.workordersService.updateWorkorder(id, body);
 
       if (result) {
         return { message: 'Workorders updated successfully', result: result };
@@ -81,11 +85,11 @@ export class WorkOrdersController {
 
   @Delete('delete/:id')
   @HttpCode(200)
-  async deleteWorkorders(@Param('id') id: number) {
-    const getOneData = await this.workordersService.findOneWorkOrders(id);
+  async deleteWorkorder(@Param('id') id: number) {
+    const getOneData = await this.workordersService.findOneWorkorder(id);
 
     if (getOneData) {
-      const result = await this.workordersService.deleteWorkOrders(id);
+      const result = await this.workordersService.deleteWorkorder(id);
 
       if (result) {
         return { message: 'Workorders deleted successfully', result: result };

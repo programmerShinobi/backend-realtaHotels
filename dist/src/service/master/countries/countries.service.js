@@ -18,6 +18,12 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 const Country_1 = require("../../../../entities/Country");
 let CountriesService = class CountriesService {
+    findAll() {
+        throw new Error('Method not implemented.');
+    }
+    find() {
+        throw new Error('Method not implemented.');
+    }
     query(arg0) {
         throw new Error('Method not implemented.');
     }
@@ -25,7 +31,7 @@ let CountriesService = class CountriesService {
         this.countryRepository = countryRepository;
     }
     async getAll() {
-        const ShowData = await this.countryRepository.query('select * from master.country');
+        const ShowData = await this.countryRepository.query('select * from master.country order by country_id');
         return ShowData;
     }
     async getById(countryId) {
@@ -38,7 +44,6 @@ let CountriesService = class CountriesService {
     }
     async create(data) {
         const addData = await this.countryRepository.save({
-            countryId: data.countryId,
             countryName: data.countryName,
             countryRegion: data.countryRegion
         });
@@ -50,20 +55,18 @@ let CountriesService = class CountriesService {
             return { message: 'Data gagal ditambahkan' };
         }
     }
-    async edit(data, countryId) {
-        const editData = await this.countryRepository.update({
-            countryId: countryId
-        }, {
-            countryName: data.countryName,
-            countryRegion: data.countryRegion
+    async updateCountry(countryId, data) {
+        const country = new Country_1.Country();
+        country.countryName = data.country_name;
+        country.countryRegion = data.country_region_id;
+        return await this.countryRepository
+            .update({ countryId: countryId }, country)
+            .then(() => {
+            return 'success';
+        })
+            .catch((error) => {
+            return error;
         });
-        console.log(editData);
-        if (editData.affected) {
-            return { message: 'Data berhasil di edit' };
-        }
-        else {
-            return { message: 'Data gagal di edit' };
-        }
     }
     async delete(countryId) {
         const deleteData = await this.countryRepository.delete({

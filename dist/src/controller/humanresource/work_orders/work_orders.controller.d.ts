@@ -2,11 +2,11 @@ import { WorkOrdersService } from 'src/service/humanresource/work_orders/work_or
 export declare class WorkOrdersController {
     private readonly workordersService;
     constructor(workordersService: WorkOrdersService);
-    findAllWorkorders(): Promise<any>;
-    findOneWorkorders(param: any): Promise<any>;
-    createWorkorders(body: any): Promise<any>;
-    updateWorkorders(id: number, body: any): Promise<any>;
-    deleteWorkorders(id: number): Promise<{
+    findAllWorkorder(query: any): Promise<any>;
+    findOneWorkorder(param: any): Promise<any>;
+    createWorkorder(body: any): Promise<any>;
+    updateWorkorder(id: number, body: any): Promise<any>;
+    deleteWorkorder(id: number): Promise<{
         message: string;
         result: any;
     }>;

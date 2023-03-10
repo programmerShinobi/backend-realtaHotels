@@ -9,5 +9,5 @@ export declare class ProvincesService {
     edit(data: Provinces, id: any): Promise<{
         message: string;
     }>;
-    delete(provId: any): Promise<string>;
+    delete(provId: any): Promise<import("typeorm").DeleteResult>;
 }
