@@ -371,8 +371,10 @@ CREATE TABLE humanresource.employee(
 	emp_modified_date timestamp DEFAULT now(),
 	emp_emp_id integer,
 	emp_joro_id integer,
+	emp_user_id integer,
 	foreign key (emp_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
-	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade
+	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade,
+	foreign key (emp_user_id) references users.users(user_id) on delete cascade on update cascade
 );
 
 CREATE TABLE humanresource.shift(
@@ -406,14 +408,14 @@ CREATE TABLE humanresource.employee_department_history(
 );
 
 
-
 CREATE TABLE humanresource.employee_pay_history(
+	ephi_id serial,
 	ephi_emp_id integer,
-	ephi_rate_change_date date,
+	ephi_rate_change_date timestamp DEFAULT now(),
 	ephi_rate_salary money,
 	ephi_pay_frequence smallint,
-	ephi_modified_date timestamp	DEFAULT now(),
-	primary key(ephi_rate_change_date),
+	ephi_modified_date timestamp DEFAULT now(),
+	primary key(ephi_id),
 	foreign key (ephi_emp_id) references humanresource.employee(emp_id)
 	on delete cascade on update cascade
 );
@@ -540,7 +542,6 @@ create table purchasing.stock_detail(
 
 
 
-
 -- ===========SCHEMA MODULE BOOKING ==============
 create schema booking;
 
@@ -606,7 +607,7 @@ create table booking.user_breakfeast(
 	usbr_borde_id int,
 	usbr_modified_date timestamp DEFAULT now(),
 	usbr_total_vacant smallInt,
-	constraint pk_borde_modified_id primary key (usbr_modified_date),
+	constraint pk_borde_id primary key (usbr_borde_id),
 	constraint fk_usbr_borde_id foreign key (usbr_borde_id) references booking.booking_order_detail(borde_id) on delete cascade on update cascade
 );
 
@@ -635,51 +636,59 @@ create table booking.special_offer_coupons(
 CREATE SCHEMA payment;
 
 CREATE TABLE payment.entities (
-	entity_id serial PRIMARY KEY
+	entity_id				serial			PRIMARY KEY
 );
 
 CREATE TABLE payment.bank (
-	bank_entity_id int PRIMARY KEY,
-	bank_code varchar(10) UNIQUE,
-	bank_name varchar(55) UNIQUE,
-	bank_modified_date timestamp DEFAULT now(),
-	CONSTRAINT bank_entity_id_fk FOREIGN KEY (bank_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE
+	bank_entity_id		  	int 		    PRIMARY KEY,
+	bank_code			  	varchar(10) 	UNIQUE,
+	bank_name			  	varchar(55) 	UNIQUE,
+	bank_modified_date		timestamp		DEFAULT NOW(),
+	CONSTRAINT bank_entity_id_fk
+		FOREIGN KEY (bank_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.payment_gateaway (
-	paga_entity_id int PRIMARY KEY,
-	paga_code varchar(10) UNIQUE,
-	paga_name varchar(55) UNIQUE,
-	paga_modified_date timestamp DEFAULT now(),
-	CONSTRAINT paga_entity_id FOREIGN KEY (paga_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE
+	paga_entity_id		  	int				PRIMARY KEY,
+	paga_code			  	varchar(10)		UNIQUE,
+	paga_name			  	varchar(55)		UNIQUE,
+	paga_modified_date		timestamp		DEFAULT NOW(),
+	CONSTRAINT paga_entity_id
+		FOREIGN KEY (paga_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.user_accounts (
-	usac_entity_id int,
-	usac_user_id int,
-	usac_account_number varchar(25) UNIQUE,
-	usac_saldo numeric,
-	usac_type varchar(15), -- debet | cc | payment
-	usac_expmonth smallint,
-	usac_expyear smallint,
-  	usac_modified_date timestamp DEFAULT now(),
-	CONSTRAINT user_accounts_pk PRIMARY KEY (usac_entity_id, usac_user_id),
-	CONSTRAINT usac_entity_id_fk FOREIGN KEY (usac_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT usac_user_id_fk FOREIGN KEY (usac_user_id) REFERENCES users.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+	usac_entity_id		    int,
+	usac_user_id		    int,
+	usac_account_number	  	varchar(25) 	UNIQUE,
+	usac_saldo			    numeric,
+	usac_type			    varchar(15), -- debet | cc | payment
+	usac_expmonth		    smallint,
+	usac_expyear		    smallint,
+	usac_modified_date	  	timestamp 		DEFAULT NOW(),
+	usac_card_holder_name	varchar(50),
+	usac_secured_key		varchar,
+	CONSTRAINT user_accounts_pk
+		PRIMARY KEY (usac_entity_id, usac_user_id),
+	CONSTRAINT usac_entity_id_fk
+		FOREIGN KEY (usac_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE,
+	CONSTRAINT usac_user_id_fk
+		FOREIGN KEY (usac_user_id) REFERENCES users.users(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.payment_transaction (
-	patr_id serial PRIMARY KEY,
-	patr_trx_number varchar(55) UNIQUE,
-	patr_debet numeric,
-	patr_credit numeric,
-	patr_type char(3),
-	patr_note varchar(255),
-	patr_modified_date timestamp DEFAULT now(),
-	patr_order_number varchar(55), 
-	patr_trx_number_ref varchar(55) UNIQUE,
-	patr_source_id int,
-	patr_target_id int,
-	patr_user_id int,
-  	CONSTRAINT patr_user_id_fk FOREIGN KEY (patr_user_id) REFERENCES users.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+	patr_id				serial		  	PRIMARY KEY,
+	patr_trx_number		varchar(55)		UNIQUE,
+	patr_debet			numeric,
+	patr_credit			numeric,
+	patr_type			char(3),
+	patr_note			varchar(255),
+	patr_modified_date	timestamp 		DEFAULT NOW(),
+	patr_order_number	varchar(55), 
+	patr_trx_number_ref	varchar(55) 	UNIQUE,
+	patr_source_id		numeric,
+	patr_target_id		numeric,
+	patr_user_id		int,
+  CONSTRAINT patr_user_id_fk
+		FOREIGN KEY (patr_user_id) REFERENCES users.users(user_id) ON UPDATE CASCADE
 );
