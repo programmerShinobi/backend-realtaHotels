@@ -8,6 +8,9 @@ export class PriceItemsController {
     @HttpCode(200)
     async getAll(): Promise<any> {
         const hasil = await this.PriceItemsRepository.getAll()
+        console.log({
+            hasil : hasil
+        })
         return hasil
     }
 

@@ -17,23 +17,14 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const CategoryGroup_1 = require("../../../../entities/CategoryGroup");
-const multer_1 = require("multer");
+const app_1 = require("firebase/app");
+const storage_1 = require("firebase/storage");
 let CategoryGroupService = class CategoryGroupService {
     query(arg0) {
         throw new Error('Method not implemented.');
     }
     constructor(CategoryGroupRepository) {
         this.CategoryGroupRepository = CategoryGroupRepository;
-    }
-    async upload(file) {
-        const fileName = `${new Date().getTime()}_${file.originalname}`;
-        const fileDestination = 'public/upload';
-        const storage = (0, multer_1.diskStorage)({
-            destination: fileDestination,
-            filename: (req, file, cb) => cb(null, fileName),
-        });
-        return new Promise((resolve, reject) => {
-        });
     }
     async getAll() {
         const ShowData = await this.CategoryGroupRepository.find();
@@ -47,13 +38,11 @@ let CategoryGroupService = class CategoryGroupService {
         });
         return ShowDataId;
     }
-    async create(data) {
+    async create(data, file) {
         const addData = await this.CategoryGroupRepository.save({
             cagroName: data.cagroName,
             cagroDescription: data.cagroDescription,
             cagroType: data.cagroType,
-            cagroIcon: data.cagroIcon,
-            cagroIconUrl: data.cagroIconUrl
         });
         console.log(addData);
         if (addData) {
@@ -87,6 +76,33 @@ let CategoryGroupService = class CategoryGroupService {
         });
         return deleteData;
     }
+    async UploadFirebase(file, body) {
+        const firebaseConfig = {
+            apiKey: 'AIzaSyCEmZE2W1VOTZpPVrndbpAvVpAJnLfE_V0',
+            authDomain: 'hotelrealta.firebaseapp.com',
+            projectId: 'hotelrealta',
+            storageBucket: 'hotelrealta.appspot.com',
+            messagingSenderId: '481044855652',
+            appId: '1:481044855652:web:1441df251b64fd62c71871',
+            measurementId: 'G-1FZ6YKHLV9',
+        };
+        const app = (0, app_1.initializeApp)(firebaseConfig);
+        const storage = (0, storage_1.getStorage)(app);
+        const storageRef = (0, storage_1.ref)(storage, `image/${file.originalname}`);
+        const metadata = {
+            contentType: 'image/jpeg',
+            name: file.originalname,
+        };
+        await (0, storage_1.uploadBytes)(storageRef, file.buffer, metadata);
+        const url = await (0, storage_1.getDownloadURL)(storageRef);
+        const fileInfo = new CategoryGroup_1.CategoryGroup();
+        fileInfo.cagroIconUrl = url;
+        fileInfo.cagroIcon = file.originalname;
+        fileInfo.cagroName = body.cagroName;
+        fileInfo.cagroType = body.cagroType;
+        fileInfo.cagroDescription = body.cagroDescription;
+        return this.CategoryGroupRepository.save(fileInfo);
+    }
 };
 CategoryGroupService = __decorate([
     (0, common_1.Injectable)(),
@@ -94,7 +110,4 @@ CategoryGroupService = __decorate([
     __metadata("design:paramtypes", [typeorm_2.Repository])
 ], CategoryGroupService);
 exports.CategoryGroupService = CategoryGroupService;
-function multer(_arg0) {
-    throw new Error('Function not implemented.');
-}
 //# sourceMappingURL=category_group.service.js.map

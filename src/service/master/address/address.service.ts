@@ -14,7 +14,7 @@ export class AddressService {
     ) { }
 
     async getAll(): Promise<any> {
-        const ShowData = await this.AddressRepository.query('select * from master.address')
+        const ShowData = await this.AddressRepository.query('select * from master.address order by addr_id')
         return ShowData
     }
     async getById(addrId: number): Promise<any> {
@@ -29,7 +29,7 @@ export class AddressService {
     async create(data: Address): Promise<any> {
         const addData = await this.AddressRepository.save(
             {
-                addrId :data.addrId,
+                // addrId :data.addrId,
                 addrLine1: data.addrLine1,
                 addrLine2: data.addrLine2,
                 addrPostalCode: data.addrPostalCode,

@@ -47,7 +47,6 @@ let TransactionService = class TransactionService {
                     condition += `WHERE "${key}" ${comparator} ${value}`;
         }
         condition = filter.length > 1 ? condition.slice(0, -5) : condition;
-        console.log(stringQuery + condition + setting);
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
             return {

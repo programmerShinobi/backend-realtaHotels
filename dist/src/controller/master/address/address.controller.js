@@ -31,7 +31,6 @@ let AddressController = class AddressController {
     }
     async create(Body) {
         const hasil = await this.AddressRepository.create(Body);
-        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {

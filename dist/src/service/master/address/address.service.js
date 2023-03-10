@@ -25,7 +25,7 @@ let AddressService = class AddressService {
         this.AddressRepository = AddressRepository;
     }
     async getAll() {
-        const ShowData = await this.AddressRepository.query('select * from master.address');
+        const ShowData = await this.AddressRepository.query('select * from master.address order by addr_id');
         return ShowData;
     }
     async getById(addrId) {
@@ -38,7 +38,6 @@ let AddressService = class AddressService {
     }
     async create(data) {
         const addData = await this.AddressRepository.save({
-            addrId: data.addrId,
             addrLine1: data.addrLine1,
             addrLine2: data.addrLine2,
             addrPostalCode: data.addrPostalCode,

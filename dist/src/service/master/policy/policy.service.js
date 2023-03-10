@@ -22,7 +22,11 @@ let PolicyService = class PolicyService {
         this.PolicyRepository = PolicyRepository;
     }
     async getAll() {
-        const ShowData = await this.PolicyRepository.find();
+        const ShowData = await this.PolicyRepository.find({
+            order: {
+                poliId: "ASC"
+            }
+        });
         return ShowData;
     }
     async getById(poliId) {

@@ -10,7 +10,7 @@ export class ProvincesService {
         private ProvincesRepository: Repository<Provinces>
     ) { }
     async getAll(): Promise<any> {
-        const ShowData = await this.ProvincesRepository.query('select * from master.provinces')
+        const ShowData = await this.ProvincesRepository.query('select * from master.provinces order by prov_id')
         return ShowData
     }
     async getById(provId: number): Promise<any> {
@@ -25,7 +25,7 @@ export class ProvincesService {
         const addData = await this.ProvincesRepository.save({
             provName: data.provName,
             provCountry: data.provCountry,
-            provId: data.provId
+            // provId: data.provId
         })
         console.log(addData)
         if (addData) {
@@ -58,6 +58,6 @@ export class ProvincesService {
         const deleteData = await this.ProvincesRepository.delete({
             provId: provId
         })
-        return deleteData + 'berhasil di hapus'
+        return deleteData
     }
 }

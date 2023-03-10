@@ -22,7 +22,11 @@ let ServiceTaskService = class ServiceTaskService {
         this.ServiceTaskRepository = ServiceTaskRepository;
     }
     async getAll() {
-        const ShowData = await this.ServiceTaskRepository.find();
+        const ShowData = await this.ServiceTaskRepository.find({
+            order: {
+                setaId: "ASC"
+            }
+        });
         return ShowData;
     }
     async getById(setaId) {

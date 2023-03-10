@@ -20,7 +20,7 @@ let CountriesController = class CountriesController {
         this.CountryService = CountryService;
     }
     async getAll() {
-        const hasil = await this.CountryService.query("select * from master.country");
+        const hasil = await this.CountryService.getAll();
         console.log(hasil);
         return hasil;
     }
@@ -34,10 +34,8 @@ let CountriesController = class CountriesController {
         console.log({ message: 'berhasil', hasil: hasil });
         return hasil;
     }
-    async edit(id, Body) {
-        const hasil = await this.CountryService.edit(Body, id);
-        console.log('Berhasil');
-        return hasil;
+    update(params, body) {
+        return this.CountryService.updateCountry(params.id, body);
     }
     async delete(Param) {
         const hasil = await this.CountryService.delete(Param);
@@ -70,13 +68,12 @@ __decorate([
 ], CountriesController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)('edit/:id'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Param)('id')),
+    __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], CountriesController.prototype, "edit", null);
+], CountriesController.prototype, "update", null);
 __decorate([
     (0, common_1.Delete)('delete/:id'),
     (0, common_1.HttpCode)(200),

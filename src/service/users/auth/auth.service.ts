@@ -235,8 +235,8 @@ export class AuthService implements CanActivate{
         let savedUserPassword; 
         let savedUserRoles;
         let savedUserProfiles;
-        // let savedUserMembers;
-        // let savedUserBonusPoints;
+        let savedUserMembers;
+        let savedUserBonusPoints;
         let IDuser;
         await manager.transaction(async (transactionalEntityManager) => {
             const user = new Users();
@@ -308,78 +308,43 @@ export class AuthService implements CanActivate{
                         }
                     });
             
-            // const userMembers:any = new UserMembers();
-            //     userMembers.usmeUser = IDuser;
-            //     savedUserMembers = await transactionalEntityManager.save(userMembers)
-            //         .then((result: any) => {
-            //             if (!result) {
-            //                 throw new BadRequestException('Data userMembers insert failed');
-            //             }
-            //             return result;
-            //         }).catch((err: any) => {
-            //             return {
-            //                 message: err.message,
-            //                 error: err.name
-            //             }
-            //         });
+            const userMembers:any = new UserMembers();
+            userMembers.usmeUser = IDuser;
+            userMembers.usmePoints = 0;
+            userMembers.usmeType = 'default';
+            userMembers.usmeMembName = 'SILVER';
+            userMembers.usmePromoteDate = new Date();
+                savedUserMembers = await transactionalEntityManager.save(userMembers)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userMembers insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
             
-            // const userBonusPoints:any = new UserBonusPoints();
-            //     userBonusPoints.ubpoUser = IDuser;
-            //     savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
-            //         .then((result: any) => {
-            //             if (!result) {
-            //                 throw new BadRequestException('Data userBonusPoints insert failed');
-            //             }
-            //             return result;
-            //         }).catch((err: any) => {
-            //             return {
-            //                 message: err.message,
-            //                 error: err.name
-            //             }
-            //         });
-            
-            // const nodemailer = require("nodemailer");
-            // // Generate test SMTP service account from ethereal.email
-            // // Only needed if you don't have a real mail account for testing
-            // // let testAccount = await nodemailer.createTestAccount();
-
-            // // create reusable transporter object using the default SMTP transport
-            // let transporter = nodemailer.createTransport({
-            //     host: "smtp.ethereal.email",
-            //     port: 465,
-            //     secure: true, // true for 465, false for other ports
-            //     auth: {
-            //     user: 'shinobibootcamp@gmail.com', // generated ethereal user
-            //     pass: 'Faqih_12195', // generated ethereal password
-            //     },
-            // });
-
-            // // send mail with defined transport object
-            // let info = await transporter.sendMail({
-            //     from: '"Fred Foo 👻" <shinobibootcamp@gmail.com>', // sender address
-            //     to: " shinobiprogrammer@gmail.com", // list of receivers
-            //     subject: "Hello ✔", // Subject line
-            //     text: "Hello world?", // plain text body
-            //     html: "<b>Hello world?</b>", // html body
-            // });
-
-            // console.log("Message sent: %s", info.messageId);
-            // // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-            // // Preview only available when sending through an Ethereal account
-            // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-            // // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-
+            const userBonusPoints:any = new UserBonusPoints();
+            userBonusPoints.ubpoUser = IDuser;
+            userBonusPoints.ubpoTotalPoints = 0;
+            userBonusPoints.ubpoBonusType = 'P';
+            userBonusPoints.ubpoCreateOn = new Date();
+                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                    .then((result: any) => {
+                        if (!result) {
+                            throw new BadRequestException('Data userBonusPoints insert failed');
+                        }
+                        return result;
+                    }).catch((err: any) => {
+                        return {
+                            message: err.message,
+                            error: err.name
+                        }
+                    });
         });
-        // if (!savedUser) {
-        //     throw Error('Failed, email already exists')
-        // } else if ( !savedUserPassword) {
-        //     throw Error('Failed, password is not strong enough')
-        // } else {
-        //     return {
-        //         result: { savedUser, savedUserPassword },
-        //     };
-        // }
         
         if (!savedUser) {
             throw new Error('Failed, email already exists')
@@ -393,12 +358,12 @@ export class AuthService implements CanActivate{
         else if (!savedUserProfiles) {
             throw new Error('Failed, userProfile problem')
         }
-        // else if (!savedUserMembers) {
-        //     throw new Error('Failed, userMembers problem')
-        // }
-        // else if (!savedUserBonusPoints) {
-        //     throw new Error('Failed, userBonusPoints problem')
-        // }
+        else if (!savedUserMembers) {
+            throw new Error('Failed, userMembers problem')
+        }
+        else if (!savedUserBonusPoints) {
+            throw new Error('Failed, userBonusPoints problem')
+        }
         else {
             return {
                 message: "Register Successfully",
@@ -406,8 +371,8 @@ export class AuthService implements CanActivate{
                 savedUserRoles,
                 savedUserPassword,
                 savedUserProfiles,
-                // savedUserMembers,
-                // savedUserBonusPoints
+                savedUserMembers,
+                savedUserBonusPoints
             }
         }
     } catch (err) {

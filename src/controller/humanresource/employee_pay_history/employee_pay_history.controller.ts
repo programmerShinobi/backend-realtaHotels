@@ -38,7 +38,6 @@ export class EmployeePayHistoryController {
   @Post('insert')
   @HttpCode(201)
   async createEmployeePayHistory(@Body() body: any): Promise<any> {
-    console.log(body)
     const result =
       await this.employeePayHistoryService.createEmployeePayHistory(body);
 
@@ -61,7 +60,6 @@ export class EmployeePayHistoryController {
     @Param('id') id: number,
     @Body() body: any,
   ): Promise<any> {
-    console.log(body, id)
     const getOneData =
       await this.employeePayHistoryService.findOneEmployeePayHistory(id);
 

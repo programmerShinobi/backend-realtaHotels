@@ -19,33 +19,80 @@ const typeorm_2 = require("@nestjs/typeorm");
 const WorkOrders_1 = require("../../../../entities/WorkOrders");
 const date = new Date();
 let WorkOrdersService = class WorkOrdersService {
-    constructor(workOrdersRepository) {
-        this.workOrdersRepository = workOrdersRepository;
+    constructor(workorderRepository) {
+        this.workorderRepository = workorderRepository;
+        this.paginateResponse = (data, page, limit) => {
+            const [result, total] = data;
+            const lastPage = Math.ceil(total / limit);
+            const nextPage = parseInt(page) + 1 > lastPage ? null : parseInt(page) + 1;
+            const prevPage = parseInt(page) - 1 < 1 ? null : parseInt(page) - 1;
+            return {
+                statusCode: 'success',
+                data: [...result],
+                count: total,
+                currentPage: page,
+                nextPage: nextPage,
+                prevPage: prevPage,
+                lastPage: lastPage,
+            };
+        };
     }
-    async findAllWorkOrders() {
-        return await this.workOrdersRepository.find();
+    ucwords(str) {
+        return (str + '').replace(/^([a-z])|\s+([a-z])/g, function ($1) {
+            return $1.toUpperCase();
+        });
     }
-    async findOneWorkOrders(woroId) {
-        return await this.workOrdersRepository.findOne({
+    async findAllWorkorder() {
+        return await this.workorderRepository.find();
+    }
+    async findOneWorkorder(woroId) {
+        return await this.workorderRepository.findOne({
             where: { woroId: woroId },
         });
     }
-    async createWorkOrders(data) {
-        await this.workOrdersRepository.query('CALL humanresource.insertemployee()', []);
-        const res = await this.findAllWorkOrders();
-        return res;
-    }
-    async updateWorkOrders(woroId, data) {
-        await this.workOrdersRepository.query('CALL humanresource.insertemployee()', []);
-        const res = await this.findAllWorkOrders();
-        return res;
-    }
-    async deleteWorkOrders(woroId) {
-        await this.workOrdersRepository.delete({
-            woroId: woroId,
+    async createWorkorder(data) {
+        await this.workorderRepository.insert({
+            woroStartDate: data.woroStartDate,
+            woroUser: data.userId,
+            woroStatus: 'OPEN',
         });
-        const res = await this.findAllWorkOrders();
+        const res = await this.paginationWorkorder(data);
         return res;
+    }
+    async updateWorkorder(woroId, data) {
+        await this.workorderRepository.update({
+            woroId: woroId,
+        }, {
+            woroStartDate: data.woroStartDate,
+            woroStatus: data.woroStatus,
+        });
+        const res = await this.paginationWorkorder(data);
+        return res;
+    }
+    async deleteWorkorder(data) {
+        await this.workorderRepository.delete({
+            woroId: data.woroId,
+        });
+        const res = await this.paginationWorkorder(data);
+        return res;
+    }
+    async paginationWorkorder(query) {
+        const limit = (query === null || query === void 0 ? void 0 : query.limit) || 10;
+        const page = (query === null || query === void 0 ? void 0 : query.page) || 1;
+        const skip = (page - 1) * limit;
+        const keyword = (query === null || query === void 0 ? void 0 : query.keyword) || '';
+        const data = await this.workorderRepository.findAndCount({
+            relations: ['woroUser'],
+            where: {
+                woroUser: {
+                    userFullName: (0, typeorm_1.Like)(`%${keyword}%`),
+                },
+            },
+            order: { woroId: 'ASC' },
+            take: limit,
+            skip: skip,
+        });
+        return this.paginateResponse(data, page, limit);
     }
 };
 WorkOrdersService = __decorate([

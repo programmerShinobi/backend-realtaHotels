@@ -19,11 +19,12 @@ let WorkOrdersController = class WorkOrdersController {
     constructor(workordersService) {
         this.workordersService = workordersService;
     }
-    async findAllWorkorders() {
-        return this.workordersService.findAllWorkOrders();
+    async findAllWorkorder(query) {
+        const result = await this.workordersService.paginationWorkorder(query);
+        return result;
     }
-    async findOneWorkorders(param) {
-        const result = await this.workordersService.findOneWorkOrders(param.id);
+    async findOneWorkorder(param) {
+        const result = await this.workordersService.findOneWorkorder(param.id);
         if (result) {
             return result;
         }
@@ -31,8 +32,8 @@ let WorkOrdersController = class WorkOrdersController {
             throw new common_1.HttpException({ message: 'Workorders not found' }, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async createWorkorders(body) {
-        const result = await this.workordersService.createWorkOrders(body);
+    async createWorkorder(body) {
+        const result = await this.workordersService.createWorkorder(body);
         if (result) {
             return { message: 'Workorders created successfully', result: result };
         }
@@ -40,10 +41,10 @@ let WorkOrdersController = class WorkOrdersController {
             throw new common_1.HttpException('Workorders created failed', common_1.HttpStatus.EXPECTATION_FAILED);
         }
     }
-    async updateWorkorders(id, body) {
-        const getOneData = await this.workordersService.findOneWorkOrders(id);
+    async updateWorkorder(id, body) {
+        const getOneData = await this.workordersService.findOneWorkorder(id);
         if (getOneData) {
-            const result = await this.workordersService.updateWorkOrders(id, body);
+            const result = await this.workordersService.updateWorkorder(id, body);
             if (result) {
                 return { message: 'Workorders updated successfully', result: result };
             }
@@ -55,10 +56,10 @@ let WorkOrdersController = class WorkOrdersController {
             throw new common_1.HttpException({ message: 'Workorders not found' }, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async deleteWorkorders(id) {
-        const getOneData = await this.workordersService.findOneWorkOrders(id);
+    async deleteWorkorder(id) {
+        const getOneData = await this.workordersService.findOneWorkorder(id);
         if (getOneData) {
-            const result = await this.workordersService.deleteWorkOrders(id);
+            const result = await this.workordersService.deleteWorkorder(id);
             if (result) {
                 return { message: 'Workorders deleted successfully', result: result };
             }
@@ -74,10 +75,11 @@ let WorkOrdersController = class WorkOrdersController {
 __decorate([
     (0, common_1.Get)(),
     (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], WorkOrdersController.prototype, "findAllWorkorders", null);
+], WorkOrdersController.prototype, "findAllWorkorder", null);
 __decorate([
     (0, common_1.Get)(':id'),
     (0, common_1.HttpCode)(200),
@@ -85,7 +87,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], WorkOrdersController.prototype, "findOneWorkorders", null);
+], WorkOrdersController.prototype, "findOneWorkorder", null);
 __decorate([
     (0, common_1.Post)('insert'),
     (0, common_1.HttpCode)(201),
@@ -93,7 +95,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], WorkOrdersController.prototype, "createWorkorders", null);
+], WorkOrdersController.prototype, "createWorkorder", null);
 __decorate([
     (0, common_1.Put)('update/:id'),
     (0, common_1.HttpCode)(200),
@@ -102,7 +104,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
-], WorkOrdersController.prototype, "updateWorkorders", null);
+], WorkOrdersController.prototype, "updateWorkorder", null);
 __decorate([
     (0, common_1.Delete)('delete/:id'),
     (0, common_1.HttpCode)(200),
@@ -110,7 +112,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], WorkOrdersController.prototype, "deleteWorkorders", null);
+], WorkOrdersController.prototype, "deleteWorkorder", null);
 WorkOrdersController = __decorate([
     (0, common_1.Controller)('workorders'),
     __metadata("design:paramtypes", [work_orders_service_1.WorkOrdersService])

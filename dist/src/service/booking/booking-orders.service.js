@@ -24,10 +24,10 @@ let BookingOrdersService = class BookingOrdersService {
     async findAllBookingOrders() {
         return await this.bookingordersRepository.find();
     }
-    async findOneBookingOrders(boor_id) {
+    async findOneBookingOrders(boorUserId) {
         return await this.bookingordersRepository.findOne({
             where: {
-                boorId: boor_id
+                boorId: boorUserId
             }
         });
     }

@@ -1,16 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Employee } from 'entities/Employee';
-import { EmployeeDto } from 'src/controller/humanresource/employee/employee.dto';
 import { Repository } from 'typeorm';
-import { AxiosError } from 'axios';
-import { HttpService } from '@nestjs/axios';
-import { catchError, firstValueFrom } from 'rxjs';
-import * as FormData from 'form-data';
 import 'dotenv/config'; 
 import { initializeApp } from 'firebase/app';
-import { getStorage, ref, listAll, uploadBytesResumable, getDownloadURL, uploadBytes  } from "firebase/storage";
-import { getApp } from 'firebase/app';
+import { getStorage, ref, getDownloadURL, uploadBytes  } from "firebase/storage";
 
 @Injectable()
 export class EmployeeService {
