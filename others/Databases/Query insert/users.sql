@@ -5,7 +5,7 @@ VALUES ('Guest'),
 ('Manager'),
 ('Office Boy'),
 ('Admin'),
-('User');
+('Staff');
 
 -- INSERT TO TABLE users.users
 INSERT INTO users.users(
