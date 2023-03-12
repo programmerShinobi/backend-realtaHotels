@@ -15,9 +15,13 @@ const BookingOrderDetail_1 = require("./BookingOrderDetail");
 let UserBreakfeast = class UserBreakfeast {
 };
 __decorate([
+    (0, typeorm_1.Column)("integer", { primary: true, name: "usbr_borde_id" }),
+    __metadata("design:type", Number)
+], UserBreakfeast.prototype, "usbrBordeId", void 0);
+__decorate([
     (0, typeorm_1.Column)("timestamp without time zone", {
-        primary: true,
         name: "usbr_modified_date",
+        nullable: true,
         default: () => "now()",
     }),
     __metadata("design:type", Date)
@@ -27,12 +31,12 @@ __decorate([
     __metadata("design:type", Number)
 ], UserBreakfeast.prototype, "usbrTotalVacant", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => BookingOrderDetail_1.BookingOrderDetail, (bookingOrderDetail) => bookingOrderDetail.userBreakfeasts, { onDelete: "CASCADE", onUpdate: "CASCADE" }),
+    (0, typeorm_1.OneToOne)(() => BookingOrderDetail_1.BookingOrderDetail, (bookingOrderDetail) => bookingOrderDetail.userBreakfeast, { onDelete: "CASCADE", onUpdate: "CASCADE" }),
     (0, typeorm_1.JoinColumn)([{ name: "usbr_borde_id", referencedColumnName: "bordeId" }]),
     __metadata("design:type", BookingOrderDetail_1.BookingOrderDetail)
 ], UserBreakfeast.prototype, "usbrBorde", void 0);
 UserBreakfeast = __decorate([
-    (0, typeorm_1.Index)("pk_borde_id", ["usbrBorde"], { unique: true }),
+    (0, typeorm_1.Index)("pk_borde_id", ["usbrBordeId"], { unique: true }),
     (0, typeorm_1.Entity)("user_breakfeast", { schema: "booking" })
 ], UserBreakfeast);
 exports.UserBreakfeast = UserBreakfeast;

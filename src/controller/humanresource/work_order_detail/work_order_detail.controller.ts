@@ -88,10 +88,9 @@ export class WorkOrderDetailController {
   @Delete('delete')
   @HttpCode(200)
   async deleteWorkOrderDetail(@Query() query: any) {
-    const getOneData =
-      await this.workOrderDetailService.findOneWorkOrderDetail(
-        query.ephiId,
-      );
+    const getOneData = await this.workOrderDetailService.findOneWorkOrderDetail(
+      query.wodeId,
+    );
 
     if (getOneData) {
       const result =

@@ -9,4 +9,5 @@ export declare class BookingOrdersController {
     remove(params: any): Promise<any>;
     bokingOrder(body: any): Promise<any>;
     getInvoice(): Promise<any>;
+    updateStatus(params: any, body: any): Promise<any>;
 }

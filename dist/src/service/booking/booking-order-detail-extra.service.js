@@ -34,14 +34,17 @@ let BookingOrderDetailExtraService = class BookingOrderDetailExtraService {
     async createExtraMultiple(body) {
         body.map(async (body) => {
             const extraDetail = new BookingOrderDetailExtra_1.BookingOrderDetailExtra();
-            extraDetail.boexPrit = body.boexPritId;
             extraDetail.boexPrice = body.boexPrice;
             extraDetail.boexQty = body.boexQty;
             extraDetail.boexSubtotal = body.boexSubtotal;
             extraDetail.boexMeasureUnit = body.boexMeasureUnit;
-            extraDetail.boexBorde = body.boex_borde_id;
+            extraDetail.boexBorde = body.boexBordeId;
+            extraDetail.boexPrit = body.boexPritId;
             return await this.bookingorderdetailextraRepository.save(extraDetail);
         });
+    }
+    async getInvoiceBoex(id) {
+        return await this.bookingorderdetailextraRepository.query(`SELECT * FROM booking.boexprit where boex_borde_id = ${id}`);
     }
     async createBookingOrderDetailExtra(data) {
         return await this.bookingorderdetailextraRepository.save(data);

@@ -58,7 +58,7 @@ let WorkOrderDetailController = class WorkOrderDetailController {
         }
     }
     async deleteWorkOrderDetail(query) {
-        const getOneData = await this.workOrderDetailService.findOneWorkOrderDetail(query.ephiId);
+        const getOneData = await this.workOrderDetailService.findOneWorkOrderDetail(query.wodeId);
         if (getOneData) {
             const result = await this.workOrderDetailService.deleteWorkOrderDetail(query);
             if (result) {

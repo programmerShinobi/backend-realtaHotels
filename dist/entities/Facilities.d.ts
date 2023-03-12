@@ -4,6 +4,7 @@ import { Hotels } from "./Hotels";
 import { FacilityPhotos } from "./FacilityPhotos";
 import { FacilityPriceHistory } from "./FacilityPriceHistory";
 import { RestoMenus } from "./RestoMenus";
+import { StockDetail } from "./StockDetail";
 import { WorkOrderDetail } from "./WorkOrderDetail";
 export declare class Facilities {
     faciId: number;
@@ -26,5 +27,6 @@ export declare class Facilities {
     facilityPhotos: FacilityPhotos[];
     facilityPriceHistories: FacilityPriceHistory[];
     restoMenus: RestoMenus[];
+    stockDetails: StockDetail[];
     workOrderDetails: WorkOrderDetail[];
 }

@@ -17,27 +17,39 @@ export class UserAccountsService {
     if (query) {
       return await this.UserAccountsRepository.query(query)
         .then((result) => {
-          return result;
+          return {
+            result: result,
+            message: 'Fetch user accounts succeed! :)',
+            status: HttpStatus.OK,
+          };
         })
         .catch((err) => {
-          return new HttpException(
-            { error: `Data with query ${query} is not found!` },
-            HttpStatus.NOT_FOUND,
-            { cause: err },
-          );
+          return {
+            result: [],
+            message: 'ERROR in fetching user accounts, ' + err,
+            status: HttpStatus.BAD_REQUEST,
+          };
         });
     }
 
     return await this.UserAccountsRepository.query(
       `
-	  SELECT * FROM payment.user_payment_methods
-	  `
-	)
+      SELECT * FROM payment.user_payment_methods
+      `,
+    )
       .then((result) => {
-        return result;
+        return {
+          result: result,
+          message: 'Fetch user accounts succeed! :)',
+          status: HttpStatus.OK,
+        };
       })
       .catch((err) => {
-        return err;
+        return {
+          result: [],
+          message: 'ERROR in fetching user accounts, ' + err,
+          status: HttpStatus.BAD_REQUEST,
+        };
       });
   }
 
@@ -47,9 +59,9 @@ export class UserAccountsService {
 
     const accountExists = await this.UserAccountsRepository.query(
       `
-			SELECT * FROM payment.user_accounts
-			WHERE usac_account_number = '${accountNumber}'
-			`,
+      SELECT * FROM payment.user_accounts
+      WHERE usac_account_number = '${accountNumber}'
+      `,
     );
 
     if (accountExists) {
@@ -58,20 +70,22 @@ export class UserAccountsService {
         { usacSecuredKey: hashedKey },
       )
         .then(() => {
-          return `Account ${accountNumber} is successfully updated!`;
+          return {
+            message: `Account ${accountNumber} is successfully updated!`,
+            status: HttpStatus.OK,
+          };
         })
         .catch((err) => {
-          return new HttpException(
-            { error: `Failed to update account ${accountNumber}` },
-            HttpStatus.BAD_REQUEST,
-            { cause: err },
-          );
+          return {
+            message: `Failed to update account ${accountNumber}, ` + err,
+            status: HttpStatus.BAD_REQUEST,
+          };
         });
     } else {
-      return new HttpException(
-        { error: `Account ${accountNumber} is not found!` },
-        HttpStatus.NOT_FOUND,
-      );
+      return {
+        message: `Account ${accountNumber} is not found!`,
+        status: HttpStatus.NOT_FOUND,
+      };
     }
   }
 
@@ -94,7 +108,6 @@ export class UserAccountsService {
         return "Bank expiry date can't be null!";
       }
     }
-
     // Insert into database using Stored Procedure
     return await this.UserAccountsRepository.query(
       `CALL payment.InsertUserAccount($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
@@ -110,14 +123,24 @@ export class UserAccountsService {
         newData.expYear,
       ],
     )
-      .then(() => {
-        return this.UserAccountsRepository.query(
-          `SELECT * FROM payment.user_payment_methods WHERE "userId" = $1`,
-          [newData.userId],
+      .then(async () => {
+          const allData = await this.UserAccountsRepository.query(
+            `
+            SELECT * FROM payment.user_payment_methods
+            WHERE "userId" = ${+newData.userId}
+            `
         );
+        return {
+          result: allData,
+          message: `New ${newData.paymentName} account has been added!`,
+          status: HttpStatus.CREATED,
+        };
       })
       .catch((err) => {
-        return "There's an error in adding new account, " + err;
+        return {
+          message: `ERROR creating new account: ` + err.message,
+          status: HttpStatus.BAD_REQUEST,
+        };
       });
   }
 
@@ -125,25 +148,31 @@ export class UserAccountsService {
     // Check if there's an account data with corresponding account number.
     const accountExists = await this.UserAccountsRepository.query(
       `
-			SELECT * FROM payment.user_accounts
-			WHERE usac_account_number = '${accountNumber}'
-			`,
+      SELECT * FROM payment.user_accounts
+      WHERE usac_account_number = '${accountNumber}'
+      `,
     );
 
     if (accountExists.length > 0) {
       return await this.UserAccountsRepository.query(
         `
-				DELETE FROM payment.user_accounts
-				WHERE usac_account_number = '${accountNumber}'
-				`,
+        DELETE FROM payment.user_accounts
+        WHERE usac_account_number = '${accountNumber}'
+        `,
       ).then(() => {
-        return `Account ${accountNumber} is successfully deleted!`;
+        // Return value if account exists.
+        return {
+          message: `Account ${accountNumber} is successfully deleted!`,
+          status: HttpStatus.OK,
+        };
       });
+
+      // Return value if account does not exists.
     } else {
-      return new HttpException(
-        { error: `Account ${accountNumber} is not found!` },
-        HttpStatus.NOT_FOUND,
-      );
+      return {
+        message: `Account ${accountNumber} is not found!`,
+        status: HttpStatus.NOT_FOUND,
+      };
     }
   }
 }

@@ -37,6 +37,11 @@ export class BookingOrdersController {
         return await this.bokingorderService.getInvoice()
     }
 
+    @Put("/status/:id")
+    async updateStatus(@Param() params,@Body() body: any): Promise<any>{
+        return await this.bokingorderService.updateStatus(params.id,body)
+    }
+
 }
 
 

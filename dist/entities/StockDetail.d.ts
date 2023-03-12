@@ -1,11 +1,12 @@
+import { Facilities } from "./Facilities";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { Stocks } from "./Stocks";
 export declare class StockDetail {
     stodId: number;
     stodBarcodeNumber: string | null;
-    stodStatus: string | null;
+    stodStatus: number | null;
     stodNotes: string | null;
-    stodFaciId: number | null;
+    stodFaci: Facilities;
     stodPohe: PurchaseOrderHeader;
     stodStock: Stocks;
 }

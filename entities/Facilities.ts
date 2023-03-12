@@ -13,6 +13,7 @@ import { Hotels } from "./Hotels";
 import { FacilityPhotos } from "./FacilityPhotos";
 import { FacilityPriceHistory } from "./FacilityPriceHistory";
 import { RestoMenus } from "./RestoMenus";
+import { StockDetail } from "./StockDetail";
 import { WorkOrderDetail } from "./WorkOrderDetail";
 
 @Index("faci_id_pk", ["faciId"], { unique: true })
@@ -113,6 +114,9 @@ export class Facilities {
 
   @OneToMany(() => RestoMenus, (restoMenus) => restoMenus.remeFaci)
   restoMenus: RestoMenus[];
+
+  @OneToMany(() => StockDetail, (stockDetail) => stockDetail.stodFaci)
+  stockDetails: StockDetail[];
 
   @OneToMany(
     () => WorkOrderDetail,

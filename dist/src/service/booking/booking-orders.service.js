@@ -82,6 +82,9 @@ let BookingOrdersService = class BookingOrdersService {
     async getInvoice() {
         return await this.bookingordersRepository.query('SELECT * FROM booking.getbookinginvoice');
     }
+    async updateStatus(id, data) {
+        return await this.bookingordersRepository.query(`UPDATE booking.booking_orders SET boor_status = '${data.boorStatus}' WHERE boor_id = ${id}`);
+    }
 };
 BookingOrdersService = __decorate([
     (0, common_1.Injectable)(),

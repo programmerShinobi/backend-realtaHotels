@@ -21,17 +21,14 @@ let CountriesController = class CountriesController {
     }
     async getAll() {
         const hasil = await this.CountryService.getAll();
-        console.log(hasil);
         return hasil;
     }
     async getById(id) {
         const hasil = await this.CountryService.getById(id);
-        console.log({ hasil: hasil });
         return ({ hasil: hasil });
     }
     async create(Body) {
         const hasil = await this.CountryService.create(Body);
-        console.log({ message: 'berhasil', hasil: hasil });
         return hasil;
     }
     update(params, body) {
@@ -39,7 +36,6 @@ let CountriesController = class CountriesController {
     }
     async delete(Param) {
         const hasil = await this.CountryService.delete(Param);
-        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

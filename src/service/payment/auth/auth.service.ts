@@ -22,30 +22,26 @@ export class UserAccountAuthService {
         )
             .then(result => {return result[0]})
             .catch((error) => {
-                return new HttpException(
-                    { error: `Data with query ${data.userId} is not found!` },
-                    HttpStatus.NOT_FOUND,
-                    { cause: error },
-                  )
+                return {
+                    message: `Account number ${data.accountNumber} is not found, ` + error,
+                    status: HttpStatus.NOT_FOUND
+                }
             })
         
         const match = await bcrypt.compare(data.securedKey, accountData.securedKey)
 
         if (match) {
-            return new HttpException(
-                {
-                    result: match,
-                    message: "Correct!"
-                },
-                HttpStatus.OK)
+            return {
+                result: match,
+                message: "Correct!",
+                status: HttpStatus.OK
+            }
         } else {
-            return new HttpException(
-                {
-                    result: match,
-                    message: "Nice try, but you have to try again."
-                },
-                HttpStatus.FORBIDDEN
-            )
+            return {
+                result: match,
+                message: "Nice try, but you have to try again.",
+                status: HttpStatus.NOT_ACCEPTABLE
+            }
         }
     }
 }

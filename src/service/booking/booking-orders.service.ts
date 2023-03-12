@@ -110,4 +110,7 @@ export class BookingOrdersService {
         return await this.bookingordersRepository.query('SELECT * FROM booking.getbookinginvoice')
     }
 
+    async updateStatus(id:number ,data:BookingOrders){
+        return await this.bookingordersRepository.query(`UPDATE booking.booking_orders SET boor_status = '${data.boorStatus}' WHERE boor_id = ${id}`)
+    }
 }

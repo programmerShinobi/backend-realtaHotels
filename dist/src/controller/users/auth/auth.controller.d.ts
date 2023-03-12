@@ -43,4 +43,5 @@ export declare class AuthController {
         savedUserProfiles?: undefined;
     }>;
     changePassword(params: any, body: any): Promise<any>;
+    forgotPassword(body: any): Promise<any>;
 }

@@ -27,40 +27,65 @@ let UserAccountsService = class UserAccountsService {
         if (query) {
             return await this.UserAccountsRepository.query(query)
                 .then((result) => {
-                return result;
+                return {
+                    result: result,
+                    message: 'Fetch user accounts succeed! :)',
+                    status: common_1.HttpStatus.OK,
+                };
             })
                 .catch((err) => {
-                return new common_1.HttpException({ error: `Data with query ${query} is not found!` }, common_1.HttpStatus.NOT_FOUND, { cause: err });
+                return {
+                    result: [],
+                    message: 'ERROR in fetching user accounts, ' + err,
+                    status: common_1.HttpStatus.BAD_REQUEST,
+                };
             });
         }
         return await this.UserAccountsRepository.query(`
-	  SELECT * FROM payment.user_payment_methods
-	  `)
+      SELECT * FROM payment.user_payment_methods
+      `)
             .then((result) => {
-            return result;
+            return {
+                result: result,
+                message: 'Fetch user accounts succeed! :)',
+                status: common_1.HttpStatus.OK,
+            };
         })
             .catch((err) => {
-            return err;
+            return {
+                result: [],
+                message: 'ERROR in fetching user accounts, ' + err,
+                status: common_1.HttpStatus.BAD_REQUEST,
+            };
         });
     }
     async update(accountNumber, dataToUpdate) {
         const salt = bcrypt.genSaltSync(10);
         const hashedKey = bcrypt.hashSync(dataToUpdate.securedKey, salt);
         const accountExists = await this.UserAccountsRepository.query(`
-			SELECT * FROM payment.user_accounts
-			WHERE usac_account_number = '${accountNumber}'
-			`);
+      SELECT * FROM payment.user_accounts
+      WHERE usac_account_number = '${accountNumber}'
+      `);
         if (accountExists) {
             return await this.UserAccountsRepository.update({ usacAccountNumber: accountNumber }, { usacSecuredKey: hashedKey })
                 .then(() => {
-                return `Account ${accountNumber} is successfully updated!`;
+                return {
+                    message: `Account ${accountNumber} is successfully updated!`,
+                    status: common_1.HttpStatus.OK,
+                };
             })
                 .catch((err) => {
-                return new common_1.HttpException({ error: `Failed to update account ${accountNumber}` }, common_1.HttpStatus.BAD_REQUEST, { cause: err });
+                return {
+                    message: `Failed to update account ${accountNumber}, ` + err,
+                    status: common_1.HttpStatus.BAD_REQUEST,
+                };
             });
         }
         else {
-            return new common_1.HttpException({ error: `Account ${accountNumber} is not found!` }, common_1.HttpStatus.NOT_FOUND);
+            return {
+                message: `Account ${accountNumber} is not found!`,
+                status: common_1.HttpStatus.NOT_FOUND,
+            };
         }
     }
     async create(newData) {
@@ -87,28 +112,45 @@ let UserAccountsService = class UserAccountsService {
             newData.expMonth,
             newData.expYear,
         ])
-            .then(() => {
-            return this.UserAccountsRepository.query(`SELECT * FROM payment.user_payment_methods WHERE "userId" = $1`, [newData.userId]);
+            .then(async () => {
+            const allData = await this.UserAccountsRepository.query(`
+            SELECT * FROM payment.user_payment_methods
+            WHERE "userId" = ${+newData.userId}
+            `);
+            return {
+                result: allData,
+                message: `New ${newData.paymentName} account has been added!`,
+                status: common_1.HttpStatus.CREATED,
+            };
         })
             .catch((err) => {
-            return "There's an error in adding new account, " + err;
+            return {
+                message: `ERROR creating new account: ` + err.message,
+                status: common_1.HttpStatus.BAD_REQUEST,
+            };
         });
     }
     async delete(accountNumber) {
         const accountExists = await this.UserAccountsRepository.query(`
-			SELECT * FROM payment.user_accounts
-			WHERE usac_account_number = '${accountNumber}'
-			`);
+      SELECT * FROM payment.user_accounts
+      WHERE usac_account_number = '${accountNumber}'
+      `);
         if (accountExists.length > 0) {
             return await this.UserAccountsRepository.query(`
-				DELETE FROM payment.user_accounts
-				WHERE usac_account_number = '${accountNumber}'
-				`).then(() => {
-                return `Account ${accountNumber} is successfully deleted!`;
+        DELETE FROM payment.user_accounts
+        WHERE usac_account_number = '${accountNumber}'
+        `).then(() => {
+                return {
+                    message: `Account ${accountNumber} is successfully deleted!`,
+                    status: common_1.HttpStatus.OK,
+                };
             });
         }
         else {
-            return new common_1.HttpException({ error: `Account ${accountNumber} is not found!` }, common_1.HttpStatus.NOT_FOUND);
+            return {
+                message: `Account ${accountNumber} is not found!`,
+                status: common_1.HttpStatus.NOT_FOUND,
+            };
         }
     }
 };

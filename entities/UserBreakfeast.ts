@@ -1,22 +1,25 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
 import { BookingOrderDetail } from "./BookingOrderDetail";
 
-@Index("pk_borde_id", ["usbrBorde"], { unique: true })
+@Index("pk_borde_id", ["usbrBordeId"], { unique: true })
 @Entity("user_breakfeast", { schema: "booking" })
 export class UserBreakfeast {
+  @Column("integer", { primary: true, name: "usbr_borde_id" })
+  usbrBordeId: number;
+
   @Column("timestamp without time zone", {
-    primary: true,
     name: "usbr_modified_date",
+    nullable: true,
     default: () => "now()",
   })
-  usbrModifiedDate: Date;
+  usbrModifiedDate: Date | null;
 
   @Column("smallint", { name: "usbr_total_vacant", nullable: true })
   usbrTotalVacant: number | null;
 
-  @ManyToOne(
+  @OneToOne(
     () => BookingOrderDetail,
-    (bookingOrderDetail) => bookingOrderDetail.userBreakfeasts,
+    (bookingOrderDetail) => bookingOrderDetail.userBreakfeast,
     { onDelete: "CASCADE", onUpdate: "CASCADE" }
   )
   @JoinColumn([{ name: "usbr_borde_id", referencedColumnName: "bordeId" }])

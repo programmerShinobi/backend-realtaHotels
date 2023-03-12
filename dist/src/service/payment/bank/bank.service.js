@@ -86,7 +86,7 @@ let BankService = class BankService {
                     keyword: newData.bankCode
                 });
                 return {
-                    result: await newBank.result,
+                    result: await newBank.result[0],
                     message: `Bank ${newData.bankName} has been added!`,
                     status: common_1.HttpStatus.OK
                 };

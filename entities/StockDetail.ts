@@ -6,6 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
+import { Facilities } from "./Facilities";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { Stocks } from "./Stocks";
 
@@ -22,16 +23,12 @@ export class StockDetail {
     name: "stod_barcode_number",
     nullable: true,
     unique: true,
-    length: 255,
+    length: 225,
   })
   stodBarcodeNumber: string | null;
 
-  @Column("character varying", {
-    name: "stod_status",
-    nullable: true,
-    length: 2,
-  })
-  stodStatus: string | null;
+  @Column("integer", { name: "stod_status", nullable: true })
+  stodStatus: number | null;
 
   @Column("character varying", {
     name: "stod_notes",
@@ -40,8 +37,12 @@ export class StockDetail {
   })
   stodNotes: string | null;
 
-  @Column("integer", { name: "stod_faci_id", nullable: true })
-  stodFaciId: number | null;
+  @ManyToOne(() => Facilities, (facilities) => facilities.stockDetails, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+  })
+  @JoinColumn([{ name: "stod_faci_id", referencedColumnName: "faciId" }])
+  stodFaci: Facilities;
 
   @ManyToOne(
     () => PurchaseOrderHeader,

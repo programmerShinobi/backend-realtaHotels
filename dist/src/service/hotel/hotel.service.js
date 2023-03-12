@@ -29,7 +29,7 @@ let HotelService = class HotelService {
     }
     async createHotel(data) {
         data.hotelPhonenumber = '+62 ' + data.hotelPhonenumber;
-        await this.hotelsRepository.save(this.hotelsRepository.create(data));
+        await this.hotelsRepository.save(data);
         const res = await this.hotelsRepository.find();
         return { result: res };
     }
