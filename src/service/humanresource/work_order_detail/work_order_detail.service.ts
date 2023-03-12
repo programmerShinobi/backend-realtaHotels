@@ -48,10 +48,10 @@ export class WorkOrderDetailService {
   //   method untuk menambahkan data WorkOrderDetail ke database
   async createWorkOrderDetail(data: any) {
     await this.workOrderDetailRepository.insert({
-      wodeTaskName: data.wodeTaskName,
+      wodeTaskName: this.ucwords(data.wodeTaskName),
       wodeStatus: 'INPROGRESS',
       wodeStartDate: formattedDate,
-      wodeNotes: data.wodeNotes,
+      wodeNotes: this.ucwords(data.wodeNotes),
       wodeEmp: data.wodeEmp,
       wodeSeta: data.wodeSeta,
       wodeWoro: data.wodeWoro,
@@ -68,10 +68,10 @@ export class WorkOrderDetailService {
         wodeId: wodeId,
       },
       {
-        wodeTaskName: data.wodeTaskName,
+        wodeTaskName: this.ucwords(data.wodeTaskName),
         wodeStatus: data.wodeStatus,
         wodeStartDate: formattedDate,
-        wodeNotes: data.wodeNotes,
+        wodeNotes: this.ucwords(data.wodeNotes),
         wodeEmp: data.wodeEmp,
         wodeSeta: data.wodeSeta,
         wodeWoro: data.wodeWoro,

@@ -40,5 +40,6 @@ export declare class BookingOrdersService {
     deleteBookinfOrders(boor_id: number): Promise<any>;
     createBokingOrder(data: dataBokingOrder): Promise<any>;
     getInvoice(): Promise<any>;
+    updateStatus(id: number, data: BookingOrders): Promise<any>;
 }
 export {};

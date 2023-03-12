@@ -20,7 +20,7 @@ export class HotelService {
   // insert in table hotel
   async createHotel(data: Hotels) {
     data.hotelPhonenumber = '+62 ' + data.hotelPhonenumber;
-    await this.hotelsRepository.save(this.hotelsRepository.create(data));
+    await this.hotelsRepository.save(data);
     const res = await this.hotelsRepository.find();
     return { result: res };
   }

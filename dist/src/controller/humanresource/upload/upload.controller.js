@@ -22,8 +22,7 @@ let UploadController = class UploadController {
         this.uploadService = uploadService;
     }
     async logFiles(file, body) {
-        console.log(file);
-        console.log(body);
+        const result = await this.uploadService.uploadFile(file);
     }
 };
 __decorate([

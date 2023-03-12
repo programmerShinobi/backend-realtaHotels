@@ -14,6 +14,10 @@ export class BookingOrderDetailExtraController {
     findbyid(@Param('id') id: number): Promise<any> {
         return this.bookingorderdetailextraService.findOneBookingOrderDetailExtra(id);
     }
+    @Get('invoice/:id')
+    findbyUser(@Param('id') id: number): Promise<any> {
+        return this.bookingorderdetailextraService.getInvoiceBoex(id);
+    }
     @Post("create")
     create(@Body() body:any): Promise<any> {
         return this.bookingorderdetailextraService.createBookingOrderDetailExtra(body);

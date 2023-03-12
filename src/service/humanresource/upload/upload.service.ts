@@ -26,9 +26,9 @@ export class UploadService {
     const storage = getStorage(app);
 
     let urlImage = [];
+    let originalName = [];
 
     files.map(async (value: any, key: any) => {
-
       /* generate name */
       const path = require('path');
       const extension = path.parse(value.originalname).ext;
@@ -45,16 +45,23 @@ export class UploadService {
         name: value.originalname,
       };
 
-      uploadBytes(storageRef, value.buffer, metatype)
-        .then(async (snapshot) => {
-          //get url image
-          getDownloadURL(storageRef).then((url) => {
-            urlImage = [...urlImage, url];
-          });
-        })
-        .catch((error) => {
-          throw error;
-        });
+      await uploadBytes(storageRef, value.buffer, metatype);
+
+      originalName.push(originalname);
     });
+
+
+    originalName.map(async (val) => {
+      const storageRef = ref(storage, `images/${val}`);
+      
+      const url = await getDownloadURL(storageRef)
+
+      urlImage.push(url)
+    })
+
+    console.log(urlImage);
+    //get url image
+
+    // return urlImage;
   }
 }

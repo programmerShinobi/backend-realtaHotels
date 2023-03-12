@@ -86,9 +86,9 @@ __decorate([
     __metadata("design:type", Array)
 ], BookingOrderDetail.prototype, "specialOfferCoupons", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => UserBreakfeast_1.UserBreakfeast, (userBreakfeast) => userBreakfeast.usbrBorde),
-    __metadata("design:type", Array)
-], BookingOrderDetail.prototype, "userBreakfeasts", void 0);
+    (0, typeorm_1.OneToOne)(() => UserBreakfeast_1.UserBreakfeast, (userBreakfeast) => userBreakfeast.usbrBorde),
+    __metadata("design:type", UserBreakfeast_1.UserBreakfeast)
+], BookingOrderDetail.prototype, "userBreakfeast", void 0);
 BookingOrderDetail = __decorate([
     (0, typeorm_1.Index)("pk_boor_borde_id", ["bordeId"], { unique: true }),
     (0, typeorm_1.Entity)("booking_order_detail", { schema: "booking" })

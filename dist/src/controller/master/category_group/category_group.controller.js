@@ -22,29 +22,22 @@ let CategoryGroupController = class CategoryGroupController {
     }
     async getAll() {
         const hasil = await this.CategoryGroupRepository.getAll();
-        console.log({
-            hasil: hasil
-        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.CategoryGroupRepository.getById(Param.id);
-        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body, file) {
         const hasil = await this.CategoryGroupRepository.create(Body, file);
-        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.CategoryGroupRepository.edit(Body, id);
-        console.log('Berhasil');
         return hasil;
     }
     async delete(Param) {
         const hasil = await this.CategoryGroupRepository.delete(Param);
-        console.log('berhasil di hapus' + hasil);
         if (!hasil) {
             return 'failed';
         }

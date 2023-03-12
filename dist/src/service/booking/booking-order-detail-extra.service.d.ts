@@ -6,6 +6,7 @@ export declare class BookingOrderDetailExtraService {
     findAllBookingOrderDetailExtra(): Promise<any>;
     findOneBookingOrderDetailExtra(boex_id: number): Promise<any>;
     createExtraMultiple(body: any): Promise<void>;
+    getInvoiceBoex(id: number): Promise<any>;
     createBookingOrderDetailExtra(data: BookingOrderDetailExtra): Promise<any>;
     updateBookingOrderExtra(boex_id: number, data: BookingOrderDetailExtra): Promise<any>;
     deleteBookingOrderDetailExtra(boex_id: number): Promise<any>;

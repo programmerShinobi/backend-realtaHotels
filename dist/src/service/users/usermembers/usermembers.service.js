@@ -22,134 +22,154 @@ let UsermembersService = class UsermembersService {
         this.userMembersRepository = userMembersRepository;
     }
     async findAllUserMembers() {
-        return await this.userMembersRepository.find({
-            order: { usmeId: -1 }
-        }).then((result) => {
+        return await this.userMembersRepository
+            .find({
+            order: { usmeId: -1 },
+        })
+            .then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
                 message: 'Data displayed successfully',
-                results: result
+                results: result,
             };
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async findAllJoinUserMembers() {
-        return await this.userMembersRepository.find({
+        return await this.userMembersRepository
+            .find({
             order: { usmeId: -1 },
-            relations: ['usmeUser', 'usmeMembName']
-        }).then((result) => {
+            relations: ['usmeUser', 'usmeMembName'],
+        })
+            .then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
                 message: 'Data displayed successfully',
-                results: result
+                results: result,
             };
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async findOneUserMembers(id) {
-        return await this.userMembersRepository.findOne({
+        return await this.userMembersRepository
+            .findOne({
             where: { usmeId: id },
-            relations: ['usmeUser', 'usmeMembName']
-        }).then((result) => {
+            relations: ['usmeUser', 'usmeMembName'],
+        })
+            .then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
                 message: 'Data displyed successfully',
-                results: result
+                results: result,
             };
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async createUserMembers(data) {
         const now = new Date();
-        return await this.userMembersRepository.save({
+        return await this.userMembersRepository
+            .save({
             usmeUser: data.usmeUser,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
-            usmeType: data.usmeType
-        }).then((result) => {
+            usmeType: data.usmeType,
+        })
+            .then((result) => {
             if (!result) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
                 message: 'Data inserted successfully',
-                results: result
+                results: result,
             };
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async updateUserMembers(id, data) {
         const now = new Date();
-        return await this.userMembersRepository.update(id, {
+        return await this.userMembersRepository
+            .update(id, {
             usmeId: data.usmeId,
             usmeUser: data.usmeUser,
             usmeMembName: data.usmeMembName,
             usmePromoteDate: now,
             usmePoints: data.usmePoints,
-            usmeType: data.usmeType
-        }).then((result) => {
+            usmeType: data.usmeType,
+        })
+            .then((result) => {
             if (!result) {
                 throw new common_1.BadRequestException('Data insert failed');
             }
-            return this.userMembersRepository.find({
+            return this.userMembersRepository
+                .find({
                 relations: ['usmeUser', 'usmeMembName'],
-                where: { usmeId: id }
-            }).then((resultUpdated) => {
+                where: { usmeId: id },
+            })
+                .then((resultUpdated) => {
                 if (!resultUpdated) {
                     throw new common_1.NotFoundException('Data not found updated');
                 }
                 return {
                     message: 'Data updated successfully',
-                    results: resultUpdated
+                    results: resultUpdated,
                 };
-            }).catch((err) => {
+            })
+                .catch((err) => {
                 return {
                     message: err.message,
-                    error: err.name
+                    error: err.name,
                 };
             });
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async deleteUserMembers(id) {
-        return await this.userMembersRepository.delete(id)
+        return await this.userMembersRepository
+            .delete(id)
             .then((result) => {
             if (!result.affected) {
                 throw new common_1.NotFoundException('Data not found');
             }
             return {
-                message: `Data deleted with ID : ${id} successfully`
+                message: `Data deleted with ID : ${id} successfully`,
             };
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }

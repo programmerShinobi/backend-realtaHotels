@@ -47,4 +47,5 @@ export declare class AuthService implements CanActivate {
         savedUserProfiles?: undefined;
     }>;
     changePassword(id: any, data: any): Promise<any>;
+    forgotPassword(data: any): Promise<any>;
 }

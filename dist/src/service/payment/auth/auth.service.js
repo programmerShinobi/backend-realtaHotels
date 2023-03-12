@@ -30,20 +30,25 @@ let UserAccountAuthService = class UserAccountAuthService {
             `)
             .then(result => { return result[0]; })
             .catch((error) => {
-            return new common_1.HttpException({ error: `Data with query ${data.userId} is not found!` }, common_1.HttpStatus.NOT_FOUND, { cause: error });
+            return {
+                message: `Account number ${data.accountNumber} is not found, ` + error,
+                status: common_1.HttpStatus.NOT_FOUND
+            };
         });
         const match = await bcrypt.compare(data.securedKey, accountData.securedKey);
         if (match) {
-            return new common_1.HttpException({
+            return {
                 result: match,
-                message: "Correct!"
-            }, common_1.HttpStatus.OK);
+                message: "Correct!",
+                status: common_1.HttpStatus.OK
+            };
         }
         else {
-            return new common_1.HttpException({
+            return {
                 result: match,
-                message: "Nice try, but you have to try again."
-            }, common_1.HttpStatus.FORBIDDEN);
+                message: "Nice try, but you have to try again.",
+                status: common_1.HttpStatus.NOT_ACCEPTABLE
+            };
         }
     }
 };

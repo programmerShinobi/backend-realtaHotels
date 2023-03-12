@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Facilities } from "./Facilities";
@@ -79,6 +80,6 @@ export class BookingOrderDetail {
   )
   specialOfferCoupons: SpecialOfferCoupons[];
 
-  @OneToMany(() => UserBreakfeast, (userBreakfeast) => userBreakfeast.usbrBorde)
-  userBreakfeasts: UserBreakfeast[];
+  @OneToOne(() => UserBreakfeast, (userBreakfeast) => userBreakfeast.usbrBorde)
+  userBreakfeast: UserBreakfeast;
 }

@@ -32,6 +32,7 @@ let UploadService = class UploadService {
         const app = (0, app_1.initializeApp)(firebaseConfig);
         const storage = (0, storage_1.getStorage)(app);
         let urlImage = [];
+        let originalName = [];
         files.map(async (value, key) => {
             const path = require('path');
             const extension = path.parse(value.originalname).ext;
@@ -43,16 +44,15 @@ let UploadService = class UploadService {
                 contentType: value.mimetype,
                 name: value.originalname,
             };
-            (0, storage_1.uploadBytes)(storageRef, value.buffer, metatype)
-                .then(async (snapshot) => {
-                (0, storage_1.getDownloadURL)(storageRef).then((url) => {
-                    urlImage = [...urlImage, url];
-                });
-            })
-                .catch((error) => {
-                throw error;
-            });
+            await (0, storage_1.uploadBytes)(storageRef, value.buffer, metatype);
+            originalName.push(originalname);
         });
+        originalName.map(async (val) => {
+            const storageRef = (0, storage_1.ref)(storage, `images/${val}`);
+            const url = await (0, storage_1.getDownloadURL)(storageRef);
+            urlImage.push(url);
+        });
+        console.log(urlImage);
     }
 };
 UploadService = __decorate([

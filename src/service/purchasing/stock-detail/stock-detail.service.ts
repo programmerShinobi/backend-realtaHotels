@@ -19,7 +19,7 @@ export class StockDetailService {
     async updateForDetail(id:number, data:StockDetail):Promise<any>{
         await this.stodRepo.update({stodId : id},{
             stodStatus: data.stodStatus,
-            stodFaciId :data.stodFaciId
+            stodFaci :data.stodFaci
         })
         const res = await this.getAllDetails()
         return res

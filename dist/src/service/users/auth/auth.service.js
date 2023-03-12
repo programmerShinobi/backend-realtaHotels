@@ -31,26 +31,32 @@ let AuthService = class AuthService {
         this.userPasswordRepository = userPasswordRepository;
     }
     async findEmail(email) {
-        return await this.userRepository.findOneBy({
-            userEmail: email
-        }).then((result) => {
+        return await this.userRepository
+            .findOneBy({
+            userEmail: email,
+        })
+            .then((result) => {
             return result;
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
     async findPhone(phone) {
-        return await this.userRepository.findOneBy({
-            userPhoneNumber: phone
-        }).then((result) => {
+        return await this.userRepository
+            .findOneBy({
+            userPhoneNumber: phone,
+        })
+            .then((result) => {
             return result;
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
     }
@@ -58,49 +64,57 @@ let AuthService = class AuthService {
         const userByPhone = await this.findPhone(data.userEmailOrPhone)
             .then(async (result) => {
             return result;
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
         const userByEmail = await this.findEmail(data.userEmailOrPhone)
             .then(async (result) => {
             return result;
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         });
         try {
-            if (data.userEmailOrPhone && data.userEmailOrPhone.includes("@")) {
+            if (data.userEmailOrPhone && data.userEmailOrPhone.includes('@')) {
                 if (userByEmail.userEmail == data.userEmailOrPhone) {
-                    const IdUser = await this.userRepository.findOneBy({
-                        userEmail: userByEmail.userEmail
-                    }).then((result) => {
+                    const IdUser = await this.userRepository
+                        .findOneBy({
+                        userEmail: userByEmail.userEmail,
+                    })
+                        .then((result) => {
                         return result.userId;
-                    }).catch((err) => {
+                    })
+                        .catch((err) => {
                         return err;
                     });
-                    const passwordUser = await this.userRepository.findOne({
+                    const passwordUser = await this.userRepository
+                        .findOne({
                         where: { userId: IdUser },
-                        relations: [
-                            "userRoles",
-                            "userPassword"
-                        ]
-                    }).then((result) => {
+                        relations: ['userRoles', 'userPassword'],
+                    })
+                        .then((result) => {
                         return result.userPassword.uspaPasswordhash;
-                    }).catch((err) => {
+                    })
+                        .catch((err) => {
                         return {
                             message: err.message,
-                            error: err.name
+                            error: err.name,
                         };
                     });
                     let payload = {};
                     if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                        const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
-                        payload = await this.userRepository.query(`
+                        const token = await jwt.sign(payload, process.env.SECRET_KEY, {
+                            expiresIn: '3m',
+                        });
+                        payload = await this.userRepository
+                            .query(`
                             SELECT * FROM users.users uuu
                             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
                             LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
@@ -108,21 +122,23 @@ let AuthService = class AuthService {
                             LEFT JOIN humanresource.employee_department_history hredh ON hredh.edhi_emp_id = hre.emp_emp_id
                             LEFT JOIN humanresource.department hrd ON hrd.dept_id = hredh.edhi_dept_id
                             WHERE uuu.user_id = ${IdUser} 
-                        `).then(async (result) => {
+                        `)
+                            .then(async (result) => {
                             if (!result) {
                                 throw new common_1.NotFoundException('Data not found');
                             }
                             return result;
-                        }).catch((err) => {
+                        })
+                            .catch((err) => {
                             return {
                                 message: err.message,
-                                error: err.name
+                                error: err.name,
                             };
                         });
                         return {
                             message: 'Login successfully',
                             userdata: payload,
-                            token: token
+                            token: token,
                         };
                     }
                     else {
@@ -133,52 +149,60 @@ let AuthService = class AuthService {
                     throw new common_1.BadRequestException('Email Invalid');
                 }
             }
-            else if (data.userEmailOrPhone && data.userEmailOrPhone.includes("+")) {
+            else if (data.userEmailOrPhone && data.userEmailOrPhone.includes('+')) {
                 if (userByPhone.userPhoneNumber == data.userEmailOrPhone) {
-                    const IdUser = await this.userRepository.findOneBy({
-                        userPhoneNumber: userByPhone.userPhoneNumber
-                    }).then((result) => {
+                    const IdUser = await this.userRepository
+                        .findOneBy({
+                        userPhoneNumber: userByPhone.userPhoneNumber,
+                    })
+                        .then((result) => {
                         return result.userId;
-                    }).catch((err) => {
+                    })
+                        .catch((err) => {
                         return err;
                     });
-                    const passwordUser = await this.userRepository.findOne({
+                    const passwordUser = await this.userRepository
+                        .findOne({
                         where: { userId: IdUser },
-                        relations: [
-                            "userRoles",
-                            "userPassword"
-                        ]
-                    }).then((result) => {
+                        relations: ['userRoles', 'userPassword'],
+                    })
+                        .then((result) => {
                         return result.userPassword.uspaPasswordhash;
-                    }).catch((err) => {
+                    })
+                        .catch((err) => {
                         return {
                             message: err.message,
-                            error: err.name
+                            error: err.name,
                         };
                     });
                     let payload = {};
                     if (await bcrypt.compare(data.userPassword, passwordUser)) {
-                        const token = await jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: '3m' });
-                        payload = await this.userRepository.query(`
+                        const token = await jwt.sign(payload, process.env.SECRET_KEY, {
+                            expiresIn: '3m',
+                        });
+                        payload = await this.userRepository
+                            .query(`
                             SELECT * FROM users.users uuu
                             LEFT JOIN users.user_roles uur ON uur.usro_user_id = uuu.user_id 
                             LEFT JOIN users.user_profiles uups ON uups.uspro_user_id = uuu.user_id
                             WHERE uuu.user_id = ${IdUser} 
-                        `).then(async (result) => {
+                        `)
+                            .then(async (result) => {
                             if (!result) {
                                 throw new common_1.NotFoundException('Data not found');
                             }
                             return result;
-                        }).catch((err) => {
+                        })
+                            .catch((err) => {
                             return {
                                 message: err.message,
-                                error: err.name
+                                error: err.name,
                             };
                         });
                         return {
                             message: 'Login successfully',
                             userdata: payload,
-                            token: token
+                            token: token,
                         };
                     }
                     else {
@@ -196,7 +220,7 @@ let AuthService = class AuthService {
         catch (err) {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
             };
         }
     }
@@ -228,33 +252,36 @@ let AuthService = class AuthService {
                 user.userEmail = data1.userEmail;
                 user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
-                savedUser = await transactionalEntityManager.save(user)
+                savedUser = await transactionalEntityManager
+                    .save(user)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data users insert failed');
-                        ;
                     }
                     IDuser = result.userId;
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userRoles = new UserRoles_1.UserRoles();
                 userRoles.usroUserId = IDuser;
                 userRoles.usroRole = 5;
-                savedUserRoles = await transactionalEntityManager.save(userRoles)
+                savedUserRoles = await transactionalEntityManager
+                    .save(userRoles)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userRoles insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const salt = await bcrypt.genSalt();
@@ -263,30 +290,34 @@ let AuthService = class AuthService {
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
                 userPassword.uspaUserId = IDuser;
-                savedUserPassword = await transactionalEntityManager.save(userPassword)
+                savedUserPassword = await transactionalEntityManager
+                    .save(userPassword)
                     .then((result) => {
                     if (!result) {
                         throw new Error();
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userProfiles = new UserProfiles_1.UserProfiles();
                 userProfiles.usproUser = IDuser;
-                savedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                savedUserProfiles = await transactionalEntityManager
+                    .save(userProfiles)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userProfiles insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userMembers = new UserMembers_1.UserMembers();
@@ -295,16 +326,18 @@ let AuthService = class AuthService {
                 userMembers.usmeType = 'default';
                 userMembers.usmeMembName = 'SILVER';
                 userMembers.usmePromoteDate = new Date();
-                savedUserMembers = await transactionalEntityManager.save(userMembers)
+                savedUserMembers = await transactionalEntityManager
+                    .save(userMembers)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userMembers insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userBonusPoints = new UserBonusPoints_1.UserBonusPoints();
@@ -312,16 +345,18 @@ let AuthService = class AuthService {
                 userBonusPoints.ubpoTotalPoints = 0;
                 userBonusPoints.ubpoBonusType = 'P';
                 userBonusPoints.ubpoCreateOn = new Date();
-                savedUserBonusPoints = await transactionalEntityManager.save(userBonusPoints)
+                savedUserBonusPoints = await transactionalEntityManager
+                    .save(userBonusPoints)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userBonusPoints insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
             });
@@ -345,13 +380,13 @@ let AuthService = class AuthService {
             }
             else {
                 return {
-                    message: "Register Successfully",
+                    message: 'Register Successfully',
                     savedUser,
                     savedUserRoles,
                     savedUserPassword,
                     savedUserProfiles,
                     savedUserMembers,
-                    savedUserBonusPoints
+                    savedUserBonusPoints,
                 };
             }
         }
@@ -361,7 +396,7 @@ let AuthService = class AuthService {
         `);
             return {
                 error: err.name,
-                message: err.message
+                message: err.message,
             };
         }
     }
@@ -377,33 +412,36 @@ let AuthService = class AuthService {
                 const user = new Users_1.Users();
                 user.userPhoneNumber = data1.userPhoneNumber;
                 user.userModifiedDate = new Date();
-                savedUser = await transactionalEntityManager.save(user)
+                savedUser = await transactionalEntityManager
+                    .save(user)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data users insert failed');
-                        ;
                     }
                     IDuser = result.userId;
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userRoles = new UserRoles_1.UserRoles();
                 userRoles.usroUserId = IDuser;
                 userRoles.usroRole = 1;
-                savedUserRoles = await transactionalEntityManager.save(userRoles)
+                savedUserRoles = await transactionalEntityManager
+                    .save(userRoles)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userRoles insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const salt = await bcrypt.genSalt();
@@ -412,30 +450,34 @@ let AuthService = class AuthService {
                 userPassword.uspaPasswordhash = hashedPassword;
                 userPassword.uspaPasswordsalt = 'bcrypt';
                 userPassword.uspaUserId = IDuser;
-                savedUserPassword = await transactionalEntityManager.save(userPassword)
+                savedUserPassword = await transactionalEntityManager
+                    .save(userPassword)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userPassword insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
                 const userProfiles = new UserProfiles_1.UserProfiles();
                 userProfiles.usproUser = IDuser;
-                savedUserProfiles = await transactionalEntityManager.save(userProfiles)
+                savedUserProfiles = await transactionalEntityManager
+                    .save(userProfiles)
                     .then((result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data userProfiles insert failed');
                     }
                     return result;
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        error: err.name
+                        error: err.name,
                     };
                 });
             });
@@ -453,7 +495,7 @@ let AuthService = class AuthService {
             }
             else {
                 return {
-                    message: "Register Successfully",
+                    message: 'Register Successfully',
                     savedUser,
                     savedUserRoles,
                     savedUserPassword,
@@ -467,18 +509,17 @@ let AuthService = class AuthService {
             `);
             return {
                 error: err.name,
-                message: err.message
+                message: err.message,
             };
         }
     }
     async changePassword(id, data) {
-        return await this.userRepository.findOne({
+        return await this.userRepository
+            .findOne({
             where: { userId: id },
-            relations: [
-                "userRoles",
-                "userPassword"
-            ]
-        }).then(async (result) => {
+            relations: ['userRoles', 'userPassword'],
+        })
+            .then(async (result) => {
             const passwordUser = result.userPassword.uspaPasswordhash;
             if (!result) {
                 throw new common_1.BadRequestException('Data update failed');
@@ -486,32 +527,84 @@ let AuthService = class AuthService {
             if (await bcrypt.compare(data.uspaCurrentPasswordhash, passwordUser)) {
                 const salt = await bcrypt.genSalt();
                 const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
-                return this.userPasswordRepository.update(id, {
+                return this.userPasswordRepository
+                    .update(id, {
                     uspaPasswordhash: hashedPassword,
-                    uspaPasswordsalt: 'bcrypt'
-                }).then(async (result) => {
+                    uspaPasswordsalt: 'bcrypt',
+                })
+                    .then(async (result) => {
                     if (!result) {
                         throw new common_1.BadRequestException('Data update failed');
                     }
-                    const updateData = await this.userPasswordRepository.findOneBy({ uspaUserId: id });
+                    const updateData = await this.userPasswordRepository.findOneBy({
+                        uspaUserId: id,
+                    });
                     return {
                         message: 'Data updated successfully',
-                        results: updateData
+                        results: updateData,
                     };
-                }).catch((err) => {
+                })
+                    .catch((err) => {
                     return {
                         message: err.message,
-                        name: err.name
+                        name: err.name,
                     };
                 });
             }
             else {
                 throw new common_1.BadRequestException('Current Password Invalid');
             }
-        }).catch((err) => {
+        })
+            .catch((err) => {
             return {
                 message: err.message,
-                error: err.name
+                error: err.name,
+            };
+        });
+    }
+    async forgotPassword(data) {
+        let id;
+        return await this.userRepository
+            .findOne({
+            where: { userPhoneNumber: data.userPhoneNumber },
+            relations: ['userRoles', 'userPassword'],
+        })
+            .then(async (result) => {
+            const passwordUser = result.userPassword.uspaPasswordhash;
+            id = result.userId;
+            if (!result) {
+                throw new common_1.BadRequestException('Data update failed');
+            }
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(data.uspaPasswordhash, salt);
+            return this.userPasswordRepository
+                .update(id, {
+                uspaPasswordhash: hashedPassword,
+                uspaPasswordsalt: 'bcrypt',
+            })
+                .then(async (result) => {
+                if (!result) {
+                    throw new common_1.BadRequestException('Data update failed');
+                }
+                const updateData = await this.userPasswordRepository.findOneBy({
+                    uspaUserId: id,
+                });
+                return {
+                    message: 'Data updated successfully',
+                    results: updateData,
+                };
+            })
+                .catch((err) => {
+                return {
+                    message: err.message,
+                    name: err.name,
+                };
+            });
+        })
+            .catch((err) => {
+            return {
+                message: err.message,
+                error: err.name,
             };
         });
     }

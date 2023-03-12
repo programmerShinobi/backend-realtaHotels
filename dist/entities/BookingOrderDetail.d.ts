@@ -18,5 +18,5 @@ export declare class BookingOrderDetail {
     borderBoor: BookingOrders;
     bookingOrderDetailExtras: BookingOrderDetailExtra[];
     specialOfferCoupons: SpecialOfferCoupons[];
-    userBreakfeasts: UserBreakfeast[];
+    userBreakfeast: UserBreakfeast;
 }

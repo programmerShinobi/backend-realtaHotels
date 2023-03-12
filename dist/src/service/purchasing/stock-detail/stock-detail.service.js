@@ -30,7 +30,7 @@ let StockDetailService = class StockDetailService {
     async updateForDetail(id, data) {
         await this.stodRepo.update({ stodId: id }, {
             stodStatus: data.stodStatus,
-            stodFaciId: data.stodFaciId
+            stodFaci: data.stodFaci
         });
         const res = await this.getAllDetails();
         return res;

@@ -25,6 +25,9 @@ let BookingOrderDetailExtraController = class BookingOrderDetailExtraController 
     findbyid(id) {
         return this.bookingorderdetailextraService.findOneBookingOrderDetailExtra(id);
     }
+    findbyUser(id) {
+        return this.bookingorderdetailextraService.getInvoiceBoex(id);
+    }
     create(body) {
         return this.bookingorderdetailextraService.createBookingOrderDetailExtra(body);
     }
@@ -51,6 +54,13 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], BookingOrderDetailExtraController.prototype, "findbyid", null);
+__decorate([
+    (0, common_1.Get)('invoice/:id'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
+], BookingOrderDetailExtraController.prototype, "findbyUser", null);
 __decorate([
     (0, common_1.Post)("create"),
     __param(0, (0, common_1.Body)()),

@@ -40,6 +40,9 @@ let BookingOrdersController = class BookingOrdersController {
     async getInvoice() {
         return await this.bokingorderService.getInvoice();
     }
+    async updateStatus(params, body) {
+        return await this.bokingorderService.updateStatus(params.id, body);
+    }
 };
 __decorate([
     (0, common_1.Get)(),
@@ -89,6 +92,14 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], BookingOrdersController.prototype, "getInvoice", null);
+__decorate([
+    (0, common_1.Put)("/status/:id"),
+    __param(0, (0, common_1.Param)()),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], BookingOrdersController.prototype, "updateStatus", null);
 BookingOrdersController = __decorate([
     (0, common_1.Controller)('bookingOrders'),
     __metadata("design:paramtypes", [booking_orders_service_1.BookingOrdersService])

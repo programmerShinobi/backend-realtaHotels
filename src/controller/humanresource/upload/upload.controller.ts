@@ -30,10 +30,10 @@ export class UploadController {
     file,
     @Body() body: any,
   ) { 
-    console.log(file);
-    console.log(body);
+    // console.log(file);
+    // console.log(body);
     // console.log(process.env.CONFIG_FIREBASE);
-    // const result = await this.uploadService.uploadFile(file)
+    const result = await this.uploadService.uploadFile(file)
 
     // console.log(result)
   }

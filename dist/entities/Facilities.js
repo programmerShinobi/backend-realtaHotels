@@ -17,6 +17,7 @@ const Hotels_1 = require("./Hotels");
 const FacilityPhotos_1 = require("./FacilityPhotos");
 const FacilityPriceHistory_1 = require("./FacilityPriceHistory");
 const RestoMenus_1 = require("./RestoMenus");
+const StockDetail_1 = require("./StockDetail");
 const WorkOrderDetail_1 = require("./WorkOrderDetail");
 let Facilities = class Facilities {
 };
@@ -129,6 +130,10 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => RestoMenus_1.RestoMenus, (restoMenus) => restoMenus.remeFaci),
     __metadata("design:type", Array)
 ], Facilities.prototype, "restoMenus", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => StockDetail_1.StockDetail, (stockDetail) => stockDetail.stodFaci),
+    __metadata("design:type", Array)
+], Facilities.prototype, "stockDetails", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => WorkOrderDetail_1.WorkOrderDetail, (workOrderDetail) => workOrderDetail.wodeFaci),
     __metadata("design:type", Array)

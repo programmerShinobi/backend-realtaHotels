@@ -4,6 +4,7 @@ export declare class BookingOrderDetailExtraController {
     constructor(bookingorderdetailextraService: BookingOrderDetailExtraService);
     findall(): Promise<any>;
     findbyid(id: number): Promise<any>;
+    findbyUser(id: number): Promise<any>;
     create(body: any): Promise<any>;
     update(params: any, body: any): Promise<any>;
     remove(params: any): Promise<any>;

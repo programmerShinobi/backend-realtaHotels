@@ -3,14 +3,31 @@ import { UserAccountsService } from 'src/service/payment/user_accounts/user_acco
 export declare class UserAccountsController {
     private userAccountsService;
     constructor(userAccountsService: UserAccountsService);
-    findAllAccounts(): Promise<any>;
+    findAllAccounts(): Promise<{
+        result: any;
+        message: string;
+        status: import("@nestjs/common").HttpStatus;
+    }>;
     findByFilter(filter: {
         userId?: number;
         userName?: string;
         accountNumber?: number;
         accountType?: string;
-    }): Promise<any>;
-    addAccount(body: UserAccountsDto): Promise<any>;
-    updateAccount(accountNumber: any, body: any): Promise<string | import("@nestjs/common").HttpException>;
-    deleteAccouunt(accountNumber: any): Promise<string | import("@nestjs/common").HttpException>;
+    }): Promise<{
+        result: any;
+        message: string;
+        status: import("@nestjs/common").HttpStatus;
+    }>;
+    addAccount(body: UserAccountsDto): Promise<"Bank expiry date can't be null!" | {
+        message: string;
+        status: import("@nestjs/common").HttpStatus;
+    }>;
+    updateAccount(accountNumber: any, body: any): Promise<{
+        message: string;
+        status: import("@nestjs/common").HttpStatus;
+    }>;
+    deleteAccouunt(accountNumber: any): Promise<{
+        message: string;
+        status: import("@nestjs/common").HttpStatus;
+    }>;
 }

@@ -23,15 +23,19 @@ export class BookingOrderDetailExtraService {
    async createExtraMultiple(body : any) {
     body.map(async (body : any)=> {
       const extraDetail = new BookingOrderDetailExtra()
-      extraDetail.boexPrit = body.boexPritId
       extraDetail.boexPrice = body.boexPrice
       extraDetail.boexQty = body.boexQty
       extraDetail.boexSubtotal = body.boexSubtotal
       extraDetail.boexMeasureUnit = body.boexMeasureUnit
-      extraDetail.boexBorde = body.boex_borde_id
+      extraDetail.boexBorde = body.boexBordeId
+      extraDetail.boexPrit = body.boexPritId
       return await this.bookingorderdetailextraRepository.save(extraDetail)
     })
   }
+
+    async getInvoiceBoex(id:number){
+        return await this.bookingorderdetailextraRepository.query(`SELECT * FROM booking.boexprit where boex_borde_id = ${id}`)
+    }
 
    async createBookingOrderDetailExtra(data:BookingOrderDetailExtra):Promise<any>{
         return await this.bookingorderdetailextraRepository.save(data)

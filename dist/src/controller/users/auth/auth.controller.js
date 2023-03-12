@@ -41,6 +41,9 @@ let AuthController = class AuthController {
     changePassword(params, body) {
         return this.authService.changePassword(params.id, body);
     }
+    forgotPassword(body) {
+        return this.authService.forgotPassword(body);
+    }
 };
 __decorate([
     (0, common_1.Get)('password/:id'),
@@ -89,6 +92,13 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "changePassword", null);
+__decorate([
+    (0, decorators_1.Put)('forgotPassword'),
+    __param(0, (0, decorators_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "forgotPassword", null);
 AuthController = __decorate([
     (0, common_1.UsePipes)(new common_1.ValidationPipe()),
     (0, common_1.Controller)('auth'),

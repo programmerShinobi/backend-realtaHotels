@@ -30,7 +30,7 @@ export class BankService {
                 keyword: `%${query?.keyword?.toLowerCase()}%`,
             })
             .getManyAndCount()
-    
+        
             return {
                 page: +page,
                 result: data,
@@ -94,7 +94,7 @@ export class BankService {
                         keyword: newData.bankCode
                     })
                     return {
-                        result: await newBank.result,
+                        result: await newBank.result[0],
                         message: `Bank ${newData.bankName} has been added!`,
                         status: HttpStatus.OK
                     };
