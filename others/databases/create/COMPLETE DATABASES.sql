@@ -371,8 +371,10 @@ CREATE TABLE humanresource.employee(
 	emp_modified_date timestamp DEFAULT now(),
 	emp_emp_id integer,
 	emp_joro_id integer,
+	emp_user_id integer,
 	foreign key (emp_emp_id) references humanresource.employee(emp_id) on delete cascade on update cascade,
-	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade
+	foreign key (emp_joro_id) references humanresource.job_role(joro_id) on delete cascade on update cascade,
+	foreign key (emp_user_id) references users.users(user_id) on delete cascade on update cascade
 );
 
 CREATE TABLE humanresource.shift(
@@ -406,14 +408,14 @@ CREATE TABLE humanresource.employee_department_history(
 );
 
 
-
 CREATE TABLE humanresource.employee_pay_history(
+	ephi_id serial,
 	ephi_emp_id integer,
-	ephi_rate_change_date date,
+	ephi_rate_change_date timestamp DEFAULT now(),
 	ephi_rate_salary money,
 	ephi_pay_frequence smallint,
-	ephi_modified_date timestamp	DEFAULT now(),
-	primary key(ephi_rate_change_date),
+	ephi_modified_date timestamp DEFAULT now(),
+	primary key(ephi_id),
 	foreign key (ephi_emp_id) references humanresource.employee(emp_id)
 	on delete cascade on update cascade
 );
@@ -446,31 +448,17 @@ CREATE TABLE humanresource.work_order_detail(
 -- ===========SCHEMA MODULE PURCHASING ==============
 create schema purchasing;
 
-create table purchasing.vendor(
-	vendor_id serial,
-	vendor_name varchar(55),
-	vendor_active integer,
-	vendor_priority integer,
-	vendor_register_date timestamp,
-	vendor_weburi varchar(1024),
-	vendor_modified_date timestamp DEFAULT now(),
-		
-	constraint vendor_id_pk primary key (vendor_id)
-);
-
-create table purchasing.stocks(
+create table purchasing.stocks (
 	stock_id serial,
-	stock_name varchar(255),
+	stock_name varchar(255)not null,
 	stock_description varchar(255),
-	stock_quantity smallint,
-	stock_reorder_point smallint,
-	stock_used smallint,
-	stock_scrap smallint,
-	stock_price money,
-	stock_standar_cost money,
+	stock_quantity int not null,
+	stock_reorder_point int,
+	stock_used int,
+	stock_scrap int,
 	stock_size varchar(25),
 	stock_color varchar(15),
-	stock_modified_date timestamp DEFAULT now(),
+	stock_modified_date timestamp,
 	
 	constraint stock_id_pk primary key (stock_id)
 );
@@ -479,66 +467,89 @@ create table purchasing.stock_photo(
 	spho_id serial,
 	spho_thumbnail_filename varchar(50),
 	spho_photo_filename varchar(50),
-	spho_primary integer,
+	spho_primary bit,
 	spho_url varchar(255),
-	spho_stock_id integer,
+	spho_stock_id int,
 	
 	constraint spho_id_pk primary key (spho_id),
-	constraint spho_stock_id_fk foreign key (spho_stock_id) references purchasing.stocks(stock_id) on update cascade on delete cascade
+	constraint spho_stock_id_fk foreign key (spho_stock_id) references purchasing.stocks(stock_id) on delete cascade on update cascade
+);
+
+create table purchasing.vendor(
+	vendor_entity_id int,
+	vendor_name varchar(55),
+	vendor_active bit,
+	vendor_priority bit,
+	vendor_register_date timestamp,
+	vendor_weburl varchar(1024),
+	vendor_modified_date timestamp,
+	
+	constraint vendor_entity_id_pk primary key(vendor_entity_id)
+);
+
+create table purchasing.vendor_product(
+	vepro_id serial,
+	vepro_qty_stocked int,
+	vepro_qty_remaining int,
+	vepro_price money,
+	vepro_stock_id int,
+	vepro_vendor_id int,
+	
+	constraint vepro_id_pk primary key (vepro_id),
+	constraint vepro_stock_id_fk foreign key (vepro_stock_id) references purchasing.stocks(stock_id) on delete cascade on update cascade,
+	constraint vepro_vendor_id_fk foreign key(vepro_vendor_id) references purchasing.vendor(vendor_entity_id) on delete cascade on update cascade
 );
 
 create table purchasing.purchase_order_header(
 	pohe_id serial,
-	pohe_number varchar(20) unique,
-	pohe_status smallint,
-	pohe_order_date timestamp,
+	pohe_number varchar(20) unique not null,
+	pohe_status int not null,
+	pohe_order_date date not null,
 	pohe_subtotal money,
 	pohe_tax money,
 	pohe_total_amount money,
 	pohe_refund money,
 	pohe_arrival_date timestamp,
-	pohe_pay_tipe varchar(2),
-	pohe_emp_id integer,
-	pohe_vendor_id integer,
+	pohe_pay_type varchar(2),
+	pohe_emp_id varchar(20),
+	pohe_vendor_id int,
 	
 	constraint pohe_id_pk primary key (pohe_id),
-	constraint pohe_vendor_id_fk foreign key (pohe_vendor_id) references purchasing.vendor(vendor_id),
-	constraint pohe_emp_id_fk foreign key (pohe_emp_id) references humanresource.employee(emp_id)
+	constraint pohe_vendor_id foreign key (pohe_vendor_id) references purchasing.vendor(vendor_entity_id) on delete cascade on update cascade
+);
+
+
+create table purchasing.stock_detail (
+	stod_stock_id int,
+	stod_id serial,
+	stod_barcode_number varchar(225) unique,
+	stod_status int,
+	stod_notes varchar(1024),
+	stod_faci_id int,
+	stod_pohe_id int,
+	
+	constraint stod_id_pk primary key (stod_id),
+	constraint stod_stock_id_fk foreign key (stod_stock_id) references purchasing.stocks(stock_id) on delete cascade on update cascade,
+	constraint stod_faci_id_fk foreign key (stod_faci_id) references hotel.facilities(faci_id) on delete cascade on update cascade,
+	constraint stod_pohe_id_fk foreign key (stod_pohe_id) references purchasing.purchase_order_header(pohe_id) on delete cascade on update cascade
 );
 
 create table purchasing.purchase_order_detail(
-	pode_pohe_id integer,
+	pode_pohe_id int,
 	pode_id serial,
-	pode_order_qty smallint,
-	pode_price money,
-	pode_line_total money,
-	pode_received_qty decimal,
-	pode_rejected_qty decimal,
-	pode_stocked_qty decimal,
-	pode_modified_date timestamp DEFAULT now(),
+	pode_order_qty int not null,
+	pode_price money not null,
+	pode_line_total money not null,
+	pode_received_qty int,
+	pode_rejected_qty int,
+	pode_stocked_qty int,
+	pode_modified_date timestamp,
+	pode_stock_id int,
 	
 	constraint pode_id_pk primary key (pode_id),
-	constraint pode_pohe_id_fk foreign key (pode_pohe_id) references purchasing.purchase_order_header(pohe_id) on delete cascade on update cascade
-
+	constraint pode_pohe_id_fk foreign key (pode_pohe_id) references purchasing.purchase_order_header(pohe_id) on delete cascade on update cascade,
+	constraint pode_stock_id_fk foreign key (pode_stock_id) references purchasing.stocks(stock_id) on delete cascade on update cascade
 );
-
-alter table purchasing.purchase_order_detail add column pode_stock_id integer;
-
-create table purchasing.stock_detail(
-	stod_stock_id integer,
-	stod_id serial,
-	stod_barcode_number varchar(225) unique,
-	stod_status varchar(2),
-	stod_notes varchar(1024),
-	stod_faci_id int,
-	stod_pohe_id integer,
-	constraint stod_id_pk primary key (stod_id),
-	constraint stod_stoc_id_fk foreign key (stod_stock_id) references purchasing.stocks(stock_id) on delete cascade on update cascade,
-	constraint stod_pohe_id_fk foreign key (stod_pohe_id) references purchasing.purchase_order_header(pohe_id) on delete cascade on update cascade,
-	constraint stod_faci_id_fk foreign key (stod_faci_id) references hotel.facilities(faci_id) on delete cascade on update cascade
-);
-
-
 
 
 -- ===========SCHEMA MODULE BOOKING ==============
@@ -606,7 +617,7 @@ create table booking.user_breakfeast(
 	usbr_borde_id int,
 	usbr_modified_date timestamp DEFAULT now(),
 	usbr_total_vacant smallInt,
-	constraint pk_borde_modified_id primary key (usbr_modified_date),
+	constraint pk_borde_id primary key (usbr_borde_id),
 	constraint fk_usbr_borde_id foreign key (usbr_borde_id) references booking.booking_order_detail(borde_id) on delete cascade on update cascade
 );
 
@@ -635,51 +646,59 @@ create table booking.special_offer_coupons(
 CREATE SCHEMA payment;
 
 CREATE TABLE payment.entities (
-	entity_id serial PRIMARY KEY
+	entity_id				serial			PRIMARY KEY
 );
 
 CREATE TABLE payment.bank (
-	bank_entity_id int PRIMARY KEY,
-	bank_code varchar(10) UNIQUE,
-	bank_name varchar(55) UNIQUE,
-	bank_modified_date timestamp DEFAULT now(),
-	CONSTRAINT bank_entity_id_fk FOREIGN KEY (bank_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE
+	bank_entity_id		  	int 		    PRIMARY KEY,
+	bank_code			  	varchar(10) 	UNIQUE,
+	bank_name			  	varchar(55) 	UNIQUE,
+	bank_modified_date		timestamp		DEFAULT NOW(),
+	CONSTRAINT bank_entity_id_fk
+		FOREIGN KEY (bank_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.payment_gateaway (
-	paga_entity_id int PRIMARY KEY,
-	paga_code varchar(10) UNIQUE,
-	paga_name varchar(55) UNIQUE,
-	paga_modified_date timestamp DEFAULT now(),
-	CONSTRAINT paga_entity_id FOREIGN KEY (paga_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE
+	paga_entity_id		  	int				PRIMARY KEY,
+	paga_code			  	varchar(10)		UNIQUE,
+	paga_name			  	varchar(55)		UNIQUE,
+	paga_modified_date		timestamp		DEFAULT NOW(),
+	CONSTRAINT paga_entity_id
+		FOREIGN KEY (paga_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.user_accounts (
-	usac_entity_id int,
-	usac_user_id int,
-	usac_account_number varchar(25) UNIQUE,
-	usac_saldo numeric,
-	usac_type varchar(15), -- debet | cc | payment
-	usac_expmonth smallint,
-	usac_expyear smallint,
-  	usac_modified_date timestamp DEFAULT now(),
-	CONSTRAINT user_accounts_pk PRIMARY KEY (usac_entity_id, usac_user_id),
-	CONSTRAINT usac_entity_id_fk FOREIGN KEY (usac_entity_id) REFERENCES payment.entities(entity_id) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT usac_user_id_fk FOREIGN KEY (usac_user_id) REFERENCES users.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+	usac_entity_id		    int,
+	usac_user_id		    int,
+	usac_account_number	  	varchar(25) 	UNIQUE,
+	usac_saldo			    numeric,
+	usac_type			    varchar(15), -- debet | cc | payment
+	usac_expmonth		    smallint,
+	usac_expyear		    smallint,
+	usac_modified_date	  	timestamp 		DEFAULT NOW(),
+	usac_card_holder_name	varchar(50),
+	usac_secured_key		varchar,
+	CONSTRAINT user_accounts_pk
+		PRIMARY KEY (usac_entity_id, usac_user_id),
+	CONSTRAINT usac_entity_id_fk
+		FOREIGN KEY (usac_entity_id) REFERENCES payment.entities(entity_id) ON UPDATE CASCADE,
+	CONSTRAINT usac_user_id_fk
+		FOREIGN KEY (usac_user_id) REFERENCES users.users(user_id) ON UPDATE CASCADE
 );
 
 CREATE TABLE payment.payment_transaction (
-	patr_id serial PRIMARY KEY,
-	patr_trx_number varchar(55) UNIQUE,
-	patr_debet numeric,
-	patr_credit numeric,
-	patr_type char(3),
-	patr_note varchar(255),
-	patr_modified_date timestamp DEFAULT now(),
-	patr_order_number varchar(55), 
-	patr_trx_number_ref varchar(55) UNIQUE,
-	patr_source_id int,
-	patr_target_id int,
-	patr_user_id int,
-  	CONSTRAINT patr_user_id_fk FOREIGN KEY (patr_user_id) REFERENCES users.users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+	patr_id				serial		  	PRIMARY KEY,
+	patr_trx_number		varchar(55)		UNIQUE,
+	patr_debet			numeric,
+	patr_credit			numeric,
+	patr_type			char(3),
+	patr_note			varchar(255),
+	patr_modified_date	timestamp 		DEFAULT NOW(),
+	patr_order_number	varchar(55), 
+	patr_trx_number_ref	varchar(55) 	UNIQUE,
+	patr_source_id		numeric,
+	patr_target_id		numeric,
+	patr_user_id		int,
+  CONSTRAINT patr_user_id_fk
+		FOREIGN KEY (patr_user_id) REFERENCES users.users(user_id) ON UPDATE CASCADE
 );
