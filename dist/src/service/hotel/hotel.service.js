@@ -22,7 +22,11 @@ let HotelService = class HotelService {
         this.hotelsRepository = hotelsRepository;
     }
     async findAllHotel() {
-        return await this.hotelsRepository.find();
+        return await this.hotelsRepository.find({
+            relations: {
+                hotelAddr: true,
+            },
+        });
     }
     async findAddress() {
         return await this.hotelsRepository.query('select * from hotel.adsress');
@@ -30,7 +34,7 @@ let HotelService = class HotelService {
     async createHotel(data) {
         data.hotelPhonenumber = '+62 ' + data.hotelPhonenumber;
         await this.hotelsRepository.save(data);
-        const res = await this.hotelsRepository.find();
+        const res = await this.findAllHotel();
         return { result: res };
     }
     async updateHotel(id, data) {

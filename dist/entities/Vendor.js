@@ -16,7 +16,7 @@ const VendorProduct_1 = require("./VendorProduct");
 let Vendor = class Vendor {
 };
 __decorate([
-    (0, typeorm_1.Column)("integer", { primary: true, name: "vendor_entity_id" }),
+    (0, typeorm_1.PrimaryGeneratedColumn)({ type: "integer", name: "vendor_entity_id" }),
     __metadata("design:type", Number)
 ], Vendor.prototype, "vendorEntityId", void 0);
 __decorate([

@@ -11,7 +11,11 @@ export class HotelService {
   ) {}
   // find all htels
   async findAllHotel(): Promise<any> {
-    return await this.hotelsRepository.find();
+    return await this.hotelsRepository.find({
+      relations: {
+        hotelAddr: true,
+      },
+    });
   }
   // find address
   async findAddress() {
@@ -21,7 +25,7 @@ export class HotelService {
   async createHotel(data: Hotels) {
     data.hotelPhonenumber = '+62 ' + data.hotelPhonenumber;
     await this.hotelsRepository.save(data);
-    const res = await this.hotelsRepository.find();
+    const res = await this.findAllHotel();
     return { result: res };
   }
 
@@ -49,16 +53,20 @@ export class HotelService {
   }
 
   //Procedure
-    // prosedur
-    async findProcedure() {
-      return await this.hotelsRepository.query('SELECT * FROM  hotel.card_hotel');
-    } 
-  
-    async findLastOrder() {
-      return await this.hotelsRepository.query('SELECT * FROM booking.booking_orders ORDER BY boor_id DESC LIMIT 1')
-    }
-  
-    async getInvoice(){
-      return await this.hotelsRepository.query('SELECT * FROM booking.getbookinginvoice')
+  // prosedur
+  async findProcedure() {
+    return await this.hotelsRepository.query('SELECT * FROM  hotel.card_hotel');
+  }
+
+  async findLastOrder() {
+    return await this.hotelsRepository.query(
+      'SELECT * FROM booking.booking_orders ORDER BY boor_id DESC LIMIT 1',
+    );
+  }
+
+  async getInvoice() {
+    return await this.hotelsRepository.query(
+      'SELECT * FROM booking.getbookinginvoice',
+    );
   }
 }

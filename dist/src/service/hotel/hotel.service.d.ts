@@ -6,7 +6,7 @@ export declare class HotelService {
     findAllHotel(): Promise<any>;
     findAddress(): Promise<any>;
     createHotel(data: Hotels): Promise<{
-        result: Hotels[];
+        result: any;
     }>;
     updateHotel(id: any, data: Hotels): Promise<any>;
     deleteHotels(id: any): Promise<any>;

@@ -23,14 +23,15 @@ let TransactionService = class TransactionService {
     }
     async find(query) {
         const page = (query === null || query === void 0 ? void 0 : query.page) || 1;
-        const limit = (query === null || query === void 0 ? void 0 : query.limit) || 10;
+        const limit = (query === null || query === void 0 ? void 0 : query.limit) || 100;
         const offset = (page - 1) * limit || 0;
         const totalData = await this.paymentTransactionRepository.count();
         const filter = Object.entries(query).filter(([key, value]) => key === "transactionType" ||
             key === "transactionNumber" ||
             key === "userFullName" ||
             key === "orderNumber" ||
-            key === "userId");
+            key === "userId" ||
+            key === "timestamp");
         const stringQuery = `
         SELECT * FROM payment.user_transactions
         `;
@@ -40,13 +41,20 @@ let TransactionService = class TransactionService {
         OFFSET ${offset} LIMIT ${limit}
         `;
         for (let [key, value] of filter) {
-            const comparator = Number.isInteger(+value) ? '=' : 'LIKE';
-            value = Number.isInteger(+value) ? value : `'%${value.toLowerCase()}%'`;
+            const regex = /^.*days$/;
+            const comparator = Number.isInteger(+value) ? '=' :
+                regex.test(value) ? '>=' : 'ILIKE';
+            let searchValue = Number.isInteger(+value) ?
+                value
+                : (regex.test(value) ?
+                    `NOW() - interval '${value}'`
+                    : `'%${value}%' `);
             filter.length == 0 ? "" :
-                (filter.length > 1) ? condition += `"${key}" ${comparator} ${value} OR ` :
-                    condition += `WHERE "${key}" ${comparator} ${value}`;
+                (filter.length > 1) ? condition += `"${key}" ${comparator} ${searchValue} OR ` :
+                    condition += `WHERE "${key}" ${comparator} ${searchValue}`;
         }
         condition = filter.length > 1 ? condition.slice(0, -5) : condition;
+        console.log(stringQuery + condition + setting);
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
             return {

@@ -17,7 +17,7 @@ export class TransactionService {
 
     async find(query?: TransactionWithPagination) {
         const page = query?.page || 1
-        const limit = query?.limit || 10 // data shown per page
+        const limit = query?.limit || 100 // data shown per page
         const offset = (page - 1) * limit || 0 // data skipped
         const totalData = await this.paymentTransactionRepository.count()
         
@@ -29,7 +29,8 @@ export class TransactionService {
                 key === "transactionNumber" ||
                 key === "userFullName" ||
                 key === "orderNumber" ||
-                key === "userId"
+                key === "userId" ||
+                key === "timestamp"
         )
         
         const stringQuery = `
@@ -42,18 +43,24 @@ export class TransactionService {
         `
 
         for (let [key, value] of filter) {
-            const comparator = Number.isInteger(+value) ? '=' : 'LIKE'
-            value = Number.isInteger(+value) ? value : `'%${value.toLowerCase()}%'`
+            const regex = /^.*days$/
+            const comparator = Number.isInteger(+value) ? '=' :
+                regex.test(value) ? '>=':'ILIKE'
+            let searchValue = Number.isInteger(+value) ?
+                value
+                : (regex.test(value) ?
+                    `NOW() - interval '${value}'`
+                    : `'%${value}%' `)
 
             filter.length == 0 ? "" :
-                (filter.length > 1) ? condition += `"${key}" ${comparator} ${value} OR ` : 
-                    condition += `WHERE "${key}" ${comparator} ${value}`
+                (filter.length > 1) ? condition += `"${key}" ${comparator} ${searchValue} OR ` : 
+                    condition += `WHERE "${key}" ${comparator} ${searchValue}`
         }
-
+        
         // If condition is more than one, `OR` on the back is deleted.
         condition = filter.length > 1 ? condition.slice(0, -5) : condition
 
-        // console.log( stringQuery + condition + setting)
+        console.log( stringQuery + condition + setting)
         return await this.paymentTransactionRepository.query(stringQuery + condition + setting)
             .then(result => {
                 return {
