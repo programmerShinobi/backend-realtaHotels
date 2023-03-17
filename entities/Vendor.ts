@@ -1,11 +1,17 @@
-import { Column, Entity, Index, OneToMany } from "typeorm";
+import {
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { PurchaseOrderHeader } from "./PurchaseOrderHeader";
 import { VendorProduct } from "./VendorProduct";
 
 @Index("vendor_entity_id_pk", ["vendorEntityId"], { unique: true })
 @Entity("vendor", { schema: "purchasing" })
 export class Vendor {
-  @Column("integer", { primary: true, name: "vendor_entity_id" })
+  @PrimaryGeneratedColumn({ type: "integer", name: "vendor_entity_id" })
   vendorEntityId: number;
 
   @Column("character varying", {

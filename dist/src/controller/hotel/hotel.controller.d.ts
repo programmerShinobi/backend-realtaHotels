@@ -7,7 +7,7 @@ export declare class HotelController {
     findAddress(): Promise<any>;
     createHotel(data: Hotels): Promise<"failed" | {
         message: string;
-        result: Hotels[];
+        result: any;
     }>;
     updateHotel(id: any, body: any): Promise<"hotel dont updated" | "hotel updated">;
     deleteHotel(id: any): Promise<any>;
