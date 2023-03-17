@@ -162,6 +162,18 @@ const stocks_service_1 = require("../service/purchasing/stocks/stocks.service");
 const vendor_service_1 = require("../service/purchasing/vendor/vendor.service");
 const vendor_product_service_1 = require("../service/purchasing/vendor-product/vendor-product.service");
 const stock_photo_service_1 = require("../service/purchasing/stock-photo/stock-photo.service");
+const resto_menus_service_1 = require("../service/Resto/resto-menus/resto-menus.service");
+const order_menu_detail_service_1 = require("../service/Resto/order-menu-detail/order-menu-detail.service");
+const resto_menus_photos_service_1 = require("../service/Resto/resto-menus-photos/resto-menus-photos.service");
+const order_menus_service_1 = require("../service/Resto/order-menus/order-menus.service");
+const resto_menus_join_to_all_service_1 = require("../service/Resto/resto-menus-join-to-all/resto-menus-join-to-all.service");
+const resto_menu_photos_service_1 = require("../service/Resto/resto-menu-photos/resto-menu-photos.service");
+const resto_menus_controller_1 = require("../controller/Resto/resto-menus/resto-menus.controller");
+const order_menu_detail_controller_1 = require("../controller/Resto/order-menu-detail/order-menu-detail.controller");
+const resto_menu_photos_controller_1 = require("../controller/Resto/resto-menu-photos/resto-menu-photos.controller");
+const order_menus_controller_1 = require("../controller/Resto/order-menus/order-menus.controller");
+const resto_menus_join_to_all_controller_1 = require("../controller/Resto/resto-menus-join-to-all/resto-menus-join-to-all.controller");
+const resto_menus_photos_controller_1 = require("../controller/Resto/resto-menus-photos/resto-menus-photos.controller");
 let GlobalModule = class GlobalModule {
 };
 GlobalModule = __decorate([
@@ -253,6 +265,12 @@ GlobalModule = __decorate([
             special_offer_coupon_controller_1.SpecialOfferCouponController,
             user_breakfeast_controller_1.UserBreakfeastController,
             booking_orders_controller_1.BookingOrdersController,
+            resto_menus_controller_1.RestoMenusController,
+            order_menu_detail_controller_1.OrderMenuDetailController,
+            resto_menu_photos_controller_1.RestoMenuPhotosController,
+            order_menus_controller_1.OrderMenusController,
+            resto_menus_join_to_all_controller_1.RestoMenusJoinToAllController,
+            resto_menus_photos_controller_1.RestoMenusPhotosController,
             bank_controller_1.BankController,
             payment_gateaway_controller_1.PaymentGateawayController,
             user_accounts_controller_1.UserAccountsController,
@@ -305,6 +323,12 @@ GlobalModule = __decorate([
             booking_order_detail_service_1.BookingOrderDetailService,
             booking_order_detail_extra_service_1.BookingOrderDetailExtraService,
             user_breakfeast_service_1.UserBreakfeastService,
+            resto_menus_service_1.RestoMenusService,
+            order_menu_detail_service_1.OrderMenuDetailService,
+            resto_menus_photos_service_1.RestoMenusPhotosService,
+            order_menus_service_1.OrderMenusService,
+            resto_menus_join_to_all_service_1.RestoMenusJoinToAllService,
+            resto_menu_photos_service_1.RestoMenuPhotosService,
             bank_service_1.BankService,
             payment_gateaway_service_1.PaymentGateawayService,
             user_accounts_service_1.UserAccountsService,

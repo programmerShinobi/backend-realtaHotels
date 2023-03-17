@@ -21,22 +21,29 @@ let PolicyController = class PolicyController {
     }
     async getAll() {
         const hasil = await this.PolicyRepository.getAll();
+        console.log({
+            hasil: hasil
+        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.PolicyRepository.getById(Param.id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body) {
         const hasil = await this.PolicyRepository.create(Body);
+        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.PolicyRepository.edit(Body, id);
+        console.log('Berhasil');
         return { hasil: hasil };
     }
     async delete(Param) {
         const hasil = await this.PolicyRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

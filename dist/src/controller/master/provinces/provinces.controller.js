@@ -21,22 +21,28 @@ let ProvincesController = class ProvincesController {
     }
     async getAll() {
         const hasil = await this.ProvincesRepository.getAll();
+        console.log({
+            hasil: hasil
+        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.ProvincesRepository.getById(Param.id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body) {
         const hasil = await this.ProvincesRepository.create(Body);
+        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.ProvincesRepository.edit(Body, id);
-        return hasil;
+        return 'berhasil' + hasil;
     }
     async delete(Param) {
         const hasil = await this.ProvincesRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

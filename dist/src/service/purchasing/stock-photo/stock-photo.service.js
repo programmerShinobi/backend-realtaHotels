@@ -37,7 +37,7 @@ let StockPhotoService = class StockPhotoService {
         };
     }
     async getStockPhotoForDesktop() {
-        const res = await this.sphoRepo.query(`select * from purchasing.getPhotoforstocks()`);
+        const res = await this.sphoRepo.query(`select * from purchasing.getphotoforstocks()`);
         return {
             result: res
         };

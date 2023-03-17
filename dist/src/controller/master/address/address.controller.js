@@ -21,10 +21,12 @@ let AddressController = class AddressController {
     }
     async getAll() {
         const hasil = await this.AddressRepository.getAll();
+        console.log(hasil);
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.AddressRepository.getById(Param.id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body) {
@@ -33,10 +35,12 @@ let AddressController = class AddressController {
     }
     async edit(id, Body) {
         const hasil = await this.AddressRepository.edit(Body, id);
-        return hasil;
+        console.log('Berhasil' + hasil);
+        return "Berhasil" + hasil;
     }
     async delete(Param) {
         const hasil = await this.AddressRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

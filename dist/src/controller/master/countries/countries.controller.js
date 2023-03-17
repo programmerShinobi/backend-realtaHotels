@@ -21,21 +21,27 @@ let CountriesController = class CountriesController {
     }
     async getAll() {
         const hasil = await this.CountryService.getAll();
+        console.log(hasil);
         return hasil;
     }
     async getById(id) {
         const hasil = await this.CountryService.getById(id);
+        console.log({ hasil: hasil });
         return ({ hasil: hasil });
     }
     async create(Body) {
         const hasil = await this.CountryService.create(Body);
+        console.log({ message: 'berhasil', hasil: hasil });
         return hasil;
     }
-    update(params, body) {
-        return this.CountryService.updateCountry(params.id, body);
+    async edit(id, Body) {
+        const hasil = await this.CountryService.edit(Body, id);
+        console.log('Berhasil');
+        return hasil;
     }
     async delete(Param) {
         const hasil = await this.CountryService.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };
@@ -64,12 +70,13 @@ __decorate([
 ], CountriesController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)('edit/:id'),
-    __param(0, (0, common_1.Param)()),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
-], CountriesController.prototype, "update", null);
+], CountriesController.prototype, "edit", null);
 __decorate([
     (0, common_1.Delete)('delete/:id'),
     (0, common_1.HttpCode)(200),

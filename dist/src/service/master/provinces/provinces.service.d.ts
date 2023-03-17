@@ -6,7 +6,7 @@ export declare class ProvincesService {
     getAll(): Promise<any>;
     getById(provId: number): Promise<any>;
     create(data: Provinces): Promise<any>;
-    edit(data: Provinces, id: any): Promise<{
+    edit(data: Provinces, provId: any): Promise<{
         message: string;
     }>;
     delete(provId: any): Promise<import("typeorm").DeleteResult>;

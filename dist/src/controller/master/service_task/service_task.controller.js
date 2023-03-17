@@ -21,22 +21,29 @@ let ServiceTaskController = class ServiceTaskController {
     }
     async getAll() {
         const hasil = await this.ServiceTaskRepository.getAll();
+        console.log({
+            hasil: hasil
+        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.ServiceTaskRepository.getById(Param.id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body) {
         const hasil = await this.ServiceTaskRepository.create(Body);
+        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.ServiceTaskRepository.edit(Body, id);
+        console.log('Berhasil');
         return hasil;
     }
     async delete(Param) {
         const hasil = await this.ServiceTaskRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

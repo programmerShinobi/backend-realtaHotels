@@ -7,6 +7,6 @@ export declare class CountriesController {
         hasil: any;
     }>;
     create(Body: any): Promise<any>;
-    update(params: any, body: any): Promise<any>;
+    edit(id: any, Body: any): Promise<any>;
     delete(Param: any): Promise<import("typeorm").DeleteResult>;
 }

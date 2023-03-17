@@ -45,9 +45,9 @@ export class AddressService {
             return { message: 'Data gagal ditambahkan' }
         }
     }
-    async edit(data: Address, _addrId: number) {
+    async edit(data: Address, addrId: any) {
         const editData = await this.AddressRepository.update({
-            addrId: _addrId
+            addrId: addrId
         },
             {
                 addrLine1: data.addrLine1,
