@@ -17,12 +17,7 @@ Repository ini berisikan mini project dari Code X Academy
 
 **Database:** PostgreSQL
 
-**Server:** Express
-
-### To Do Lists
-
-- [x] Membuat database dari ERD yang sudah ditentukan
-- [] TBA . . .
+**Server:** NestJS
 
 ### Contributors
 
