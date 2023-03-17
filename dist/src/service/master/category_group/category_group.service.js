@@ -20,14 +20,15 @@ const CategoryGroup_1 = require("../../../../entities/CategoryGroup");
 const app_1 = require("firebase/app");
 const storage_1 = require("firebase/storage");
 let CategoryGroupService = class CategoryGroupService {
-    query(arg0) {
-        throw new Error('Method not implemented.');
-    }
     constructor(CategoryGroupRepository) {
         this.CategoryGroupRepository = CategoryGroupRepository;
     }
     async getAll() {
-        const ShowData = await this.CategoryGroupRepository.find();
+        const ShowData = await this.CategoryGroupRepository.find({
+            order: {
+                cagroId: "ASC"
+            }
+        });
         return ShowData;
     }
     async getById(cagroId) {
@@ -38,38 +39,6 @@ let CategoryGroupService = class CategoryGroupService {
         });
         return ShowDataId;
     }
-    async create(data, file) {
-        const addData = await this.CategoryGroupRepository.save({
-            cagroName: data.cagroName,
-            cagroDescription: data.cagroDescription,
-            cagroType: data.cagroType,
-        });
-        console.log(addData);
-        if (addData) {
-            return { message: 'Data berhasil ditambahkan', addData: addData };
-        }
-        else {
-            return { message: 'Data gagal ditambahkan' };
-        }
-    }
-    async edit(data, _cagroId) {
-        const editData = await this.CategoryGroupRepository.update({
-            cagroId: _cagroId
-        }, {
-            cagroName: data.cagroName,
-            cagroDescription: data.cagroDescription,
-            cagroType: data.cagroType,
-            cagroIcon: data.cagroIcon,
-            cagroIconUrl: data.cagroIconUrl
-        });
-        console.log(editData);
-        if (editData.affected) {
-            return { message: 'Data berhasil di edit' };
-        }
-        else {
-            return { message: 'Data gagal di edit' };
-        }
-    }
     async delete(cagroId) {
         const deleteData = await this.CategoryGroupRepository.delete({
             cagroId: cagroId
@@ -78,13 +47,13 @@ let CategoryGroupService = class CategoryGroupService {
     }
     async UploadFirebase(file, body) {
         const firebaseConfig = {
-            apiKey: 'AIzaSyCEmZE2W1VOTZpPVrndbpAvVpAJnLfE_V0',
-            authDomain: 'hotelrealta.firebaseapp.com',
-            projectId: 'hotelrealta',
-            storageBucket: 'hotelrealta.appspot.com',
-            messagingSenderId: '481044855652',
-            appId: '1:481044855652:web:1441df251b64fd62c71871',
-            measurementId: 'G-1FZ6YKHLV9',
+            apiKey: "AIzaSyA-uHJ66LjsINWEo4p6SWBvRdqrd0CRJtQ",
+            authDomain: "hotelrealta-9cdce.firebaseapp.com",
+            projectId: "hotelrealta-9cdce",
+            storageBucket: "hotelrealta-9cdce.appspot.com",
+            messagingSenderId: "530774046341",
+            appId: "1:530774046341:web:99cbaebc6cd476efa8dbec",
+            measurementId: "G-2NSYW59NVZ"
         };
         const app = (0, app_1.initializeApp)(firebaseConfig);
         const storage = (0, storage_1.getStorage)(app);
@@ -102,6 +71,22 @@ let CategoryGroupService = class CategoryGroupService {
         fileInfo.cagroType = body.cagroType;
         fileInfo.cagroDescription = body.cagroDescription;
         return this.CategoryGroupRepository.save(fileInfo);
+    }
+    async edit(data, _cagroId) {
+        const editData = await this.CategoryGroupRepository.update({
+            cagroId: _cagroId
+        }, {
+            cagroName: data.cagroName,
+            cagroType: data.cagroType,
+            cagroDescription: data.cagroDescription,
+        });
+        console.log(editData);
+        if (editData.affected) {
+            return { message: 'Data berhasil di edit' };
+        }
+        else {
+            return { message: 'Data gagal di edit' };
+        }
     }
 };
 CategoryGroupService = __decorate([

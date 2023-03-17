@@ -35,9 +35,9 @@ export class ProvincesService {
             return { message: 'Data gagal ditambahkan' }
         }
     }
-    async edit(data: Provinces, id: any) {
+    async edit(data: Provinces, provId: any) {
         const editData = await this.ProvincesRepository.update({
-            provId: id
+            provId: provId
         },
             {
                 provCountry: data.provCountry,

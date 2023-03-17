@@ -55,18 +55,20 @@ let CountriesService = class CountriesService {
             return { message: 'Data gagal ditambahkan' };
         }
     }
-    async updateCountry(countryId, data) {
-        const country = new Country_1.Country();
-        country.countryName = data.country_name;
-        country.countryRegion = data.country_region_id;
-        return await this.countryRepository
-            .update({ countryId: countryId }, country)
-            .then(() => {
-            return 'success';
-        })
-            .catch((error) => {
-            return error;
+    async edit(data, countryId) {
+        const editData = await this.countryRepository.update({
+            countryId: countryId
+        }, {
+            countryName: data.countryName,
+            countryRegion: data.countryRegion
         });
+        console.log(editData);
+        if (editData.affected) {
+            return { message: 'Data berhasil di edit' };
+        }
+        else {
+            return { message: 'Data gagal di edit' };
+        }
     }
     async delete(countryId) {
         const deleteData = await this.countryRepository.delete({

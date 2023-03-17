@@ -17,7 +17,6 @@ export class StockPhotoController {
     @UseInterceptors(FileInterceptor('sphoUrl', saveImageToStorage))
     insertPhoto(@UploadedFile() file:Express.Multer.File, @Body() body)
     {
-        console.log(file)
         const fileName = file?.filename
         if (!fileName) return {error : 'File Must Be jpg. , .jpeg, .png'}
         else return this.stockPhotoService.insertStockPhoto(file,body) 

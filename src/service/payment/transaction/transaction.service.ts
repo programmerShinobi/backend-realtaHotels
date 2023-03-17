@@ -51,6 +51,7 @@ export class TransactionService {
                 : (regex.test(value) ?
                     `NOW() - interval '${value}'`
                     : `'%${value}%' `)
+            // let operator = (key == "transactionNumber" || key == "orderNumber" || key == "userFullName") ? "OR" : "AND"
 
             filter.length == 0 ? "" :
                 (filter.length > 1) ? condition += `"${key}" ${comparator} ${searchValue} OR ` : 

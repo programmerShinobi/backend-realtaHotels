@@ -26,7 +26,6 @@ let StockPhotoController = class StockPhotoController {
         return this.stockPhotoService.getAllStockPhoto();
     }
     insertPhoto(file, body) {
-        console.log(file);
         const fileName = file === null || file === void 0 ? void 0 : file.filename;
         if (!fileName)
             return { error: 'File Must Be jpg. , .jpeg, .png' };

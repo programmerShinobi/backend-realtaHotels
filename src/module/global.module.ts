@@ -153,6 +153,18 @@ import { StocksService } from 'src/service/purchasing/stocks/stocks.service';
 import { VendorService } from 'src/service/purchasing/vendor/vendor.service';
 import { VendorProductService } from 'src/service/purchasing/vendor-product/vendor-product.service';
 import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-photo.service';
+import { RestoMenusService } from 'src/service/Resto/resto-menus/resto-menus.service';
+import { OrderMenuDetailService } from 'src/service/Resto/order-menu-detail/order-menu-detail.service';
+import { RestoMenusPhotosService } from 'src/service/Resto/resto-menus-photos/resto-menus-photos.service';
+import { OrderMenusService } from 'src/service/Resto/order-menus/order-menus.service';
+import { RestoMenusJoinToAllService } from 'src/service/Resto/resto-menus-join-to-all/resto-menus-join-to-all.service';
+import { RestoMenuPhotosService } from 'src/service/Resto/resto-menu-photos/resto-menu-photos.service';
+import { RestoMenusController } from 'src/controller/Resto/resto-menus/resto-menus.controller';
+import { OrderMenuDetailController } from 'src/controller/Resto/order-menu-detail/order-menu-detail.controller';
+import { RestoMenuPhotosController } from 'src/controller/Resto/resto-menu-photos/resto-menu-photos.controller';
+import { OrderMenusController } from 'src/controller/Resto/order-menus/order-menus.controller';
+import { RestoMenusJoinToAllController } from 'src/controller/Resto/resto-menus-join-to-all/resto-menus-join-to-all.controller';
+import { RestoMenusPhotosController } from 'src/controller/Resto/resto-menus-photos/resto-menus-photos.controller';
 
 @Module({
   imports: [
@@ -213,7 +225,7 @@ import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-phot
       WorkOrders,
     ]),
   ],
-  
+
   controllers: [
     /* HR */
     DepartmentController,
@@ -250,8 +262,14 @@ import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-phot
     SpecialOfferCouponController,
     UserBreakfeastController,
     BookingOrdersController,
-    
+
     /* RESTO */
+    RestoMenusController,
+    OrderMenuDetailController,
+    RestoMenuPhotosController,
+    OrderMenusController,
+    RestoMenusJoinToAllController,
+    RestoMenusPhotosController,
 
     /* PAYMENT */
     BankController,
@@ -268,7 +286,6 @@ import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-phot
     VendorProductController,
     PurchaseOrderDetailController,
     PurchaseOrderHeaderController,
-
 
     /* MASTER */
     RegionController,
@@ -318,8 +335,14 @@ import { StockPhotoService } from 'src/service/purchasing/stock-photo/stock-phot
     BookingOrderDetailService,
     BookingOrderDetailExtraService,
     UserBreakfeastService,
-    
+
     /* RESTO */
+    RestoMenusService,
+    OrderMenuDetailService,
+    RestoMenusPhotosService,
+    OrderMenusService,
+    RestoMenusJoinToAllService,
+    RestoMenuPhotosService,
 
     /* PAYMENT */
     BankService,

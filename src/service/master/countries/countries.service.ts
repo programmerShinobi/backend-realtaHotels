@@ -51,38 +51,38 @@ export class CountriesService {
             return { message: 'Data gagal ditambahkan' }
         }
     }
-    // async edit(data: Country, countryId: any) {
-    //     const editData = await this.countryRepository.update({
-    //         countryId: countryId
-    //     },
-    //         {
-    //             countryName: data.countryName,
-    //             countryRegion: data.countryRegion
-    //         }
-    //     )
-    //     console.log(editData)
-    //     if (editData.affected) {
-    //         return { message: 'Data berhasil di edit' }
-    //     }
-    //     else {
-    //         return { message: 'Data gagal di edit' }
-    //     }
-    // }
+    async edit(data: Country, countryId: any) {
+        const editData = await this.countryRepository.update({
+            countryId: countryId
+        },
+            {
+                countryName: data.countryName,
+                countryRegion: data.countryRegion
+            }
+        )
+        console.log(editData)
+        if (editData.affected) {
+            return { message: 'Data berhasil di edit' }
+        }
+        else {
+            return { message: 'Data gagal di edit' }
+        }
+    }
     //update
-  async updateCountry(countryId: number, data: any): Promise<Country> {
-    const country = new Country();
-    country.countryName = data.country_name;
-    country.countryRegion = data.country_region_id;
+    // async updateCountry(countryId: any, data: any): Promise<any> {
+    //     const country = new Country();
+    //     country.countryName = data.country_name;
+    //     country.countryRegion = data.country_region_id;
 
-    return await this.countryRepository
-      .update({ countryId: countryId }, country)
-      .then(() => {
-        return 'success';
-      })
-      .catch((error) => {
-        return error;
-      });
-  }
+    //     const hasil = await this.countryRepository
+    //         .update({ countryId: countryId }, country)
+    //         .then(() => {
+    //             return 'success' + hasil;
+    //         })
+    //         .catch((error) => {
+    //             return error;
+    //         });
+    // }
 
     async delete(countryId: any) {
         const deleteData = await this.countryRepository.delete({

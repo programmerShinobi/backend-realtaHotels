@@ -9,6 +9,8 @@ export declare class CountriesService {
     getAll(): Promise<any>;
     getById(countryId: number): Promise<any>;
     create(data: Country): Promise<any>;
-    updateCountry(countryId: number, data: any): Promise<Country>;
+    edit(data: Country, countryId: any): Promise<{
+        message: string;
+    }>;
     delete(countryId: any): Promise<import("typeorm").DeleteResult>;
 }

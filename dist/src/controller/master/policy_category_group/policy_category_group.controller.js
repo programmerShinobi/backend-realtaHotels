@@ -21,22 +21,29 @@ let PolicyCategoryGroupController = class PolicyCategoryGroupController {
     }
     async getAll() {
         const hasil = await this.PolicyCategoryGroupServiceRepository.getAll();
+        console.log({
+            hasil: hasil
+        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.PolicyCategoryGroupServiceRepository.getById(Param.id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async create(Body) {
         const hasil = await this.PolicyCategoryGroupServiceRepository.create(Body);
+        console.log(hasil + 'berhasil');
         return hasil;
     }
     async edit(id, Body) {
         const hasil = await this.PolicyCategoryGroupServiceRepository.edit(Body, id);
+        console.log('Berhasil');
         return { hasil: hasil };
     }
     async delete(Param) {
         const hasil = await this.PolicyCategoryGroupServiceRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         return hasil;
     }
 };

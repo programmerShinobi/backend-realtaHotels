@@ -7,6 +7,9 @@ export class MembersController {
     @HttpCode(200)
     async getAll(): Promise<any> {
         const hasil = await this.MembersRepository.getAll()
+        console.log({
+            hasil: hasil
+        })
         return hasil
     }
 
@@ -14,6 +17,7 @@ export class MembersController {
     @HttpCode(200)
     async getById(@Param() Param: any): Promise<any> {
         const hasil = await this.MembersRepository.getById(Param.id)
+        console.log({ hasil: hasil })
         return hasil
     }
 
@@ -21,12 +25,14 @@ export class MembersController {
     @HttpCode(200)
     async create(@Body() Body: any): Promise<any> {
         const hasil = await this.MembersRepository.create(Body)
+        console.log(hasil + 'berhasil');
         return hasil
     }
     @Put('edit/:id')
     @HttpCode(200)
     async edit(@Param('id') id: any, @Body() Body: any): Promise<any> {
         const hasil = await this.MembersRepository.edit(Body, id);
+        console.log('Berhasil')
         return hasil
     }
 
@@ -34,6 +40,7 @@ export class MembersController {
     @HttpCode(200)
     async delete(@Param('id') Param: number) {
         const hasil = await this.MembersRepository.delete(Param)
+        console.log('berhasil di hapus' + hasil)
         return hasil
     }
 }

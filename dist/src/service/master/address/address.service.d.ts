@@ -7,7 +7,7 @@ export declare class AddressService {
     getAll(): Promise<any>;
     getById(addrId: number): Promise<any>;
     create(data: Address): Promise<any>;
-    edit(data: Address, _addrId: number): Promise<{
+    edit(data: Address, addrId: any): Promise<{
         message: string;
     }>;
     delete(addrId: number): Promise<import("typeorm").DeleteResult>;

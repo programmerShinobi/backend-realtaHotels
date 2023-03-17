@@ -22,22 +22,19 @@ let CategoryGroupController = class CategoryGroupController {
     }
     async getAll() {
         const hasil = await this.CategoryGroupRepository.getAll();
+        console.log({
+            hasil: hasil
+        });
         return hasil;
     }
     async getById(Param) {
         const hasil = await this.CategoryGroupRepository.getById(Param.id);
-        return hasil;
-    }
-    async create(Body, file) {
-        const hasil = await this.CategoryGroupRepository.create(Body, file);
-        return hasil;
-    }
-    async edit(id, Body) {
-        const hasil = await this.CategoryGroupRepository.edit(Body, id);
+        console.log({ hasil: hasil });
         return hasil;
     }
     async delete(Param) {
         const hasil = await this.CategoryGroupRepository.delete(Param);
+        console.log('berhasil di hapus' + hasil);
         if (!hasil) {
             return 'failed';
         }
@@ -47,6 +44,7 @@ let CategoryGroupController = class CategoryGroupController {
     }
     async logFile(file, body) {
         const result = await this.CategoryGroupRepository.UploadFirebase(file, body);
+        console.log("berhasil", result);
         if (!result) {
             return 'gagal upload';
         }
@@ -55,6 +53,11 @@ let CategoryGroupController = class CategoryGroupController {
                 message: 'berhasil upload'
             };
         }
+    }
+    async edit(id, Body) {
+        const hasil = await this.CategoryGroupRepository.edit(Body, id);
+        console.log('Berhasil');
+        return hasil;
     }
 };
 __decorate([
@@ -72,23 +75,6 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], CategoryGroupController.prototype, "getById", null);
-__decorate([
-    (0, common_1.Post)('save'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], CategoryGroupController.prototype, "create", null);
-__decorate([
-    (0, common_1.Put)('edit/:id'),
-    (0, common_1.HttpCode)(200),
-    __param(0, (0, common_1.Param)('id')),
-    __param(1, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", Promise)
-], CategoryGroupController.prototype, "edit", null);
 __decorate([
     (0, common_1.Delete)('delete/:id'),
     (0, common_1.HttpCode)(200),
@@ -108,6 +94,15 @@ __decorate([
     __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", Promise)
 ], CategoryGroupController.prototype, "logFile", null);
+__decorate([
+    (0, common_1.Put)('edit/:id'),
+    (0, common_1.HttpCode)(200),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:returntype", Promise)
+], CategoryGroupController.prototype, "edit", null);
 CategoryGroupController = __decorate([
     (0, common_1.Controller)('category-group'),
     __metadata("design:paramtypes", [category_group_service_1.CategoryGroupService])
